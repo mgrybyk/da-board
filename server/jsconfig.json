@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6"
+  },"exclude": [
+    "node_modules",
+    "logs",
+    "db",
+    "workDir",
+    "allure-cli",
+    "www/static"
+  ]
+}
