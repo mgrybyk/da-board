@@ -19,7 +19,6 @@ async function init () {
   await $store.dispatch('setConfigs')
   await $store.dispatch('setBuild')
   await $store.dispatch('setDashboard')
-  // $store.dispatch('checkValidity')
 }
 init()
 
