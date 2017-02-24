@@ -11,7 +11,6 @@ const utils = require('./utils')
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.build.env
-const isELECTRON = process.env.NODE_ELECTRON === 'true'
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -23,7 +22,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
-    publicPath: isELECTRON ? path.join(__dirname, '../../server/www/') : '/',
+    publicPath: '/',
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
