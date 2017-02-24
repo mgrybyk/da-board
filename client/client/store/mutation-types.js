@@ -34,3 +34,7 @@ export const SOCKET_CONFIGS_UPDATE = 'SOCKET_CONFIGS_UPDATE'
 // Build
 
 export const SOCKET_BUILD = 'SOCKET_BUILD'
+
+// Time sync
+
+export const SOCKET_TIME_SYNC = 'SOCKET_TIME_SYNC'

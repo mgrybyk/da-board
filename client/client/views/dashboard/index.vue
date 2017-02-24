@@ -4,6 +4,7 @@
     <div class="tile is-ancestor" style="flex-wrap: wrap;">
       <Tile
         v-for="(item, index) in dashboard.data"
+        v-bind:timeDiff="timeDiff"
         v-bind:configs="configs"
         v-bind:item="item">
       </Tile>
@@ -30,7 +31,8 @@ export default {
 
   computed: mapGetters({
     dashboard: 'dashboard',
-    configs: 'configs'
+    configs: 'configs',
+    timeDiff: 'timeDiff'
   }),
 
   mounted () { }

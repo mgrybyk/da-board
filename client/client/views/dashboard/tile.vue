@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  props: ['item', 'configs'],
+  props: ['item', 'configs', 'timeDiff'],
 
   methods: {
     getStatus: (isFailure, isRunning, isCancelled) => {
@@ -53,7 +53,9 @@ export default {
       if (!duration) duration = 1000000
       let currentTime = new Date().getTime()
       if (currentTime - startTime > duration) return 100
-      return Math.round(100 * (currentTime - startTime) / duration)
+      let diff = currentTime - startTime + this.timeDiff
+      diff = (diff > 0) ? diff : 0
+      return Math.round(100 * diff / duration)
     },
     getPhase () {
       if (!this.item.test) console.log(this.item)

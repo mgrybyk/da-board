@@ -11,6 +11,7 @@ const homeCharts = state => state.homeCharts
 const configs = state => state.configs.data
 const buildPackage = state => state.build.package
 const buildNumber = state => state.build.number
+const timeDiff = state => state.timeDiff.timeDiff
 const componententry = state => {
   return state.menu.items.filter(c => c.meta && c.meta.label === 'Components')[0]
 }
@@ -29,5 +30,6 @@ export {
   configs,
   buildPackage,
   buildNumber,
+  timeDiff,
   componententry
 }

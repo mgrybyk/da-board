@@ -1,5 +1,6 @@
 import * as types from '../../mutation-types'
 import lazyLoading from './lazyLoading'
+import lazyLoadingHome from './lazyLoadingHome'
 
 // show: meta.label -> name
 // name: component name
@@ -7,6 +8,14 @@ import lazyLoading from './lazyLoading'
 
 const state = {
   items: [
+    {
+      name: 'Home',
+      path: '/',
+      meta: {
+        icon: 'fa-home'
+      },
+      component: lazyLoadingHome('Home', true)
+    },
     {
       name: 'Dashboard',
       path: '/dashboard',

@@ -17,6 +17,8 @@ export default {
 
     this.$options.sockets.SOCKET_BUILD = data => this.socketBuild(data)
 
+    this.$options.sockets.SOCKET_TIME_SYNC = data => this.timeSync(data.time - new Date().getTime())
+
     this.$options.sockets.connect = () => {
       this.$socket.emit('GET_CONFIGS')
 
@@ -27,6 +29,8 @@ export default {
       this.$socket.emit('GET_DASHBOARD')
 
       this.$socket.emit('GET_BUILD')
+
+      this.$socket.emit('TIME_SYNC')
 
       this.resultsIsChanged(true)
     }
@@ -47,6 +51,8 @@ export default {
     delete this.$options.sockets.SOCKET_RESULTS_CHANGED
 
     delete this.$options.sockets.SOCKET_BUILD
+
+    delete this.$options.sockets.SOCKET_TIME_SYNC
   },
 
   methods: {
@@ -64,7 +70,9 @@ export default {
 
       'resultsIsChanged',
 
-      'socketBuild'
+      'socketBuild',
+
+      'timeSync'
     ])
   },
 

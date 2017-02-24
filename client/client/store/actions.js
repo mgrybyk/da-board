@@ -76,3 +76,9 @@ export const socketConfigsUpdate = ({ commit }, config) => {
 export const socketBuild = ({ commit }, build) => {
   commit(types.SOCKET_BUILD, build)
 }
+
+// Time sync
+
+export const timeSync = ({ commit }, diff) => {
+  commit(types.SOCKET_TIME_SYNC, diff)
+}

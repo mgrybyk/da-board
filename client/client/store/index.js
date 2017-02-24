@@ -10,6 +10,7 @@ import dashboard from './modules/dashboard'
 import homeCharts from './modules/homeCharts'
 import configs from './modules/configs'
 import build from './modules/build'
+import timeDiff from './modules/timeDiff'
 import menu from './modules/menu'
 
 Vue.use(Vuex)
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
     homeCharts,
     configs,
     build,
+    timeDiff,
     menu
   },
   state: {
