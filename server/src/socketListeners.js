@@ -34,5 +34,10 @@ module.exports = io => {
     socket.on('GET_BUILD', (data) => {
       socket.emit('SOCKET_BUILD', $store.getters.build)
     })
+
+    // time sync
+    socket.on('TIME_SYNC', (data) => {
+      socket.emit('SOCKET_TIME_SYNC', { time: new Date().getTime() })
+    })
   })
 }
