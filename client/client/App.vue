@@ -5,14 +5,14 @@
     <sidebar :show="sidebar.opened && !sidebar.hidden"></sidebar>
     <app-main></app-main>
     <footer-bar></footer-bar>
-    <io></io>
+    <Io></Io>
   </div>
 </template>
 
 <script>
 import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import { Navbar, Sidebar, AppMain, FooterBar } from 'components/layout/'
-import io from './socket'
+import { Io } from './socket/'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -22,7 +22,7 @@ export default {
     AppMain,
     FooterBar,
     NprogressContainer,
-    io
+    Io
   },
 
   beforeMount () {
