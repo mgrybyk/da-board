@@ -1,11 +1,11 @@
 'use strict'
 
-var mongoose = require('mongoose')
-var limitWeek = 30
-var limitMonth = 150
-var limitQuarter = 450
-var limitHalf = 900
-var sorting = { 'timestamp': -1 }
+const mongoose = require('mongoose')
+const limitWeek = 50
+const limitMonth = 150
+const limitQuarter = 250
+const limitHalf = 900
+const sorting = { 'timestamp': -1 }
 
 var schema = mongoose.Schema({
   timestamp: Number,

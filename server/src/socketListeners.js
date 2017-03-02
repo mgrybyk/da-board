@@ -5,17 +5,14 @@ module.exports = io => {
     console.log('a user connected')
 
     // charts
-    socket.on('GET_CHART_INSTALLER', (data) => {
-      console.log('GET_CHART_INSTALLER')
-      socket.emit('SOCKET_CHART_INSTALLER', $store.getters.chart_installer)
-    })
-    socket.on('GET_CHART_REST', (data) => {
-      console.log('GET_CHART_REST')
-      socket.emit('SOCKET_CHART_REST', $store.getters.chart_rest)
-    })
-    socket.on('GET_CHART_UI', (data) => {
-      console.log('GET_CHART_UI')
-      socket.emit('SOCKET_CHART_UI', $store.getters.chart_ui)
+    socket.on('GET_CHARTS', (data) => {
+      console.log('GET_CHARTS')
+      Object.keys($store.getters.charts).forEach(key => {
+        let chart = $store.getters.charts[key]
+        if (chart.data) {
+          socket.emit('SOCKET_CHART', chart)
+        }
+      })
     })
 
     // dashboard
@@ -38,6 +35,11 @@ module.exports = io => {
     // time sync
     socket.on('TIME_SYNC', (data) => {
       socket.emit('SOCKET_TIME_SYNC', { time: new Date().getTime() })
+    })
+
+    // run process
+    socket.on('RUN_PROCESS', (data) => {
+      console.log('RUN_PROCESS')
     })
   })
 }

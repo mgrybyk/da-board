@@ -4,26 +4,32 @@ const getters = require('./getters')
 const mutations = require('./mutations')
 
 const state = {
-  testStatuses: {
-    FAILED: 'failed',
-    PASSED: 'passed',
-    RUNNING: 'running'
+  // testStatuses: {
+  //   FAILED: 'failed',
+  //   PASSED: 'passed',
+  //   RUNNING: 'running'
+  // },
+  // chartStatuses: {
+  //   FAILED: 0,
+  //   PASSED: 1,
+  //   RUNNING: 2,
+  //   NOT_EXECUTED: 3
+  // },
+  executionStatuses: {
+    FAILED: { idx: 0, name: 'failed' },
+    PASSED: { idx: 1, name: 'passed' },
+    RUNNING: { idx: 2, name: 'running' },
+    NOT_EXECUTED: { idx: 3, name: null }
   },
-  chartStatuses: {
-    FAILED: 0,
-    PASSED: 1,
-    RUNNING: 2,
-    NOT_EXECUTED: 3
-  },
-  homeCharts: {
-    uiTests: [],
-    restTests: [],
-    installerTests: [],
+  charts: {
     init: false
   },
-  dashboard: {},
+  tiles: {},
   configs: {},
-  build: {}
+  build: {},
+  integrations: {},
+  stageCharts: {},
+  homeLinks: {}
 }
 
 Manager.use({

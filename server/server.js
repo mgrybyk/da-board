@@ -9,16 +9,23 @@ global.CONFIG = require('./config/config')
 CONFIG.rootDir = __dirname + '/'
 
 // mongodb
-require('./config/modules/mongoose')
+const mongooseConnection = require('./config/modules/mongoose')
 
 // init store
+// WARNING: store caches most db data
+// so if you change some data in db manually you have to restart server
+// it may changed in future by listening collection changes or something like that,
+// but I have no time for it right now.
 global.$store = require('./src/store/store')
 
 // get required data from db and put to store for further usage
 async function init () {
+  await $store.dispatch('setStages')
   await $store.dispatch('setConfigs')
   await $store.dispatch('setBuild')
-  await $store.dispatch('setDashboard')
+  await $store.dispatch('setTiles')
+  await $store.dispatch('setIntegrations')
+  // await $store.dispatch('setHomeLinks')
 }
 init()
 
@@ -29,7 +36,7 @@ init()
 var app = require('express')()
 
 // setup express and routes
-require('./config/modules/express')(app, require('./src/routes'))
+require('./config/modules/express')(app, require('./src/routes'), mongooseConnection)
 
 const http = require('http').Server(app)
 

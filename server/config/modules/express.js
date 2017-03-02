@@ -1,13 +1,30 @@
 'use strict'
 
-var express = require('express')
-var bodyParser = require('body-parser')
+const express = require('express')
+const bodyParser = require('body-parser')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+const passport = require('passport')
+const MongoStore = require('connect-mongo')(session)
 
-module.exports = function (app, routes) {
+module.exports = (app, routes, mongooseConnection) => {
+  var userSession = {
+    resave: true,
+    saveUninitialized: true,
+    secret: 'daBoard J:O#$Y*(#',
+    cookie: {
+      maxAge: 60480000000 // one hour is 3600000
+    },
+    store: new MongoStore({ mongooseConnection: mongooseConnection })
+  }
   var pathToPublic = CONFIG.pathToApp
   // app.use(logWho);
   app.use(express.static(pathToPublic))
   app.use(bodyParser.json())
+  app.use(cookieParser())
+  app.use(session(userSession))
+  app.use(passport.initialize())
+  app.use(passport.session())
   routes.routes(app)
   app.use(pageNotFound)
   app.use(internalServerError)

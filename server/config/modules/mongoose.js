@@ -11,4 +11,4 @@ db.once('open', function callback () {
   log.info('Connection to mongoDb established.')
 })
 
-module.exports = mongoose
+module.exports = db

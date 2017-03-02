@@ -7,7 +7,7 @@ var schema = mongoose.Schema({
   package: String
 }, { collection: 'build' })
 
-schema.statics.getBuild = cb => Model.findOne().exec(cb)
+schema.statics.getOne = cb => Model.findOne().exec(cb)
 
 const Model = mongoose.model('Build', schema)
 module.exports = Model

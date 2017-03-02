@@ -1,15 +1,15 @@
 const getters = {
-  chart_ui: state => state.homeCharts.uiTests,
-  chart_installer: state => state.homeCharts.installerTests,
-  chart_rest: state => state.homeCharts.restTests,
+  charts: state => state.charts,
 
-  dashboard: state => state.dashboard,
+  tiles: state => state.tiles,
 
   configs: state => state.configs,
 
   build: state => state.build,
 
-  testStatuses: state => state.testStatuses
+  executionStatuses: state => state.executionStatuses,
+
+  integrations: state => state.integrations
 }
 
 module.exports = getters
