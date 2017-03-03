@@ -1,7 +1,10 @@
 'use strict'
 
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://docker-sda/daBoard')
+mongoose.connect('mongodb://docker-sda/daBoard', {
+  reconnectInterval: 15000,
+  reconnectTries: 300
+})
 mongoose.Promise = global.Promise
 
 var db = mongoose.connection
