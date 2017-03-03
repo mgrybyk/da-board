@@ -38,6 +38,14 @@ const state = {
         icon: 'fa-laptop'
       },
       component: lazyLoading('configs', true)
+    },
+    {
+      name: 'Charts',
+      path: '/charts',
+      meta: {
+        icon: 'fa-laptop'
+      },
+      component: lazyLoading('charts', true)
     }
   ]
 }

@@ -14,7 +14,7 @@ exports.assetsPath = _path => {
 exports.cssLoaders = options => {
   options = options || {}
   // generate loader string to be used with extract text plugin
-  function generateLoaders (loaders) {
+  const generateLoaders = loaders => {
     const sourceLoader = loaders.map(function (loader) {
       let extraParamChar
       if (/\?/.test(loader)) {
@@ -29,8 +29,8 @@ exports.cssLoaders = options => {
 
     if (options.extract) {
       return ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: sourceLoader
+        use: sourceLoader,
+        fallback: 'vue-style-loader'
       })
     } else {
       return ['vue-style-loader', sourceLoader].join('!')
@@ -53,7 +53,7 @@ exports.cssLoaders = options => {
 exports.styleLoaders = options => {
   const output = []
   const loaders = exports.cssLoaders(options)
-  for (const extension in loaders) {
+  for (const extension of Object.keys(loaders)) {
     const loader = loaders[extension]
     output.push({
       test: new RegExp('\\.' + extension + '$'),

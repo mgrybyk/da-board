@@ -6,8 +6,8 @@ const effect = state => state.app.effect
 const menuitems = state => state.menu.items
 const results = state => state.results.data
 const resultsChanged = state => state.results.changed
-const dashboard = state => state.dashboard
-const homeCharts = state => state.homeCharts
+const tiles = state => state.tiles
+const charts = state => state.charts.data
 const configs = state => state.configs.data
 const buildPackage = state => state.build.package
 const buildNumber = state => state.build.number
@@ -25,8 +25,8 @@ export {
   menuitems,
   results,
   resultsChanged,
-  dashboard,
-  homeCharts,
+  tiles,
+  charts,
   configs,
   buildPackage,
   buildNumber,

@@ -2,10 +2,7 @@
   <footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
-        <p>#hackfest-2017</p>
-        <p>To start simulated process <strong>import new version</strong> in <a href="http://ua-mg-docker-automation:8080/da/app#/component/e09aadee-577c-491b-81b0-181fcd8ce01c/versions" target="_blank">Deployment Automation</a></p>
-        <p>username: demo<br>
-        password: demo</p>
+        <p>ads</p>
       </div>
     </div>
   </footer>

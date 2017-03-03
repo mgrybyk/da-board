@@ -3,10 +3,11 @@
 
     <div class="tile is-ancestor" style="flex-wrap: wrap;">
       <Tile
-        v-for="(item, index) in dashboard.data"
-        v-bind:timeDiff="timeDiff"
-        v-bind:configs="configs"
-        v-bind:item="item">
+        v-for="(item, index) in tiles.data"
+        :timeDiff="timeDiff"
+        :configs="configs"
+        :item="item"
+        :key="item._id">
       </Tile>
       
     </div>
@@ -30,7 +31,7 @@ export default {
   destroyed () { },
 
   computed: mapGetters({
-    dashboard: 'dashboard',
+    tiles: 'tiles',
     configs: 'configs',
     timeDiff: 'timeDiff'
   }),

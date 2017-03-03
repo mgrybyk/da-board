@@ -9,7 +9,7 @@ const mutations = {
     state.data = data
   },
 
-  [types.SOCKET_CONFIGS_UPDATE] (state, config) {
+  [types.SOCKET_CONFIGS_UPDATE_ONE] (state, config) {
     let configs = {...state.data}
     configs[config.name] = config
     state.data = configs

@@ -1,23 +1,23 @@
 <template>
 <div class="tile is-parent is-3">
-  <article class="tile is-child box with-stripe" v-bind:class="'color-' + getStatus(item.isFailure, item.isRunning, item.isCancelled)">
+  <article class="tile is-child box with-stripe" :class="'color-' + getStatus(item.isFailure, item.isRunning, item.isCancelled)">
     <div class="box-height">
       <div class="env-details">
-        <i v-bind:class="'fa fa-' + configs[item.name].browser + ' fa-lg env-icon'"></i>
+        <i :class="'fa fa-' + configs[item.name].browser + ' fa-lg env-icon'"></i>
         <p class="title">{{ configs[item.name].type }}</p>
         <p class="env-detail db-name">{{ configs[item.name].dbName }} {{ configs[item.name].dbVersion }}</p>
-        <i v-bind:class="'fa fa-' + (configs[item.name].isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
+        <i :class="'fa fa-' + (configs[item.name].isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
         <p class="env-detail os-name">{{ configs[item.name].osNameExt }}</p>
       </div>
     </div>
     <div class="bottom-stripe">
-      <a style="color: #fff;" v-if="!item.isRunning && item.isFailure"><span>Failed: {{ getReason }}<span></a>
-      <a style="color: #fff;" v-else-if="!item.isRunning && !item.isFailure"><span>Tests Passed<span></a>
+      <a style="color: #fff;" v-if="!item.isRunning && item.isFailure"><span>Failed: {{ getReason }}</span></a>
+      <a style="color: #fff;" v-else-if="!item.isRunning && !item.isFailure"><span>Tests Passed</span></a>
       <span v-else class="progress-bar">
         <span>{{ getProgress + '%' }} {{ getPhase }}</span>
-        <progress class="progress is-info" v-bind:value="getProgress" max="100"></progress>
+        <progress class="progress is-info" :value="getProgress" max="100"></progress>
       </span>
-    <div>
+    </div>
   </article>
 </div>
 </template>
@@ -58,24 +58,26 @@ export default {
       return Math.round(100 * diff / duration)
     },
     getPhase () {
-      if (!this.item.test) console.log(this.item)
-      if (this.item.test.uiState === 'running') {
-        return '(ui)'
-      } else if (this.item.test.restState === 'running') {
-        return '(rest)'
-      } else {
-        return '(installer)'
-      }
+      if (!this.item.stages) return ''
+      let failedStages = []
+      Object.keys(this.item.stages).forEach(stage => {
+        if (this.item.stages[stage] === 'running') {
+          failedStages.push(stage)
+        }
+      })
+      return failedStages.join(', ')
     },
     getReason () {
-      if (!this.item.test) console.log(this.item)
-      if (this.item.test.uiState === 'failed') {
-        return 'UI Tests'
-      } else if (this.item.test.restState === 'failed') {
-        return 'REST Tests'
-      } else {
-        return 'Installer Tests'
-      }
+      let failureReason = 'Process'
+      if (!this.item.stages) return failureReason
+      let failedStages = []
+      Object.keys(this.item.stages).forEach(stage => {
+        if (this.item.stages[stage] === 'failed') {
+          failedStages.push(stage)
+        }
+      })
+      if (failedStages.length === 0) return failureReason
+      return failedStages.join(', ')
     }
   },
 

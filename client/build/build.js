@@ -16,7 +16,7 @@ spinner.start()
 const assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
 rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
-cp('-R', 'assets/', assetsPath)
+cp('-R', 'client/assets/*', assetsPath)
 
 const compiler = webpack(webpackConfig)
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
@@ -31,5 +31,5 @@ compiler.run((err, stats) => {
     children: false,
     chunks: false,
     chunkModules: false
-  }) + '\n')
+  }) + '\n\n')
 })

@@ -33,32 +33,20 @@ export const resultsIsChanged = ({ commit }, changed) => {
 
 // Dashboard
 
-export const socketDasboard = ({ commit }, data) => {
-  commit(types.SOCKET_DASHBOARD, data)
+export const socketTiles = ({ commit }, data) => {
+  commit(types.SOCKET_TILES, data)
 }
 
-export const socketDasboardUpdateTile = ({ commit }, tile) => {
-  commit(types.SOCKET_DASHBOARD_UPDATE_TILE, tile)
+export const socketTilesUpdateOne = ({ commit }, tile) => {
+  commit(types.SOCKET_TILES_UPDATE_ONE, tile)
 }
 
 // Home Charts
 
-export const socketChartUI = ({ commit }, data) => {
-  commit(types.SOCKET_CHART_UI_CHANGED, true)
-  setTimeout(() => { commit(types.SOCKET_CHART_UI, data) }, 200)
-  setTimeout(() => { commit(types.SOCKET_CHART_UI_CHANGED, false) }, 300)
-}
-
-export const socketChartRest = ({ commit }, data) => {
-  commit(types.SOCKET_CHART_REST_CHANGED, true)
-  setTimeout(() => { commit(types.SOCKET_CHART_REST, data) }, 200)
-  setTimeout(() => { commit(types.SOCKET_CHART_REST_CHANGED, false) }, 300)
-}
-
-export const socketChartInstaller = ({ commit }, data) => {
-  commit(types.SOCKET_CHART_INSTALLER_CHANGED, true)
-  setTimeout(() => { commit(types.SOCKET_CHART_INSTALLER, data) }, 200)
-  setTimeout(() => { commit(types.SOCKET_CHART_INSTALLER_CHANGED, false) }, 300)
+export const socketChartsUpdateOne = ({ commit }, chart) => {
+  commit(types.SOCKET_CHART_CHANGED, { name: chart.name, changed: true })
+  setTimeout(() => { commit(types.SOCKET_CHARTS_UPDATE_ONE, chart) }, 200)
+  setTimeout(() => { commit(types.SOCKET_CHART_CHANGED, { name: chart.name, changed: false }) }, 300)
 }
 
 // Configs
@@ -67,8 +55,8 @@ export const socketConfigs = ({ commit }, data) => {
   commit(types.SOCKET_CONFIGS, data)
 }
 
-export const socketConfigsUpdate = ({ commit }, config) => {
-  commit(types.SOCKET_CONFIGS_UPDATE, config)
+export const socketConfigsUpdateOne = ({ commit }, config) => {
+  commit(types.SOCKET_CONFIGS_UPDATE_ONE, config)
 }
 
 // Build

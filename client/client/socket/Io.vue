@@ -6,15 +6,13 @@ import { mapActions } from 'vuex'
 export default {
   beforeMount () {
     this.$options.sockets.SOCKET_CONFIGS = data => this.socketConfigs(data)
-    this.$options.sockets.SOCKET_CONFIGS_UPDATE = data => this.socketConfigsUpdate(data)
+    this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE = data => this.socketConfigsUpdateOne(data)
 
-    this.$options.sockets.SOCKET_CHART_INSTALLER = data => this.socketChartInstaller(data)
-    this.$options.sockets.SOCKET_CHART_REST = data => this.socketChartRest(data)
-    this.$options.sockets.SOCKET_CHART_UI = data => this.socketChartUI(data)
+    this.$options.sockets.SOCKET_CHARTS = data => this.socketCharts(data)
+    this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE = data => this.socketChartsUpdateOne(data)
 
-    this.$options.sockets.SOCKET_DASHBOARD = data => this.socketDasboard(data)
-
-    this.$options.sockets.SOCKET_DASHBOARD_UPDATE_TILE = data => this.socketDasboardUpdateTile(data)
+    this.$options.sockets.SOCKET_TILES = data => this.socketTiles(data)
+    this.$options.sockets.SOCKET_TILES_UPDATE_ONE = data => this.socketTilesUpdateOne(data)
 
     this.$options.sockets.SOCKET_RESULTS_CHANGED = data => this.resultsIsChanged(true)
 
@@ -25,11 +23,9 @@ export default {
     this.$options.sockets.connect = () => {
       this.$socket.emit('GET_CONFIGS')
 
-      this.$socket.emit('GET_CHART_INSTALLER')
-      this.$socket.emit('GET_CHART_REST')
-      this.$socket.emit('GET_CHART_UI')
+      this.$socket.emit('GET_CHARTS')
 
-      this.$socket.emit('GET_DASHBOARD')
+      this.$socket.emit('GET_TILES')
 
       this.$socket.emit('GET_BUILD')
 
@@ -41,15 +37,13 @@ export default {
 
   destroyed () {
     delete this.$options.sockets.SOCKET_CONFIGS
-    delete this.$options.sockets.SOCKET_CONFIGS_UPDATE
+    delete this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE
 
-    delete this.$options.sockets.SOCKET_CHART_INSTALLER
-    delete this.$options.sockets.SOCKET_CHART_REST
-    delete this.$options.sockets.SOCKET_CHART_UI
+    delete this.$options.sockets.SOCKET_CHARTS
+    delete this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE
 
-    delete this.$options.sockets.SOCKET_DASHBOARD
-
-    delete this.$options.sockets.SOCKET_DASHBOARD_UPDATE_TILE
+    delete this.$options.sockets.SOCKET_TILES
+    delete this.$options.sockets.SOCKET_TILES_UPDATE_ONE
 
     delete this.$options.sockets.SOCKET_RESULTS_CHANGED
 
@@ -61,15 +55,13 @@ export default {
   methods: {
     ...mapActions([
       'socketConfigs',
-      'socketConfigsUpdate',
+      'socketConfigsUpdateOne',
 
-      'socketChartUI',
-      'socketChartRest',
-      'socketChartInstaller',
+      'socketCharts',
+      'socketChartsUpdateOne',
 
-      'socketDasboard',
-
-      'socketDasboardUpdateTile',
+      'socketTiles',
+      'socketTilesUpdateOne',
 
       'resultsIsChanged',
 

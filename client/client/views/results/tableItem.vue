@@ -1,24 +1,24 @@
 <template>
   <tr>
     <td class="is-icon icon-center">
-      <a v-bind:href="'/results/' + item.timestamp + '/#/'" target="_blank">
-        <i v-bind:class="'fa fa-' + (item.test.icon || 'question-circle-o')"></i>
+      <a :href="'/results/' + item.timestamp + '/#/'" target="_blank">
+        <i :class="'fa fa-' + (item.test.icon || 'question-circle-o')"></i>
       </a>
     </td>
     <td class="hide-column-small">
-      <span v-bind:title="item.build.package">{{ item.build.number }}</span>
+      <span :title="item.build.package">{{ item.build.number }}</span>
     </td>
     <td>
-      <span v-bind:title="item.name">{{ configs[item.name] ? configs[item.name].type : item.name }}</span>
+      <span :title="item.name">{{ configs[item.name] ? configs[item.name].type : item.name }}</span>
     </td>
     <td class="is-icon icon-center">
-      <i v-bind:class="'fa fa-' + (configs[item.name] && configs[item.name].isNix ? 'linux' : 'windows')" v-bind:title="configs[item.name] && configs[item.name].osNameExt"></i>
+      <i :class="'fa fa-' + (configs[item.name] && configs[item.name].isNix ? 'linux' : 'windows')" :title="configs[item.name] && configs[item.name].osNameExt"></i>
     </td>
     <td class="hide-column-medium">
-      <span v-bind:title="configs[item.name] && configs[item.name].hostname">{{ configs[item.name] && configs[item.name].osNameExt }}</span>
+      <span :title="configs[item.name] && configs[item.name].hostname">{{ configs[item.name] && configs[item.name].osNameExt }}</span>
     </td>
     <td class="is-icon icon-center">
-      <i class="fa fa-database" v-bind:title="configs[item.name] && configs[item.name].dbName + ' ' + configs[item.name] && configs[item.name].dbVersion"></i>
+      <i class="fa fa-database" :title="configs[item.name] && configs[item.name].dbName + ' ' + configs[item.name] && configs[item.name].dbVersion"></i>
     </td>
     <td class="hide-column-medium">
       {{ configs[item.name] && configs[item.name].dbName }} {{ configs[item.name] && configs[item.name].dbVersion }}
@@ -30,7 +30,7 @@
       {{ item.test.duration }}
     </td>
     <td>
-      <a v-bind:href="'/results/' + item.timestamp + '/#/'" target="_blank">
+      <a :href="'/results/' + item.timestamp + '/#/'" target="_blank">
         {{ item.test.total }} / {{ item.test.passes }}/{{ item.test.failures }}
       </a>
     </td>

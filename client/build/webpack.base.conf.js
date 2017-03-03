@@ -1,7 +1,6 @@
 'use strict'
 
 const path = require('path')
-const webpack = require('webpack')
 const config = require('../config')
 const utils = require('./utils')
 const projectRoot = path.resolve(__dirname, '../')
@@ -37,22 +36,19 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.vue$/,
+        test: /\.(js|vue)$/,
         loader: 'eslint-loader',
         include: projectRoot,
         exclude: /node_modules/,
-        enforce: 'pre'
-      },
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        include: projectRoot,
-        exclude: /node_modules/,
-        enforce: 'pre'
+        enforce: 'pre',
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: require('./vue-loader.conf')
       },
       {
         test: /\.js$/,
@@ -79,21 +75,6 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      vue: {
-        loaders: utils.cssLoaders({
-          sourceMap: isProduction,
-          extract: isProduction
-        }),
-        postcss: [
-          require('autoprefixer')({
-            browsers: ['last 3 versions']
-          })
-        ]
-      }
-    })
-  ],
   // See https://github.com/webpack/webpack/issues/3486
   performance: {
     hints: false

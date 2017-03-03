@@ -23,8 +23,9 @@
               <tbody>
                 <TableItem
                   v-for="(item, key) in results"
-                  v-bind:configs="configs"
-                  v-bind:item="item">
+                  :configs="configs"
+                  :item="item"
+                  :key="item._id">
                 </TableItem>
               </tbody>
             </table>
