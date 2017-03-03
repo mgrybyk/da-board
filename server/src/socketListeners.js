@@ -10,15 +10,15 @@ module.exports = io => {
       Object.keys($store.getters.charts).forEach(key => {
         let chart = $store.getters.charts[key]
         if (chart.data) {
-          socket.emit('SOCKET_CHART', chart)
+          socket.emit('SOCKET_CHARTS_UPDATE_ONE', chart)
         }
       })
     })
 
-    // dashboard
-    socket.on('GET_DASHBOARD', (data) => {
-      console.log('GET_DASHBOARD')
-      socket.emit('SOCKET_DASHBOARD', $store.getters.dashboard)
+    // tiles
+    socket.on('GET_TILES', (data) => {
+      console.log('GET_TILES')
+      socket.emit('SOCKET_TILES', $store.getters.tiles)
     })
 
     // configs
