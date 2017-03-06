@@ -18,6 +18,9 @@
           </a>
         </div>
         <div class="nav-right is-flex"></div>
+        <div class="auth-control">
+          <Auth></Auth>
+        </div>
       </nav>
     </div>
   </section>
@@ -25,12 +28,14 @@
 
 <script>
 import Tooltip from 'vue-bulma-tooltip'
+import Auth from './Auth'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
 
   components: {
-    Tooltip
+    Tooltip,
+    Auth
   },
 
   data () {
@@ -110,7 +115,7 @@ export default {
 }
 
 div.nav-center {
-  margin-left: -30px;
+  margin-left: -60px;
 }
 
 div.tooltip--medium:after {
@@ -122,4 +127,11 @@ div [class*=tooltip--]:after {
 div .tooltip--right:before {
   transition: border-right-color 1s !important;
 }
+</style>
+
+<style lang="scss" scoped>
+  .auth-control {
+    line-height: 3em;
+    margin-right: 10px;
+  }
 </style>
