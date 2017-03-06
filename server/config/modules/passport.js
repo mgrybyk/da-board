@@ -3,9 +3,8 @@
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 const crypto = require('crypto')
-const decipher = crypto.createDecipher(CONFIG.algorithm, CONFIG.key)
 
-module.exports = function (User) {
+module.exports = User => {
   passport.use(new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
       if (err) {
@@ -33,5 +32,6 @@ module.exports = function (User) {
 }
 
 function decryptPassword (pwd) {
+  let decipher = crypto.createDecipher(CONFIG.algorithm, CONFIG.key)
   return decipher.update(pwd, 'hex', 'utf8') + decipher.final('utf8')
 }

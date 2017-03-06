@@ -17,7 +17,7 @@ function login (req, res, next) {
     return res.send(responseData)
   }
 
-  passport.authenticate((err, user, info) => {
+  passport.authenticate('local', (err, user, info) => {
     if (err) {
       return next(err)
     }

@@ -32,6 +32,9 @@ init()
 // watch file, disabled for #hackfest
 // require('./src/watcher')()
 
+// passport
+require('./config/modules/passport')(require('./src/models/User'))
+
 // express
 var app = require('express')()
 

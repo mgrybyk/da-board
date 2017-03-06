@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose')
 const crypto = require('crypto')
-const cipher = crypto.createCipher(CONFIG.algorithm, CONFIG.key)
 
 var schema = mongoose.Schema({
   username: String,
@@ -31,6 +30,7 @@ schema.statics.saveUser = function (obj, cb) {
 }
 
 function encryptPassword (pwd) {
+  let cipher = crypto.createCipher(CONFIG.algorithm, CONFIG.key)
   return cipher.update(pwd, 'utf8', 'hex') + cipher.final('hex')
 }
 

@@ -32,8 +32,8 @@ exports.routes = app => {
   app.post('/api/da-subscription', integrationsDa.daProcessEnded) // parse and redirect to processEnded
 
   // auth
-  app.post('/login', auth.login)
-  app.post('/signup', auth.signup)
-  app.post('/logout', auth.logout)
-  app.get('/me', auth.me)
+  app.post('/api/signin', auth.login)
+  app.post('/api/signup', auth.signup)
+  app.post('/api/logout', auth.logout)
+  app.get('/api/me', auth.me)
 }
