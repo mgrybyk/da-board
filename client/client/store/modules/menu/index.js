@@ -1,5 +1,6 @@
 import * as types from '../../mutation-types'
 import lazyLoading from './lazyLoading'
+import admin from './admin'
 
 // show: meta.label -> name
 // name: component name
@@ -16,12 +17,20 @@ const state = {
       component: lazyLoading('Home', false)
     },
     {
-      name: 'Dashboard',
-      path: '/dashboard',
+      name: 'Charts',
+      path: '/charts',
       meta: {
         icon: 'fa-tachometer'
       },
-      component: lazyLoading('dashboard', true)
+      component: lazyLoading('charts', true)
+    },
+    {
+      name: 'Configurations',
+      path: '/configurations',
+      meta: {
+        icon: 'fa-laptop'
+      },
+      component: lazyLoading('tiles', true)
     },
     {
       name: 'Results',
@@ -31,22 +40,7 @@ const state = {
       },
       component: lazyLoading('results', true)
     },
-    {
-      name: 'Configurations',
-      path: '/configs',
-      meta: {
-        icon: 'fa-laptop'
-      },
-      component: lazyLoading('configs', true)
-    },
-    {
-      name: 'Charts',
-      path: '/charts',
-      meta: {
-        icon: 'fa-laptop'
-      },
-      component: lazyLoading('charts', true)
-    }
+    admin
   ]
 }
 

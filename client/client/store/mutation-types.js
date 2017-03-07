@@ -34,3 +34,7 @@ export const SOCKET_BUILD = 'SOCKET_BUILD'
 // Time sync
 
 export const SOCKET_TIME_SYNC = 'SOCKET_TIME_SYNC'
+
+// Auth
+
+export const SET_AUTH = 'SET_AUTH'

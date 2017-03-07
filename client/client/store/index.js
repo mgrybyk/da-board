@@ -11,6 +11,7 @@ import charts from './modules/charts'
 import configs from './modules/configs'
 import build from './modules/build'
 import timeDiff from './modules/timeDiff'
+import auth from './modules/auth'
 import menu from './modules/menu'
 
 Vue.use(Vuex)
@@ -27,6 +28,7 @@ const store = new Vuex.Store({
     configs,
     build,
     timeDiff,
+    auth,
     menu
   },
   state: {

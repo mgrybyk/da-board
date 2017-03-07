@@ -70,3 +70,9 @@ export const socketBuild = ({ commit }, build) => {
 export const timeSync = ({ commit }, diff) => {
   commit(types.SOCKET_TIME_SYNC, diff)
 }
+
+// Auth
+
+export const setAuth = ({ commit }, data) => {
+  commit(types.SET_AUTH, data)
+}

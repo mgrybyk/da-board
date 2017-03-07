@@ -8,6 +8,7 @@
             <table class="table is-bordered is-striped is-narrow">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Name</th>
                   <th>Type</th>
                   <th>Hostname</th>

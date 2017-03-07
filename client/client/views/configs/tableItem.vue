@@ -1,5 +1,10 @@
 <template>
   <tr>
+    <td class="is-icon">
+      <a>
+        <i class="fa fa-pencil"></i>
+      </a>
+    </td>
     <td>{{ item.name }}</td>
     <td>{{ item.type }}</td>
     <td>{{ item.hostname }}</td>

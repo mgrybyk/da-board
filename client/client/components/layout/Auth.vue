@@ -1,6 +1,6 @@
 <template>
 <div>
-  <a class="button is-link login" @click="logout" v-if="isAuth">Sign Out</a>
+  <a class="button is-link login" @click="logout" v-if="auth.isAuth">Sign Out</a>
   <a class="button is-info login" @click="openModalBasic" v-else>Sign In</a>
 
   <modal :visible="showModal" @close="closeModalBasic">
@@ -9,26 +9,28 @@
 
       <div class="notification-container"></div>
 
-      <div class="block">
-        <label class="label" v-show="!isSignIn">Name</label>
-        <p class="control" v-show="!isSignIn">
-          <input class="input" type="text" placeholder="Bill Gates" v-model="displayName">
-        </p>
-        <label class="label">Username</label>
-        <p class="control">
-          <input class="input" type="text" placeholder="bgates" v-model="username">
-        </p>
-        <label class="label">Password</label>
-        <p class="control">
-          <input class="input" type="password" placeholder="password" v-model="password">
-        </p>
+      <form v-on:submit.prevent="submit">
+        <div class="block">
+          <label class="label" v-show="!isSignIn">Name</label>
+          <p class="control" v-show="!isSignIn">
+            <input class="input" type="text" placeholder="Bill Gates" v-model="displayName">
+          </p>
+          <label class="label">Username</label>
+          <p class="control">
+            <input class="input" type="text" placeholder="bgates" v-model="username">
+          </p>
+          <label class="label">Password</label>
+          <p class="control">
+            <input class="input" type="password" placeholder="password" v-model="password">
+          </p>
 
-        <p class="control">
-          <button class="button is-primary" @click="submit">Submit</button>
-          <button class="button is-link" v-if="isSignIn" @click="toggleSignIn">New user? Sign up!</button>
-          <button class="button is-link" v-else @click="toggleSignIn">Already have an account? Sign in</button>
-        </p>
-      </div>
+          <p class="control">
+            <button class="button is-primary" type="submit">Submit</button>
+            <button class="button is-link" v-if="isSignIn" @click="toggleSignIn" type="button">New user? Sign up!</button>
+            <button class="button is-link" v-else @click="toggleSignIn" type="button">Already have an account? Sign in</button>
+          </p>
+        </div>
+      </form>
 
     </div>
   </modal>
@@ -37,13 +39,14 @@
 
 <script>
 import Vue from 'vue'
+import { mapActions, mapGetters } from 'vuex'
 import { Modal } from 'vue-bulma-modal'
 import Notification from 'vue-bulma-notification'
 import Resource from 'vue-resource'
 Vue.use(Resource)
 
 const NotificationComponent = Vue.extend(Notification)
-const openNotification = propsData => {
+const openNotificationInModal = propsData => {
   let container = document.querySelector('.modal .modal-content .box .notification-container')
   container.appendChild(document.createElement('div'))
 
@@ -52,6 +55,11 @@ const openNotification = propsData => {
     propsData
   })
 }
+
+const openNotificationInBody = propsData => new NotificationComponent({
+  el: document.createElement('div'),
+  propsData
+})
 
 export default {
   created () {
@@ -67,11 +75,13 @@ export default {
 
       username: '',
       password: '',
-      displayName: '',
-      isAuth: false
+      displayName: ''
     }
   },
   methods: {
+    ...mapActions([
+      'setAuth'
+    ]),
     openModalBasic () {
       this.showModal = true
     },
@@ -93,38 +103,35 @@ export default {
           password: this.password,
           displayName: this.displayName
         }).then(data => {
-          if (data.body.success === true) {
-            this.isAuth = true
-            this.getAuth()
+          if (data.body.success === true && data.body.user) {
+            this.setAuth({ isAuth: true, username: data.body.user.username })
+            this.closeModalBasic()
+            this.showDisplayName(data.body.user.displayName)
+          } else {
+            this.showErrorNotification(data.body.message || 'Unknown Error')
           }
-          console.log(data)
         })
       } else {
         Vue.http.post('api/signin', {
           username: this.username,
           password: this.password
         }).then(data => {
-          if (data.body.success === true) {
-            this.isAuth = true
-            this.getAuth()
+          if (data.body.success === true && data.body.user) {
+            this.setAuth({ isAuth: true, username: data.body.user.username })
+            this.closeModalBasic()
+            this.showDisplayName(data.body.user.displayName)
+          } else {
+            this.showErrorNotification(data.body.message || 'Unknown Error')
           }
-          console.log(data)
         })
       }
-      openNotification({
-        title: 'Error',
-        message: '',
-        type: 'danger',
-        direction: 'Left',
-        container: '*'
-      })
     },
     getAuth () {
       Vue.http.get('api/me').then(data => {
         if (data.body.success === true) {
-          this.isAuth = true
+          this.setAuth({ isAuth: true, username: data.body.user.username })
         } else {
-          this.isAuth = false
+          this.setAuth({ isAuth: false })
         }
       })
     },
@@ -132,7 +139,31 @@ export default {
       Vue.http.post('api/logout').then(data => {
         this.getAuth()
       })
+    },
+    showDisplayName (displayName) {
+      openNotificationInBody({
+        title: 'Logged In',
+        message: `Welcome, ${displayName}!`,
+        type: 'success',
+        direction: 'Right',
+        duration: 3000
+      })
+    },
+    showErrorNotification (message) {
+      openNotificationInModal({
+        title: 'Error',
+        message: message,
+        type: 'danger',
+        direction: 'Up',
+        container: '*'
+      })
     }
+  },
+
+  computed: {
+    ...mapGetters([
+      'auth'
+    ])
   },
 
   mounted () {
@@ -144,9 +175,5 @@ export default {
 <style lang="scss" scoped>
   a.login {
     vertical-align: middle;
-  }
-  div.box {
-    transition: height 1s;
-  }
-  
+  }  
 </style>
