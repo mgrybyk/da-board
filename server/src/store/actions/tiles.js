@@ -16,7 +16,7 @@ const actions = {
     if (!state.charts.init) return
 
     commit('updateTile', item)
-    io.emit('SOCKET_TILES_UPDATE_TILE', state.tiles[item.name])
+    io.emit('SOCKET_TILES_UPDATE_ONE', state.tiles[item.name])
 
     dispatch('updateCharts')
   },

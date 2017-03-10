@@ -1,18 +1,23 @@
 <template>
-<div class="tile is-parent is-3">
-  <article class="tile is-child box with-stripe" :class="'color-' + getStatus(item.isFailure, item.isRunning, item.isCancelled)">
+<div class="my-tile">
+  <article class="with-stripe" :class="'color-' + getStatus">
+    <div class="stripe top-stripe">
+      <i class="fa fa-lock"></i>
+      <i class="fa fa-check"></i>
+      <i class="fa fa-chevron-down"></i>
+    </div>
     <div class="box-height">
       <div class="env-details">
-        <i :class="'fa fa-' + configs[item.name].browser + ' fa-lg env-icon'"></i>
-        <p class="title">{{ configs[item.name].type }}</p>
-        <p class="env-detail db-name">{{ configs[item.name].dbName }} {{ configs[item.name].dbVersion }}</p>
-        <i :class="'fa fa-' + (configs[item.name].isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
-        <p class="env-detail os-name">{{ configs[item.name].osNameExt }}</p>
+        <p class="title">{{ config.type }}</p>
+        <p class="env-detail db-name">{{ config.dbName }} {{ config.dbVersion }}</p>
+        <i :class="'fa fa-' + (config.isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
+        <p class="env-detail os-name">{{ config.osNameExt }}</p>
       </div>
     </div>
-    <div class="bottom-stripe">
-      <a style="color: #fff;" v-if="!item.isRunning && item.isFailure"><span>Failed: {{ getReason }}</span></a>
-      <a style="color: #fff;" v-else-if="!item.isRunning && !item.isFailure"><span>Tests Passed</span></a>
+    <div class="stripe bottom-stripe">
+      <a style="color: #fff;" v-if="!tile"><span>No activity</span></a>
+      <a style="color: #fff;" v-else-if="!tile.isRunning && tile.isFailure"><span>Failed: {{ getReason }}</span></a>
+      <a style="color: #fff;" v-else-if="!tile.isRunning && !tile.isFailure"><span>Tests Passed</span></a>
       <span v-else class="progress-bar">
         <span>{{ getProgress + '%' }} {{ getPhase }}</span>
         <progress class="progress is-info" :value="getProgress" max="100"></progress>
@@ -30,26 +35,26 @@ export default {
     }
   },
 
-  props: ['item', 'configs', 'timeDiff'],
+  props: ['config', 'tile', 'timeDiff'],
 
-  methods: {
-    getStatus: (isFailure, isRunning, isCancelled) => {
-      if (isRunning) {
-        return 'running'
-      } else if (isCancelled) {
-        return 'cancelled'
-      } else {
-        return isFailure ? 'failure' : 'success'
-      }
-    }
-  },
+  methods: { },
 
   computed: {
+    getStatus () {
+      if (!this.tile) return 'none'
+      if (this.tile.isRunning) {
+        return 'running'
+      } else if (this.tile.isCancelled) {
+        return 'cancelled'
+      } else {
+        return this.tile.isFailure ? 'failure' : 'success'
+      }
+    },
     getProgress () {
       this.timer = this.timer
-      let startTime = this.item.startTime
-      let duration = this.configs[this.item.name].duration
-      if (!this.item.isRunning) return 0
+      let startTime = this.tile.startTime
+      let duration = this.config.duration
+      if (!this.tile.isRunning) return 0
       if (!duration) duration = 1000000
       let currentTime = new Date().getTime()
       if (currentTime - startTime > duration) return 100
@@ -58,10 +63,10 @@ export default {
       return Math.round(100 * diff / duration)
     },
     getPhase () {
-      if (!this.item.stages) return ''
+      if (!this.tile.stages) return ''
       let failedStages = []
-      Object.keys(this.item.stages).forEach(stage => {
-        if (this.item.stages[stage] === 'running') {
+      Object.keys(this.tile.stages).forEach(stage => {
+        if (this.tile.stages[stage] === 'running') {
           failedStages.push(stage)
         }
       })
@@ -69,10 +74,10 @@ export default {
     },
     getReason () {
       let failureReason = 'Process'
-      if (!this.item.stages) return failureReason
+      if (!this.tile.stages) return failureReason
       let failedStages = []
-      Object.keys(this.item.stages).forEach(stage => {
-        if (this.item.stages[stage] === 'failed') {
+      Object.keys(this.tile.stages).forEach(stage => {
+        if (this.tile.stages[stage] === 'failed') {
           failedStages.push(stage)
         }
       })
@@ -83,9 +88,9 @@ export default {
 
   mounted () {
     this.interval = setInterval(() => {
-      if (!this.item.isRunning) return
+      if (!this.tile || !this.tile.isRunning) return
       this.timer = !this.timer
-    }, 750)
+    }, 1000)
   },
   destroyed () {
     clearInterval(this.interval)
@@ -93,7 +98,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+div.my-tile {
+  width: 200px;
+  padding: 0 0 15px 15px;
+}
 span.progress-bar {
   span {
     position: relative;

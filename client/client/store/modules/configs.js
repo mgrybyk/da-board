@@ -13,6 +13,12 @@ const mutations = {
     let configs = {...state.data}
     configs[config.name] = config
     state.data = configs
+  },
+
+  [types.CONFIGS_UPDATE_SORTING] (state, config) {
+    let configs = {...state.data}
+    configs[config.name].sortBy = config.sortBy
+    state.data = configs
   }
 }
 

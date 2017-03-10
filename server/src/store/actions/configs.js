@@ -13,7 +13,7 @@ const actions = {
     let configsCount = Object.keys(state.configs).length
     commit('updateConfig', config)
 
-    io.emit('SOCKET_CONFIGS_UPDATE', state.configs[config.name])
+    io.emit('SOCKET_CONFIGS_UPDATE_ONE', state.configs[config.name])
 
     if (configsCount !== Object.keys(state.configs).length) {
       dispatch('updateCharts')
@@ -28,9 +28,22 @@ const actions = {
       config.save(err => {
         if (err) return log.error(err)
 
-        $store.dispatch('updateConfig', config.toObject())
+        dispatch('updateConfig', config.toObject())
       })
     }
+  },
+
+  updateConfigSorting ({ state, commit, dispatch }, newConfig) {
+    Configs.getOne(newConfig.name, (err, config) => {
+      if (err) return log.error(err)
+
+      config.sortBy = newConfig.sortBy
+      config.save(err => {
+        if (err) return log.error(err)
+
+        dispatch('updateConfig', config.toObject())
+      })
+    })
   },
 
   addStage ({ state, dispatch }, configWithStage) {
@@ -46,7 +59,7 @@ const actions = {
         config.save(err => {
           if (err) return log.error(err)
 
-          $store.dispatch('updateConfig', config.toObject())
+          dispatch('updateConfig', config.toObject())
         })
       })
     }
@@ -60,6 +73,41 @@ const actions = {
     }
 
     io.emit('SOCKET_CONFIGS_DELETE', { name: name })
+  },
+
+  recalcSorting ({ state, dispatch }, config) {
+    const threshold = 0.999999999999
+    const step = 2048
+    const maxValue = 999999999
+
+    if (Math.abs(config.sortBy) % 1 >= threshold || Math.abs(config.sortBy) >= maxValue) {
+      Configs.getAll((err, results) => {
+        if (err) return log.error(err)
+
+        let idx = 0
+        results.forEach(val => {
+          let doUpdate = false
+          let newSorting = step * idx
+          idx++
+
+          if (val.disabled === true && val.sortBy !== maxValue) {
+            val.sortBy = maxValue
+            doUpdate = true
+          } else if (val.disabled !== true && val.sortBy !== newSorting) {
+            val.sortBy = newSorting
+            doUpdate = true
+          }
+
+          if (doUpdate) {
+            val.save(err => {
+              if (err) return log.error(err)
+
+              dispatch('updateConfig', val.toObject())
+            })
+          }
+        })
+      })
+    }
   }
 }
 

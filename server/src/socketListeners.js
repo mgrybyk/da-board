@@ -26,6 +26,11 @@ module.exports = io => {
       console.log('GET_CONFIGS')
       socket.emit('SOCKET_CONFIGS', $store.getters.configs)
     })
+    socket.on('CONFIGS_UPDATE_SORTING', (data) => {
+      console.log('CONFIGS_UPDATE_SORTING')
+      $store.dispatch('updateConfigSorting', data)
+      $store.dispatch('recalcSorting', data)
+    })
 
     // build
     socket.on('GET_BUILD', (data) => {

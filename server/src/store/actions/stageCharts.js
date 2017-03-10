@@ -23,7 +23,7 @@ const actions = {
       commit('deleteChart', stage.name)
     }
 
-    io.emit('SOCKET_STAGE_UPDATE_STAGE', state.stageCharts[stage.name])
+    io.emit('SOCKET_STAGE_UPDATE_ONE', state.stageCharts[stage.name])
   }
 }
 

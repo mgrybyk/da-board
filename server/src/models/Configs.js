@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const sorting = { 'hostname': 1 }
+const sorting = { 'sortBy': 1 }
 
 var schema = mongoose.Schema({
   name: { type: String, unique: true, required: true, dropDups: true },
@@ -15,7 +15,8 @@ var schema = mongoose.Schema({
   isNix: Boolean,
   duration: Number,
   disabled: Boolean,
-  stages: Array
+  stages: Array,
+  sortBy: Number
 })
 
 schema.statics.getAll = cb => Model.find().sort(sorting).exec(cb)
@@ -23,4 +24,3 @@ schema.statics.getOne = (name, cb) => Model.findOne({ name: name }).exec(cb)
 
 const Model = mongoose.model('Configs', schema)
 module.exports = Model
-

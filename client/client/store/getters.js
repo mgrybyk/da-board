@@ -8,7 +8,15 @@ const results = state => state.results.data
 const resultsChanged = state => state.results.changed
 const tiles = state => state.tiles
 const charts = state => state.charts.data
-const configs = state => state.configs.data
+const configs = state => {
+  let configsArr = []
+  Object.keys(state.configs.data).forEach(key => {
+    configsArr.push(state.configs.data[key])
+  })
+  configsArr.sort((a, b) => a.sortBy - b.sortBy)
+  return configsArr
+}
+const configsEnabled = state => configs(state).filter(config => config.disabled !== true)
 const buildPackage = state => state.build.package
 const buildNumber = state => state.build.number
 const timeDiff = state => state.timeDiff.timeDiff
@@ -29,6 +37,7 @@ export {
   tiles,
   charts,
   configs,
+  configsEnabled,
   buildPackage,
   buildNumber,
   timeDiff,
