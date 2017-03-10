@@ -8,7 +8,6 @@ export default {
     this.$options.sockets.SOCKET_CONFIGS = data => this.socketConfigs(data)
     this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE = data => this.socketConfigsUpdateOne(data)
 
-    this.$options.sockets.SOCKET_CHARTS = data => this.socketCharts(data)
     this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE = data => this.socketChartsUpdateOne(data)
 
     this.$options.sockets.SOCKET_TILES = data => this.socketTiles(data)
@@ -39,7 +38,6 @@ export default {
     delete this.$options.sockets.SOCKET_CONFIGS
     delete this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE
 
-    delete this.$options.sockets.SOCKET_CHARTS
     delete this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE
 
     delete this.$options.sockets.SOCKET_TILES
