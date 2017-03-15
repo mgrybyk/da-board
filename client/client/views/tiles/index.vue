@@ -86,7 +86,7 @@ article.with-stripe {
   border-radius: 3px;
   box-shadow: 0 0 3px #dfdfdf;
   &.color-failure {
-    box-shadow: 0 0 3px #fb315b;
+    box-shadow: 0 0 3px #f33960;
   }
   &.color-success {
     box-shadow: 0 0 3px #1ac556;
@@ -106,6 +106,11 @@ article.with-stripe {
     align-items: center;
     i {
       padding: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    i:hover {
+      color: #29d;
     }
     &:hover {
       background-color: rgba(255, 255, 255, 0.85);
@@ -144,7 +149,7 @@ p.env-detail.db-name {
   min-height: 146px;
 }
 .color-failure {
-  background-color: #fb315b;
+  background-color: #f33960;
   p {
     color: #fff;
   }
@@ -167,44 +172,30 @@ i.env-icon {
   color: #fff;
   float: right;
   position: relative;
-  top: 3px;
+  top: 6px;
+  font-size: 20px;
 }
 p.title {
-  font-size: 24px;
-  margin-bottom: 0;
+  font-size: 26px;
+  margin-bottom: 6px;
   height: 5ex;
   overflow: hidden;
 }
 p.db-name {
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 18px;
+  margin-bottom: 6px;
 }
 p.os-name {
   margin-bottom: 0;
+  font-size: 17px;
 }
 @media (max-width:768px)
 {
-  .box-height {
-    min-height: 0;
-  }
+
 }
 @media (min-width:1258px)
 {
-  p.title {
-    font-size: 30px;
-    height: 3ex;
-  }
-  p.db-name {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  p.os-name {
-    margin-bottom: 0;
-    font-size: 17px;
-  }
-  i.env-icon {
-    font-size: 2em;
-  }
+
 }
 @media (min-width:1600px)
 {
