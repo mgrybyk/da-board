@@ -13,7 +13,8 @@ const logger = new (winston.Logger)({
     new (winston.transports.Console)({
       name: 'consolePrint',
       level: 'verbose',
-      colorize: true
+      colorize: true,
+      prettyPrint: true
     }),
     // this one to write errors to file
     new (winston.transports.File)({

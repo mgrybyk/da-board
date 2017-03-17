@@ -6,7 +6,6 @@ module.exports = io => {
 
     // charts
     socket.on('GET_CHARTS', (data) => {
-      console.log('GET_CHARTS')
       Object.keys($store.getters.charts).forEach(key => {
         let chart = $store.getters.charts[key]
         if (chart.data) {
@@ -17,13 +16,11 @@ module.exports = io => {
 
     // tiles
     socket.on('GET_TILES', (data) => {
-      console.log('GET_TILES')
       socket.emit('SOCKET_TILES', $store.getters.tiles)
     })
 
     // configs
     socket.on('GET_CONFIGS', (data) => {
-      console.log('GET_CONFIGS')
       socket.emit('SOCKET_CONFIGS', $store.getters.configs)
     })
     socket.on('CONFIGS_UPDATE_SORTING', (data) => {
@@ -37,14 +34,21 @@ module.exports = io => {
       socket.emit('SOCKET_BUILD', $store.getters.build)
     })
 
+    // integrations
+    socket.on('GET_INTEGRATIONS', (data) => {
+      console.log('SOCKET_INTEGRATIONS')
+      socket.emit('SOCKET_INTEGRATIONS', $store.getters.integrations)
+    })
+
     // time sync
     socket.on('TIME_SYNC', (data) => {
       socket.emit('SOCKET_TIME_SYNC', { time: new Date().getTime() })
     })
 
     // run process
-    socket.on('RUN_PROCESS', (data) => {
-      console.log('RUN_PROCESS')
+    socket.on('INTEGRATION_ACTION', (data) => {
+      console.log('INTEGRATION_ACTION', data.action)
+      $store.dispatch('integrationAction', data)
     })
   })
 }

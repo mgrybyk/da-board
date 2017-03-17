@@ -5,7 +5,7 @@ const Build = require('./../models/Build')
 exports.updateBuild = (req, res, next) => {
   if (!req.body) return next(req, res, next)
 
-  log.debug('updateBuild', req.body)
+  log.verbose('updateBuild', req.body)
 
   Build.getBuild((err, build) => {
     if (err) return next(err, req, res, next)

@@ -27,7 +27,7 @@
           <p class="control">
             <button class="button is-primary" type="submit">Submit</button>
             <button class="button is-link" v-if="isSignIn" @click="toggleSignIn" type="button">New user? Sign up!</button>
-            <button class="button is-link" v-else @click="toggleSignIn" type="button">Already have an account? Sign in</button>
+            <button class="button is-link" v-else @click="toggleSignIn" type="button">Have an account? Sign in</button>
           </p>
         </div>
       </form>
@@ -175,5 +175,20 @@ export default {
 <style lang="scss" scoped>
   a.login {
     vertical-align: middle;
-  }  
+  }
+  h1.title {
+    margin-bottom: 1rem;
+  }
+</style>
+<style lang="scss">
+  .modal-content {
+    max-height: calc(100vh - 60px);
+    margin: 0 35px 0 -15px;
+  }
+  @media (max-width:480px)
+  {
+    button.modal-close {
+      right: 0;
+    }
+  }
 </style>

@@ -7,13 +7,20 @@ const menuitems = state => state.menu.items
 const results = state => state.results.data
 const resultsChanged = state => state.results.changed
 const tiles = state => state.tiles
+const integrations = state => state.integrations.data
 const charts = state => state.charts.data
+const configsObject = state => state.configs.data
 const configs = state => {
   let configsArr = []
   Object.keys(state.configs.data).forEach(key => {
     configsArr.push(state.configs.data[key])
   })
   configsArr.sort((a, b) => a.sortBy - b.sortBy)
+    .sort((a, b) => {
+      let aName = a.integration ? a.integration.name : 'z'
+      let bName = b.integration ? b.integration.name : 'z'
+      return (aName < bName) ? -1 : (aName > bName) ? 1 : 0
+    })
   return configsArr
 }
 const configsEnabled = state => configs(state).filter(config => config.disabled !== true)
@@ -35,7 +42,9 @@ export {
   results,
   resultsChanged,
   tiles,
+  integrations,
   charts,
+  configsObject,
   configs,
   configsEnabled,
   buildPackage,

@@ -60,7 +60,7 @@ export default {
   computed: mapGetters({
     results: 'results',
     resultsChanged: 'resultsChanged',
-    configs: 'configs'
+    configs: 'configsObject'
   }),
 
   methods: mapActions([

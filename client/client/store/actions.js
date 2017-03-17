@@ -31,7 +31,7 @@ export const resultsIsChanged = ({ commit }, changed) => {
   commit(types.RESULTS_CHANGED, changed)
 }
 
-// Dashboard
+// Tiles
 
 export const socketTiles = ({ commit }, data) => {
   commit(types.SOCKET_TILES, data)
@@ -39,6 +39,16 @@ export const socketTiles = ({ commit }, data) => {
 
 export const socketTilesUpdateOne = ({ commit }, tile) => {
   commit(types.SOCKET_TILES_UPDATE_ONE, tile)
+}
+
+// Integrations
+
+export const socketIntegrations = ({ commit }, data) => {
+  commit(types.SOCKET_INTEGRATIONS, data)
+}
+
+export const socketIntegrationsUpdateOne = ({ commit }, integration) => {
+  commit(types.SOCKET_INTEGRATIONS_UPDATE_ONE, integration)
 }
 
 // Home Charts

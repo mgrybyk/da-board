@@ -10,7 +10,7 @@ function login (req, res, next) {
     return res.send(responseData)
   }
 
-  log.debug(req.body)
+  log.verbose(req.body)
 
   if (req.body.username.length < 2 || req.body.password.length < 2) {
     responseData.message = 'Login and password length should be 3 symbols or more.'
@@ -52,7 +52,7 @@ exports.signup = (req, res, next) => {
     return res.send(responseData)
   }
 
-  log.debug(req.body)
+  log.verbose(req.body)
 
   if (req.body.username.length < 2 || req.body.password.length < 2) {
     responseData.message = 'Login and password length should be 3 symbols or more.'

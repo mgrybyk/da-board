@@ -5,14 +5,14 @@
       <i class="fa fa-check-circle-o"></i>
       <i class="fa fa-lock"></i>
       <i class="fa fa-chevron-down" v-on:click="toggleDropdown">
-
         <div class="dropdown">
           <div v-bind:class="{ 'show': visible }" class="dropdown-content">
             <ul>
-              <li><a v-on:click="tileAction('run')" class="action">Run</a></li>
-              <li><a v-on:click="tileAction('disable')" class="action">Disable</a></li>
-              <li class="divider"></li>
-              <li><a href="http://google.com" target="_blank">View some link</a></li>
+              <li v-if="auth.isAuth" v-for="(item, index) in actions">
+                <a v-on:click="tileAction(index)" class="action">{{ index }}</a>
+              </li>
+              <li v-if="auth.isAuth && Object.keys(actions).length > 0" class="divider"></li>
+              <li><a href="http://google.com" target="_blank">Provider Admin</a></li>
             </ul>
           </div>
         </div>
@@ -22,19 +22,23 @@
     <div class="box-height">
       <div class="env-details">
         <p class="title">{{ config.type }}</p>
+        <p class="env-detail">{{ tile ? tile.package : '' }} {{config.sortBy}}</p>
         <p class="env-detail db-name">{{ config.dbName }} {{ config.dbVersion }}</p>
         <i :class="'fa fa-' + (config.isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
       </div>
     </div>
     <div class="stripe bottom-stripe">
-      <a style="color: #fff;" v-if="!tile"><span>No activity</span></a>
-      <a style="color: #fff;" v-else-if="!tile.isRunning && tile.isFailure"><span>Failed: {{ getReason }}</span></a>
-      <a style="color: #fff;" v-else-if="!tile.isRunning && !tile.isFailure"><span>Tests Passed</span></a>
-      <span v-else class="progress-bar">
+      <a v-if="!tile"><span>No activity</span></a>
+      <a v-else-if="!tile.isRunning" :href="'http://google.com'" target="_blank">
+        <span v-if="tile.isCancelled">Aborted</span>
+        <span v-else-if="tile.isFailure">Failed: {{ getReason }}</span>
+        <span v-else-if="!tile.isFailure">Tests Passed</span>
+      </a>
+      <a v-else class="progress-bar" :href="'http://google.com'" target="_blank">
         <span>{{ getProgress + '%' }} {{ getPhase }}</span>
         <progress class="progress is-info" :value="getProgress" max="100"></progress>
-      </span>
+      </a>
     </div>
   </article>
 </div>
@@ -51,7 +55,7 @@ export default {
     }
   },
 
-  props: ['config', 'tile', 'timeDiff'],
+  props: ['config', 'tile', 'timeDiff', 'auth', 'integrations'],
 
   methods: {
     toggleDropdown (evt) {
@@ -68,7 +72,7 @@ export default {
       }
     },
     tileAction (actionName) {
-      console.log(actionName)
+      this.$socket.emit('INTEGRATION_ACTION', { configName: this.config.name, action: actionName })
     }
   },
 
@@ -116,6 +120,14 @@ export default {
       })
       if (failedStages.length === 0) return failureReason
       return failedStages.join(', ')
+    },
+    actions () {
+      let actions = {}
+      if (this.config.integration && this.config.integration.name &&
+        this.integrations[this.config.integration.name] && this.integrations[this.config.integration.name].actions) {
+        actions = this.integrations[this.config.integration.name].actions
+      }
+      return actions
     }
   },
 
@@ -136,31 +148,149 @@ export default {
 
 <style lang="scss" scoped>
 div.my-tile {
-  width: 200px;
+  width: 220px;
   padding: 0 0 15px 15px;
 }
-span.progress-bar {
-  span {
-    position: relative;
-    z-index: 33;
-    top: -2px;
-    font-weight: 700;
-    color: #ff8d13;
+.box-height {
+  min-height: 146px;
+}
+
+article.with-stripe {
+  padding: 0;
+  transition: background-color 1s;
+  border-radius: 3px;
+  box-shadow: 0 0 3px #dfdfdf;
+
+  &.color-failure {
+    box-shadow: 0 0 3px #f33960;
   }
-  progress {
-    height: 100%;
-    position: relative;
-    top: -25px;
+  &.color-success {
+    box-shadow: 0 0 3px #1ac556;
+  }
+  &.color-running {
+    box-shadow: 0 0 3px #29d;
+  }
+
+  p {
+    color: #fff;
+  }
+
+  &.color-failure {
+    background-color: #f33960;
+  }
+  &.color-success {
+    background-color: #1ac556;
+  }
+  &.color-running {
+    background-color: #29d;
+  }
+  &.color-cancelled {
+    background-color: #eee;
+    i.env-icon {
+      color: #000;
+    }
+  }
+}
+.stripe {
+  display: block;
+  text-align: center;
+  height: 25px;
+  transition: background-color .3s;
+  
+  &.top-stripe {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 3px 3px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    i {
+      padding: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    i:hover {
+      color: #29d;
+    }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+  }
+
+  &.bottom-stripe {
+    background-color: rgba(119, 119, 119, 0.7);
+    border-radius: 0 0px 3px 3px;
+
+    progress {
+      border-radius: 0 0px 3px 3px;
+    }
+    a {
+      display: block;
+      color: #fff;
+    }
+    span {
+      vertical-align: middle;
+    }
+    &:hover {
+      background-color: rgba(119, 119, 119, 1);
+    }
+
+    a.progress-bar {
+      display: inline;
+      line-height: 23px;
+      span {
+        position: relative;
+        z-index: 33;
+        top: -2px;
+        font-weight: 700;
+        color: #ff8d13;
+      }
+      progress {
+        height: 100%;
+        position: relative;
+        top: -25px;
+      }
+    }
   }
 }
 
-/* The container <div> - needed to position the dropdown content */
+.env-details {
+  padding: 10px;
+
+  p.db-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  i.env-icon {
+    color: #fff;
+    float: right;
+    position: relative;
+    top: 6px;
+    font-size: 20px;
+  }
+  p.title {
+    font-size: 26px;
+    margin-bottom: 6px;
+    height: 5ex;
+    overflow: hidden;
+  }
+  p.db-name {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  p.os-name {
+    margin-bottom: 0;
+    font-size: 17px;
+  }
+}
+
+/* Dropdown */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display:block;
   position: absolute;
@@ -177,6 +307,7 @@ span.progress-bar {
     text-decoration: none;    
 
     a {
+      text-transform: capitalize;
       display: block;
       padding: 12px 16px;
 
@@ -202,7 +333,6 @@ span.progress-bar {
   }
 }
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
   opacity: 1;
   visibility: visible;

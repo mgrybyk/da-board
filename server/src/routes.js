@@ -24,7 +24,7 @@ exports.routes = app => {
   app.post('/api/build', build.updateBuild) // package, number
 
   // api
-  app.post('/api/tests', processEvents.updateTestStatus) // type, state (running, failed, passed), processName
+  app.post('/api/stage', processEvents.updateStageStatus) // type, state (running, failed, passed), processName
   app.post('/api/processRunning', processEvents.setProcessRunning) // processName, package
   app.post('/api/processEnded', processEvents.setProcessEnded) // processName, status
 

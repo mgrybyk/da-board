@@ -7,6 +7,7 @@ import * as getters from './getters'
 import app from './modules/app'
 import results from './modules/results'
 import tiles from './modules/tiles'
+import integrations from './modules/integrations'
 import charts from './modules/charts'
 import configs from './modules/configs'
 import build from './modules/build'
@@ -24,6 +25,7 @@ const store = new Vuex.Store({
     app,
     results,
     tiles,
+    integrations,
     charts,
     configs,
     build,

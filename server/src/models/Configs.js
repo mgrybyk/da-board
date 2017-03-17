@@ -5,7 +5,7 @@ const sorting = { 'sortBy': 1 }
 
 var schema = mongoose.Schema({
   name: { type: String, unique: true, required: true, dropDups: true },
-  integration: String,
+  integration: Object,
   type: String,
   hostname: String,
   dbName: String,
@@ -14,9 +14,9 @@ var schema = mongoose.Schema({
   browser: String,
   isNix: Boolean,
   duration: Number,
-  disabled: Boolean,
   stages: Array,
-  sortBy: Number
+  sortBy: Number,
+  disabled: Boolean
 })
 
 schema.statics.getAll = cb => Model.find().sort(sorting).exec(cb)

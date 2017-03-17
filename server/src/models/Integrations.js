@@ -5,13 +5,9 @@ const mongoose = require('mongoose')
 var schema = mongoose.Schema({
   name: { type: String, unique: true, required: true, dropDups: true },
   rootUrl: String,
-  homeUrl: String, // remove?
   auth: Object,
-  run: Object,
-  disable: Object,
-  abort: Object,
-  remote: Object,
-  description: String
+  actions: Object,
+  remote: Object
 })
 
 schema.statics.getAll = cb => Model.find().exec(cb)

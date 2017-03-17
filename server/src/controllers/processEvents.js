@@ -3,8 +3,8 @@
 const Tiles = require('./../models/Tiles')
 const Configs = require('./../models/Configs')
 
-exports.updateTestStatus = (req, res, next) => {
-  log.debug('updateTestStatus', req.body)
+exports.updateStageStatus = (req, res, next) => {
+  log.verbose('updateStageStatus', req.body)
 
   if (!req.body || !req.body.name) return next(req, res, next)
 
@@ -15,12 +15,13 @@ exports.updateTestStatus = (req, res, next) => {
       result = new Tiles()
       result.name = req.body.name
 
-      $store.dispatch('addStage', { name: req.body.name, stages: [req.body.stage] })
+      // $store.dispatch('addStage', { name: req.body.name, stages: [req.body.stage] })
     }
 
     if (!result.toObject().stages) { result.stages = {} }
 
-    result.stages[req.body.stage]
+    result.stages[req.body.stage] = req.body.status
+    // result.markModified(`stages`)
     result.markModified(`stages.${req.body.stage}`)
 
     result.save(err => {
@@ -33,7 +34,7 @@ exports.updateTestStatus = (req, res, next) => {
 }
 
 exports.setProcessRunning = (req, res, next) => {
-  log.debug('setProcessRunning', req.body)
+  log.verbose('setProcessRunning', req.body)
 
   if (!req.body || !req.body.name) return next(req, res, next)
 
@@ -53,6 +54,7 @@ exports.setProcessRunning = (req, res, next) => {
     result.isCancelled = false
     result.isFailure = undefined
     result.stages = {}
+    result.processId = req.body.processId
 
     if ($store.getters.build.package) {
       result.isValid = $store.getters.build.package === result.package
@@ -69,7 +71,7 @@ exports.setProcessRunning = (req, res, next) => {
 
 // function setProcessEnded (req, res, next) {
 exports.setProcessEnded = (req, res, next) => {
-  log.debug('setProcessEnded', req.body)
+  log.verbose('setProcessEnded', req.body)
 
   if (!req.body || !req.body.name) return next(req, res, next)
 
@@ -94,7 +96,7 @@ exports.setProcessEnded = (req, res, next) => {
       updateDuration(result, req, res, next)
     }
 
-    Object.keys(result.toObject().stages).forEach(stage => {
+    Object.keys(result.stages).forEach(stage => {
       if (result.stages[stage] === $store.getters.executionStatuses.RUNNING.name) {
         result.stages[stage] = null
         result.markModified(`stages.${stage}`)

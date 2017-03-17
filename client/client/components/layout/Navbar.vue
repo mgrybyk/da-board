@@ -131,7 +131,7 @@ div .tooltip--right:before {
 
 <style lang="scss" scoped>
   .auth-control {
-    line-height: 3em;
-    margin-right: 10px;
+    line-height: 0;
+    margin: 7px 10px 0 5px;
   }
 </style>

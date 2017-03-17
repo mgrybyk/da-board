@@ -7,7 +7,8 @@
 
 'use strict'
 
-const formatUrl = require('./utils')
+const formatUrl = require('../../utils')
+const processEvents = require('../processEvents')
 const request = require('request')
 
 // request from DA
@@ -15,7 +16,7 @@ const request = require('request')
 // code will be rewritten once deployment requests are ready.
 // Hopefully it will be removed.
 exports.daProcessEnded = (req, res, next) => {
-  log.debug('daProcessEnded', req.body.status)
+  log.verbose('daProcessEnded', req.body.status)
 
   if (!req.body.externalData || !req.body.externalData.name || !req.body.externalData.secret || !req.body.externalData.propName) {
     console.log(req.body)
@@ -47,8 +48,8 @@ exports.daProcessEnded = (req, res, next) => {
     req.body = buildReqBody(req.body.status, processName.value)
 
     // trigger "dashboard.processEnded"
-    res.redirect('/api/processEnded')
-    // setProcessEnded(req, res, next)
+    // res.redirect('/api/processEnded')
+    processEvents.setProcessEnded(req, res, next)
   })
 }
 
@@ -57,7 +58,7 @@ exports.daProcessEnded = (req, res, next) => {
 function getProcessName (body, propName, req, res, next) {
   try {
     let properties = JSON.parse(body)
-    return properties.find(x => x.name === 'test_processName')
+    return properties.find(x => x.name === propName)
   } catch (err) {
     return next(err, req, res, next)
   }
@@ -66,7 +67,7 @@ function getProcessName (body, propName, req, res, next) {
 function buildReqBody (status, processName) {
   let body = {}
 
-  body.name = processName.value
+  body.name = processName
   if (status === 'FAILED') {
     body.isFailure = true
   } else if (status === 'SUCCESS') {
@@ -77,6 +78,3 @@ function buildReqBody (status, processName) {
 
   return body
 }
-
-// 'user': da.auth.user,
-//         'pass': da.user.pass
