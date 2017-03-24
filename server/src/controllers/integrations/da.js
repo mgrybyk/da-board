@@ -18,7 +18,7 @@ const request = require('request')
 exports.daProcessEnded = (req, res, next) => {
   log.verbose('daProcessEnded', req.body.status)
 
-  if (!req.body.externalData || !req.body.externalData.name || !req.body.externalData.secret || !req.body.externalData.propName) {
+  if (!req.body.externalData || !req.body.externalData.name || !req.body.externalData.propName) {
     console.log(req.body)
     return next({ message: 'badly configured DA integration.' }, req, res, next)
   }
@@ -26,10 +26,6 @@ exports.daProcessEnded = (req, res, next) => {
   let da = $store.getters.integrations[req.body.externalData.name]
   if (!da) {
     return next({ message: 'unknwon DA integration name provided.' }, req, res, next)
-  }
-
-  if (!da.secret === req.body.externalData.secret) {
-    return next({ message: 'unknwon DA secret provided.' }, req, res, next)
   }
 
   // make request to DA to get request properties

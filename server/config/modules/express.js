@@ -6,6 +6,7 @@ const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const MongoStore = require('connect-mongo')(session)
+const fileUpload = require('express-fileupload')
 
 module.exports = (app, routes, mongooseConnection) => {
   var userSession = {
@@ -20,11 +21,12 @@ module.exports = (app, routes, mongooseConnection) => {
   var pathToPublic = CONFIG.pathToApp
   // app.use(logWho);
   app.use(express.static(pathToPublic))
-  app.use(bodyParser.json())
   app.use(cookieParser())
+  app.use(bodyParser.json())
   app.use(session(userSession))
   app.use(passport.initialize())
   app.use(passport.session())
+  app.use(fileUpload())
   routes.routes(app)
   app.use(pageNotFound)
   app.use(internalServerError)

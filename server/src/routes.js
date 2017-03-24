@@ -19,6 +19,7 @@ exports.routes = app => {
 
   // results
   app.get('/api/results/:period', results.getResults)
+  app.post('/api/results/newFile', results.newFile)
 
   // build
   app.post('/api/build', build.updateBuild) // package, number
