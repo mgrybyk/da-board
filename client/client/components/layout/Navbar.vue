@@ -10,7 +10,7 @@
         <div class="nav-center">
           <a class="nav-item hero-brand" href="/#/">
             <img src="~assets/favicon.png" :alt="pkginfo.description">
-            <tooltip :label="buildPackage.substring(0,10)" placement="right" :type="tooltipColor" size="medium" :no-animate="false" :always="true" :rounded="true" :nothing="notifyPackage">
+            <tooltip :label="buildPackage && buildPackage.substring(0,10)" placement="right" :type="tooltipColor" size="medium" :no-animate="false" :always="true" :rounded="true" :nothing="notifyPackage">
               <div class>
                 <span class="vue">Da</span><strong class="admin">Board</strong>
               </div>

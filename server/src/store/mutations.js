@@ -32,7 +32,7 @@ const mutations = {
     let displayName = chart.displayName || chart.name
     Object.keys(state.integrations).forEach(integrationName => {
       let chartName = `${chart.name}_${integrationName}`
-      let displayNameIntegration = `${displayName} (${integrationName})`
+      let displayNameIntegration = `${displayName} (${state.integrations[integrationName].displayName || integrationName})`
       if (!state.charts[chartName]) {
         state.charts[chartName] = { name: chartName, displayName: displayNameIntegration, integration: integrationName }
       } else if (state.charts[chartName].displayName !== displayNameIntegration) {

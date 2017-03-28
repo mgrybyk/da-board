@@ -2,6 +2,7 @@
 
 const Tiles = require('./../models/Tiles')
 const Configs = require('./../models/Configs')
+const formatStr = require('../utils')
 
 exports.updateStageStatus = (req, res, next) => {
   log.verbose('updateStageStatus', req.body)
@@ -55,6 +56,13 @@ exports.setProcessRunning = (req, res, next) => {
     result.isFailure = undefined
     result.stages = {}
     result.processId = req.body.processId
+    let config = $store.getters.configs[req.body.name]
+    if (req.body.processId && config && config.integration) {
+      let integration = $store.getters.integrations[config.integration.name]
+      result.processUrl = formatStr(integration.processUrlTemplate,
+        Object.assign({}, { rootUrl: integration.rootUrl }, config.integration.props, { processId: req.body.processId }))
+    }
+    result.processUrl = req.body.processId
 
     if ($store.getters.build.package) {
       result.isValid = $store.getters.build.package === result.package

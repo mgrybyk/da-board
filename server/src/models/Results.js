@@ -10,6 +10,7 @@ const sorting = { 'timestamp': -1 }
 var schema = mongoose.Schema({
   timestamp: Number,
   name: String,
+  integration: String,
   test: Object,
   build: Object
 })

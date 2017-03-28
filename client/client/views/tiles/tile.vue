@@ -30,12 +30,12 @@
     </div>
     <div class="stripe bottom-stripe">
       <a v-if="!tile"><span>No activity</span></a>
-      <a v-else-if="!tile.isRunning" :href="'http://google.com'" target="_blank">
+      <a v-else-if="!tile.isRunning" :href="tile.processUrl && tile.processUrl" target="_blank">
         <span v-if="tile.isCancelled">Aborted</span>
         <span v-else-if="tile.isFailure">Failed: {{ getReason }}</span>
         <span v-else-if="!tile.isFailure">Tests Passed</span>
       </a>
-      <a v-else class="progress-bar" :href="'http://google.com'" target="_blank">
+      <a v-else class="progress-bar" :href="tile.processUrl && tile.processUrl" target="_blank">
         <span>{{ getProgress + '%' }} {{ getPhase }}</span>
         <progress class="progress is-info" :value="getProgress" max="100"></progress>
       </a>
