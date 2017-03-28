@@ -5,16 +5,19 @@ const actions = {
     let { FAILED, PASSED, RUNNING, NOT_EXECUTED } = state.executionStatuses
 
     Object.keys(state.charts).forEach(chartName => {
+      if (chartName === '__init') return
       let chart = Array.from(Array(Object.keys(state.executionStatuses).length), () => 0)
+      let stageName = chartName.substring(0, chartName.lastIndexOf('_'))
 
       Object.keys(state.configs).forEach(configName => {
         let tile = state.tiles[configName]
         let config = state.configs[configName]
-        let stage = tile && tile.stages ? tile.stages[chartName] : null
+        let stage = tile && tile.stages ? tile.stages[stageName] : null
+        let integration = config.integration ? config.integration.name : null
 
-        if (config.disabled) {
-          // skip disabled config
-        } else if (chartName === 'Processes') {
+        if (config.disabled || state.charts[chartName].integration !== integration) {
+          // skip disabled config and configs that do not match chart integration type
+        } else if (chartName.startsWith('Processes_')) {
           //
           // Processes chart
           //
@@ -29,7 +32,7 @@ const actions = {
           //
           // Any custom chart
           //
-          if (!config.stages || !config.stages.includes(chartName)) {
+          if (!config.stages || !config.stages.includes(stageName)) {
             // config has no appropriate stage defined
           } else if (!tile || !tile.isValid || !stage) {
             chart[NOT_EXECUTED.idx]++
@@ -43,7 +46,7 @@ const actions = {
 
       // commit chart
       if (_.isEqual(chart, Array.from(Array(Object.keys(state.executionStatuses).length), () => 0))) {
-        if (state.charts.init) {
+        if (state.charts.__init) {
           io.emit('SOCKET_CHART_DELETE', { name: chartName })
         }
       } else {

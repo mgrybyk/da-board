@@ -1,14 +1,14 @@
 const StageCharts = require('../../models/StageCharts')
 
 const actions = {
-  async setStages ({ commit }) {
+  async setStages ({ state, commit }) {
     return StageCharts.getAll((err, results) => {
       if (err) return log.error(err)
 
       results.forEach(val => {
         commit('updateStage', val.toObject())
         if (val.isChart === true) {
-          commit('initChart', val.name)
+          commit('initChart', { name: val.name, displayName: val.displayName })
         }
       })
     })
@@ -18,7 +18,7 @@ const actions = {
     commit('updateStage', stage)
 
     if (stage.isChart) {
-      commit('initChart', stage.name)
+      commit('initChart', stage)
     } else {
       commit('deleteChart', stage.name)
     }

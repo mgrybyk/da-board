@@ -2,7 +2,7 @@
     
   <div class="tile is-parent is-6">
     <article class="tile is-child box">
-      <h4 class="title">{{ chartName }}</h4>
+      <h4 class="title">{{ chart.displayName }}</h4>
       <div class="content">
         <chartist class="lines-bars" :type="'Pie'" :data="chartData" :options="chartOptions"></chartist>
       </div>

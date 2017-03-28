@@ -3,7 +3,7 @@ const _ = require('lodash')
 const mutations = {
   updateConfig (state, config) {
     if (Object.keys(state.configs).length === 0) {
-      state.charts.Processes = { name: 'Processes' }
+      mutations.initChart(state, { name: 'Processes' })
     }
 
     state.configs[config.name] = config
@@ -28,9 +28,21 @@ const mutations = {
     state.build = build
   },
 
-  initChart (state, name) {
-    if (!state.charts[name]) {
-      state.charts[name] = { name: name }
+  initChart (state, chart) {
+    let displayName = chart.displayName || chart.name
+    Object.keys(state.integrations).forEach(integrationName => {
+      let chartName = `${chart.name}_${integrationName}`
+      let displayNameIntegration = `${displayName} (${integrationName})`
+      if (!state.charts[chartName]) {
+        state.charts[chartName] = { name: chartName, displayName: displayNameIntegration, integration: integrationName }
+      } else if (state.charts[chartName].displayName !== displayNameIntegration) {
+        state.charts[chartName].displayName = displayNameIntegration
+      }
+    })
+
+    let chartName = `${chart.name}_${null}`
+    if (!state.charts[chartName]) {
+      state.charts[chartName] = { name: chartName, displayName: displayName, integration: null }
     }
   },
   deleteChart (state, name) {
@@ -44,7 +56,7 @@ const mutations = {
     if (state.charts.init) io.emit('SOCKET_CHART', chart)
   },
   chartsInitiated (state) {
-    state.charts.init = true
+    state.charts.__init = true
   }
 }
 

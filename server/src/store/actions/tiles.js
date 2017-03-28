@@ -13,7 +13,7 @@ const actions = {
   },
 
   updateTile ({ state, commit, dispatch }, item) {
-    if (!state.charts.init) return
+    if (!state.charts.__init) return
 
     commit('updateTile', item)
     io.emit('SOCKET_TILES_UPDATE_ONE', state.tiles[item.name])
@@ -22,7 +22,16 @@ const actions = {
   },
 
   checkValidity ({ state, commit, dispatch }) {
-    Tiles.update({ 'package': { '$ne': state.build.package } }, { 'isValid': false }, { multi: true }, (err, num) => {
+    return Tiles.update({ 'package': { '$ne': state.build.package } }, { 'isValid': false }, { multi: true }, (err, num) => {
+      if (err) return log.error(err)
+
+      dispatch('setTiles')
+    })
+  },
+
+  checkValidityStartup ({ state, commit, dispatch }) {
+    dispatch('checkValidity')
+    Tiles.update({ 'package': { '$eq': state.build.package } }, { 'isValid': true }, { multi: true }, (err, num) => {
       if (err) return log.error(err)
 
       dispatch('setTiles')

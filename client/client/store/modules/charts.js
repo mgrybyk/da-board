@@ -6,7 +6,7 @@ const state = {
 
 const mutations = {
   [types.SOCKET_CHARTS_UPDATE_ONE] (state, chart) {
-    state.data[chart.name] = { series: chart.data }
+    state.data[chart.name] = { series: chart.data, displayName: chart.displayName }
     state.data = {...state.data}
   },
   [types.SOCKET_CHART_CHANGED] (state, chart) {

@@ -1,5 +1,6 @@
 const getters = {
   charts: state => state.charts,
+  stageCharts: state => state.stageCharts,
 
   tiles: state => state.tiles,
 

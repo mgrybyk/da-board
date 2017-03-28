@@ -22,7 +22,7 @@ const state = {
     NOT_EXECUTED: { idx: 3, name: null }
   },
   charts: {
-    init: false
+    __init: false
   },
   tiles: {},
   configs: {},
