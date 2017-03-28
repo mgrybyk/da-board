@@ -47,9 +47,7 @@ Vue.use(Resource)
 const apiUrl = '/api/results'
 
 export default {
-  beforeMount () {
-    if (this.resultsChanged) { this.resultsClear() }
-  },
+  beforeMount () { this.clearResults() },
 
   data () {
     return { }
@@ -63,22 +61,35 @@ export default {
     configs: 'configsObject'
   }),
 
-  methods: mapActions([
-    'resultsPush',
-    'resultsClear',
-    'resultsIsChanged'
-  ]),
+  methods: {
+    ...mapActions([
+      'resultsPush',
+      'resultsClear',
+      'resultsIsChanged'
+    ]),
+    getResults () {
+      if (this.resultsChanged) {
+        Vue.http.get(`${apiUrl}/1`).then(data => {
+          this.resultsPush(data.body)
+
+          Vue.http.get(`${apiUrl}/2`).then(data => this.resultsPush(data.body))
+          Vue.http.get(`${apiUrl}/3`).then(data => this.resultsPush(data.body)).then(() => this.resultsIsChanged(false))
+        })
+      }
+    },
+    clearResults () {
+      if (this.resultsChanged) { this.resultsClear() }
+    }
+  },
 
   components: { TableItem },
 
-  mounted () {
-    if (this.resultsChanged) {
-      Vue.http.get(`${apiUrl}/1`).then(data => {
-        this.resultsPush(data.body)
+  mounted () { this.getResults() },
 
-        Vue.http.get(`${apiUrl}/2`).then(data => this.resultsPush(data.body))
-        Vue.http.get(`${apiUrl}/3`).then(data => this.resultsPush(data.body)).then(() => this.resultsIsChanged(false))
-      })
+  watch: {
+    resultsChanged: function (val) {
+      this.clearResults()
+      this.getResults()
     }
   }
 }

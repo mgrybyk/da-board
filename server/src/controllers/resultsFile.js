@@ -75,14 +75,18 @@ function parseCopyComplete (allureInput, timestamp) {
     properties.parse(path.join(allureInput, CONFIG.allureEnvProperties), { path: true, namespaces: true }, (err, obj) => {
       if (err) return reject(err)
 
-      let dbRecord = { 'timestamp': timestamp * 1, processName: obj.processName }
-      dbRecord.build = obj.build
-      dbRecord.test = obj.test
+      let dbRecord = {
+        timestamp: timestamp * 1,
+        name: obj.name,
+        build: Object.assign({}, obj.build),
+        test: Object.assign({}, obj.test)
+      }
 
+      // currently supported either rest or ui
       if (dbRecord.test.type.startsWith('rest')) dbRecord.test.type = 'rest'
       else if (dbRecord.test.type.startsWith('ui')) dbRecord.test.type = 'ui'
 
-      // set icon
+      // set icon. Maybe move to ui
       if (dbRecord.test.type === 'rest') dbRecord.test.icon = 'terminal'
       else if (dbRecord.test.type !== 'ui') dbRecord.test.icon = 'question'
       else if (!dbRecord.test.browser) dbRecord.test.icon = 'globe'
@@ -92,8 +96,7 @@ function parseCopyComplete (allureInput, timestamp) {
       else if (dbRecord.test.browser.toLowerCase().includes('edge')) dbRecord.test.icon = 'edge'
       else dbRecord.test.icon = 'globe'
 
-      log.verbose(`COPY_COMPLETE parsed, spent ${timeSpent(timeStart)}`)
-      log.verbose(dbRecord)
+      log.verbose(`COPY_COMPLETE parsed, spent ${timeSpent(timeStart)}`, dbRecord)
       resolve(dbRecord)
     })
   })
@@ -110,7 +113,7 @@ function moveToResultsAndParseStatistic (dbRecord, allureOutputData, timestamp) 
       log.verbose(`test results moved to results folder, spent ${timeSpent(timeStart)}`)
 
       timeStart = Date.now()
-      fse.readJson(path.join(resultsDir, 'total.json'), function (errJson, totalJson) {
+      fse.readJson(path.join(resultsDir, 'total.json'), (errJson, totalJson) => {
         log.verbose(`statistic file parsed, spent ${timeSpent(timeStart)}`)
         if (errJson) return reject(errJson)
         dbRecord.test.failures = totalJson.statistic.failed + totalJson.statistic.broken
@@ -128,10 +131,10 @@ function saveResultRecord (dbRecord) {
     let timeStart = Date.now()
     let result = new Results(dbRecord)
     result.save(function (err, saved) {
-      log.verbose(`work with databased completed, spent ${timeSpent(timeStart)}`)
+      log.verbose(`saved to database, spent ${timeSpent(timeStart)}`)
       if (err) return reject(err)
-      log.info(`test results are now available: ${dbRecord.timestamp}`)
-      log.verbose(dbRecord.statistic)
+      log.info(`test results are now available: ${dbRecord.timestamp}`, dbRecord.test)
+      io.emit('SOCKET_RESULTS_CHANGED')
       resolve()
     })
   })
