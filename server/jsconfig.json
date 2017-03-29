@@ -8,6 +8,7 @@
     "db",
     "workDir",
     "allure-cli",
-    "www/static"
+    "www/static",
+    "www/assets"
   ]
 }
