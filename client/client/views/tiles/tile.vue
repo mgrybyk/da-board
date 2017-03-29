@@ -22,7 +22,7 @@
     <div class="box-height">
       <div class="env-details">
         <p class="title">{{ config.type }}</p>
-        <p class="env-detail">{{ tile ? tile.package : '' }} {{config.sortBy}}</p>
+        <p class="env-detail">{{ tile ? tile.package : '' }}</p>
         <p class="env-detail db-name">{{ config.dbName }} {{ config.dbVersion }}</p>
         <i :class="'fa fa-' + (config.isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
