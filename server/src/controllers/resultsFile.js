@@ -78,6 +78,7 @@ function parseCopyComplete (allureInput, timestamp) {
       let dbRecord = {
         timestamp: timestamp * 1,
         name: obj.name,
+        integration: obj.integration,
         build: Object.assign({}, obj.build),
         test: Object.assign({}, obj.test)
       }
