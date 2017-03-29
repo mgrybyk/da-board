@@ -7,7 +7,7 @@ exports.updateBuild = (req, res, next) => {
 
   log.verbose('updateBuild', req.body)
 
-  Build.getBuild((err, build) => {
+  Build.getOne((err, build) => {
     if (err) return next(err, req, res, next)
 
     if (!build) build = new Build()

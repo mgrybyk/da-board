@@ -4,7 +4,7 @@ var pathToWorkDir = 'workDir'
 
 module.exports = {
   host: '',
-  port: 80,
+  port: 81,
 
   pathToApp: pathToApp,
   appHtml: pathToApp + '/index.html',

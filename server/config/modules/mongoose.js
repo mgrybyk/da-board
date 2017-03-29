@@ -1,7 +1,7 @@
 'use strict'
 
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://docker-sda/daBoard', {
+mongoose.connect('mongodb://localhost/daBoard', {
   reconnectInterval: 15000,
   reconnectTries: 300
 })
