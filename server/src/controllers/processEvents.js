@@ -61,8 +61,7 @@ exports.setProcessRunning = (req, res, next) => {
       let integration = $store.getters.integrations[config.integration.name]
       result.processUrl = formatStr(integration.processUrlTemplate,
         Object.assign({}, { rootUrl: integration.rootUrl }, config.integration.props, { processId: req.body.processId }))
-    }
-    result.processUrl = req.body.processId
+    } else { result.processUrl = undefined }
 
     if ($store.getters.build.package) {
       result.isValid = $store.getters.build.package === result.package
