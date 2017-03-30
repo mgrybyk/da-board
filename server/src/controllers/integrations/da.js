@@ -41,11 +41,21 @@ exports.daProcessEnded = (req, res, next) => {
     }
 
     // build request body for "dashboard.processEnded"
-    req.body = buildReqBody(req.body.status, processName.value)
+    if (req.body.status === 'RUNNING') {
+      log.verbose('WARN: DA subscription failed to send proper status! Performing additional request to DA.')
+      request.get(formatUrl(da.remote.getStatusAgain.urlTemplate, { rootUrl: da.rootUrl, requestId: req.body.id }), {
+        'auth': da.auth
+      }, (stErr, stRes, stBody) => {
+        if (stErr) return next(error, req, res, next)
 
-    // trigger "dashboard.processEnded"
-    // res.redirect('/api/processEnded')
-    processEvents.setProcessEnded(req, res, next)
+        log.verbose('daProcessEnded, additional request made to get status:', req.body.status)
+        req.body = buildReqBody(stBody.status, processName.value)
+        processEvents.setProcessEnded(req, res, next)
+      })
+    } else {
+      req.body = buildReqBody(req.body.status, processName.value)
+      processEvents.setProcessEnded(req, res, next)
+    }
   })
 }
 
