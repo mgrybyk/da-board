@@ -187,7 +187,10 @@ article.with-stripe {
   &.color-cancelled {
     background-color: #eee;
     i.env-icon {
-      color: #000;
+      color: #171717;
+    }
+    p {
+      color: #171717;
     }
   }
 }
