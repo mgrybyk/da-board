@@ -1,6 +1,6 @@
 <template>
-  <tr>
-    <td class="is-icon icon-center">
+  <tr :class="item.test.failures > 0 && 'failed'">
+    <td class="is-icon icon-center" :class="item.test.icon">
       <a :href="'/results/' + item.timestamp + '/#/'" target="_blank">
         <i :class="'fa fa-' + (item.test.icon || 'question-circle-o')"></i>
       </a>
@@ -18,7 +18,7 @@
       <span :title="configs[item.name] && configs[item.name].hostname">{{ configs[item.name] && configs[item.name].osNameExt }}</span>
     </td>
     <td class="is-icon icon-center">
-      <i class="fa fa-database" :title="configs[item.name] && configs[item.name].dbName + ' ' + configs[item.name] && configs[item.name].dbVersion"></i>
+      <i class="fa fa-database" :class="configs[item.name] && configs[item.name].dbName" :title="(configs[item.name] && configs[item.name].dbName) + ' ' + (configs[item.name] && configs[item.name].dbVersion)"></i>
     </td>
     <td class="hide-column-medium">
       {{ configs[item.name] && configs[item.name].dbName }} {{ configs[item.name] && configs[item.name].dbVersion }}
@@ -58,7 +58,66 @@ export default {
 </script>
 
 <style lang="scss">
-
+tr.failed {
+  background-color: rgba(255,0,0, 0.1);
+  &:hover {
+    background-color: rgba(255,0,0, 0.2);
+  }
+}
+i.fa {
+  transition: color .3s;
+}
+td.is-icon {
+  transition: background-color .3s;
+  a {
+    padding: 4px 8px;
+    margin: -4px -8px;
+  }
+}
+td.internet-explorer {
+  $ie-color: #29b6f6;
+  i { color: $ie-color; }
+  &:hover {
+    background-color: $ie-color;
+    i { color: #fff; }
+  }
+}
+td.firefox {
+  $ff-color: #f58d00;
+  i { color: $ff-color; }
+  &:hover {
+    background-color: $ff-color;
+    i { color: #fff; }
+  }
+}
+td.chrome { 
+  $ch-color: #71d375;
+  i { color: $ch-color; }
+  &:hover {
+    background-color: $ch-color;
+    i { color: #fff; }
+  }
+}
+td.terminal {
+  $term-color: #34495e;
+  i { color: $term-color; }
+  &:hover {
+    background-color: $term-color;
+    i { color: #fff; }
+  }
+}
+i.fa-windows {
+  color: #19a0d0;
+}
+i.fa-linux {
+  color: #5f5f00;
+}
+i.fa-database.Oracle {
+  color: #bd0000;
+}
+i.fa-database.MSSQL {
+  color: #f3a62d;
+}
 </style>
 <!--
                 <tr>
