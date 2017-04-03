@@ -2,6 +2,7 @@
 
 // see http://vuejs-templates.github.io/webpack for documentation.
 const path = require('path')
+const backendUrl = 'http://docker-sda:81'
 
 module.exports = {
   build: {
@@ -24,8 +25,8 @@ module.exports = {
     assetsSubDirectory: 'assets',
     assetsPublicPath: '/',
     proxyTable: {
-        '/socket.io': {target:'http://localhost:81', ws:true},
-        '/api': {target:'http://localhost:81'}
+        '/socket.io': {target: backendUrl, ws:true},
+        '/api': {target: backendUrl}
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
