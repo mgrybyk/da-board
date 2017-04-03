@@ -16,7 +16,7 @@ const request = require('request')
 // code will be rewritten once deployment requests are ready.
 // Hopefully it will be removed.
 exports.daProcessEnded = (req, res, next) => {
-  log.verbose('daProcessEnded', req.body.status)
+  log.verbose('daProcessEnded', req.body.result)
 
   if (!req.body.externalData || !req.body.externalData.name || !req.body.externalData.propName) {
     console.log(req.body)
@@ -41,23 +41,8 @@ exports.daProcessEnded = (req, res, next) => {
     }
 
     // build request body for "dashboard.processEnded"
-    if (req.body.status === 'RUNNING') {
-      log.verbose('WARN: DA subscription failed to send proper status! Performing additional request to DA.')
-      setTimeout(() => {
-        request.get(formatUrl(da.remote.getStatusAgain.urlTemplate, { rootUrl: da.rootUrl, requestId: req.body.id }), {
-          'auth': da.auth
-        }, (stErr, stRes, stBody) => {
-          if (stErr) return next(error, req, res, next)
-
-          log.verbose('daProcessEnded, additional request made to get status:', req.body.status)
-          req.body = buildReqBody(stBody.status, processName.value)
-          processEvents.setProcessEnded(req, res, next)
-        })
-      }, 15000)
-    } else {
-      req.body = buildReqBody(req.body.status, processName.value)
-      processEvents.setProcessEnded(req, res, next)
-    }
+    req.body = buildReqBody(req.body.result, processName.value)
+    processEvents.setProcessEnded(req, res, next)
   })
 }
 
@@ -72,13 +57,13 @@ function getProcessName (body, propName, req, res, next) {
   }
 }
 
-function buildReqBody (status, processName) {
+function buildReqBody (result, processName) {
   let body = {}
 
   body.name = processName
-  if (status === 'FAILED') {
+  if (result === 'FAULTED') {
     body.isFailure = true
-  } else if (status === 'SUCCESS') {
+  } else if (result === 'SUCCEEDED') {
     body.isFailure = false
   } else {
     body.isCancelled = true
