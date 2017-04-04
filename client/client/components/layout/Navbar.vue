@@ -10,11 +10,7 @@
         <div class="nav-center">
           <a class="nav-item hero-brand" href="/#/">
             <img src="~assets/favicon.png" :alt="pkginfo.description">
-            <tooltip :label="buildPackage && buildPackage.substring(0,10)" placement="right" :type="tooltipColor" size="medium" :no-animate="false" :always="true" :rounded="true" :nothing="notifyPackage">
-              <div class>
-                <span class="vue">Da</span><strong class="admin">Board</strong>
-              </div>
-            </tooltip>
+            <span class="vue">Da</span><strong class="admin">Board</strong>
           </a>
         </div>
         <div class="nav-right is-flex"></div>
@@ -27,22 +23,17 @@
 </template>
 
 <script>
-import Tooltip from 'vue-bulma-tooltip'
 import Auth from './Auth'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
 
   components: {
-    Tooltip,
     Auth
   },
 
   data () {
-    return {
-      newPackage: false,
-      prevPackage: ''
-    }
+    return { }
   },
 
   props: {
@@ -52,26 +43,8 @@ export default {
   computed: {
     ...mapGetters({
       pkginfo: 'pkg',
-      sidebar: 'sidebar',
-      buildNumber: 'buildNumber',
-      buildPackage: 'buildPackage'
-    }),
-    tooltipColor () {
-      if (this.newPackage) {
-        setTimeout(() => { this.newPackage = false }, 1000)
-        return 'warning'
-      }
-      return 'success'
-    },
-    notifyPackage () {
-      if (this.prevPackage === '') {
-        this.prevPackage = this.buildPackage
-        return
-      }
-      if (this.buildPackage === this.prevPackage) return
-      this.newPackage = true
-      this.prevPackage = this.buildPackage
-    }
+      sidebar: 'sidebar'
+    })
   },
 
   methods: mapActions([
@@ -112,20 +85,6 @@ export default {
   .admin {
     color: #28374B;
   }
-}
-
-div.nav-center {
-  margin-left: -60px;
-}
-
-div.tooltip--medium:after {
-  width: 120px;
-}
-div [class*=tooltip--]:after {
-  transition: background-color 1s !important;
-}
-div .tooltip--right:before {
-  transition: border-right-color 1s !important;
 }
 </style>
 

@@ -56,3 +56,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.level-item {
+  justify-content: initial;
+}
+</style>
