@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style lang="scss">
-tr.failed {
+.table.is-striped tbody tr.failed {
   background-color: rgba(255,0,0, 0.1);
   &:hover {
     background-color: rgba(255,0,0, 0.2);
