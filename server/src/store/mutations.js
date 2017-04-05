@@ -53,7 +53,7 @@ const mutations = {
     if (_.isEqual(state.charts[chart.name].data, chart.data)) return
     state.charts[chart.name].data = chart.data
 
-    if (state.charts.__init) io.emit('SOCKET_CHART', chart)
+    if (state.charts.__init) io.emit('SOCKET_CHARTS_UPDATE_ONE', chart)
   },
   chartsInitiated (state) {
     state.charts.__init = true
