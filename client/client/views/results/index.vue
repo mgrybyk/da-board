@@ -108,14 +108,14 @@ export default {
 </style>
 
 <style lang="scss">
-  td.icon-center {
+  td.is-icon {
     text-align: center;
-    i {
-      margin-top: 3px;
-    }
   }
   .table-responsive .table td {
     vertical-align: middle;
+  }
+  i.fa {
+    vertical-align: initial;
   }
 
   @media (max-width:480px)

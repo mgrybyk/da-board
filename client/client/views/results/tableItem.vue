@@ -1,6 +1,6 @@
 <template>
   <tr :class="item.test.failures > 0 && 'failed'">
-    <td class="is-icon icon-center" :class="item.test.icon">
+    <td class="is-icon has-link" :class="item.test.icon">
       <a :href="'/results/' + item.timestamp + '/#/'" target="_blank">
         <i :class="'fa fa-' + (item.test.icon || 'question-circle-o')"></i>
       </a>
@@ -11,13 +11,13 @@
     <td>
       <span :title="item.name">{{ configs[item.name] ? configs[item.name].type : item.name }}</span>
     </td>
-    <td class="is-icon icon-center">
+    <td class="is-icon">
       <i :class="'fa fa-' + (configs[item.name] && configs[item.name].isNix ? 'linux' : 'windows')" :title="configs[item.name] && configs[item.name].osNameExt"></i>
     </td>
     <td class="hide-column-medium">
       <span :title="configs[item.name] && configs[item.name].hostname">{{ configs[item.name] && configs[item.name].osNameExt }}</span>
     </td>
-    <td class="is-icon icon-center">
+    <td class="is-icon">
       <i class="fa fa-database" :class="configs[item.name] && configs[item.name].dbName" :title="(configs[item.name] && configs[item.name].dbName) + ' ' + (configs[item.name] && configs[item.name].dbVersion)"></i>
     </td>
     <td class="hide-column-medium">
@@ -67,11 +67,19 @@ export default {
 i.fa {
   transition: color .3s;
 }
-td.is-icon {
+td.is-icon.has-link {
+  padding: 0;
+  height: 1px;
   transition: background-color .3s;
   a {
-    padding: 4px 8px;
-    margin: -4px -8px;
+    min-height: 32px;
+    display: block;
+    padding: .25em .5em;
+    height: 100%;
+    i {
+      position: relative;
+      top: calc(50% - 12px);
+    }
   }
 }
 td.internet-explorer {
