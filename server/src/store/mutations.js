@@ -20,6 +20,10 @@ const mutations = {
     state.integrations[entry.name] = entry
   },
 
+  updateHomelink (state, entry) {
+    state.homelinks[entry.name] = entry
+  },
+
   updateStage (state, stage) {
     state.stageCharts[stage.name] = stage
   },

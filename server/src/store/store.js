@@ -4,17 +4,6 @@ const getters = require('./getters')
 const mutations = require('./mutations')
 
 const state = {
-  // testStatuses: {
-  //   FAILED: 'failed',
-  //   PASSED: 'passed',
-  //   RUNNING: 'running'
-  // },
-  // chartStatuses: {
-  //   FAILED: 0,
-  //   PASSED: 1,
-  //   RUNNING: 2,
-  //   NOT_EXECUTED: 3
-  // },
   executionStatuses: {
     FAILED: { idx: 0, name: 'failed' },
     PASSED: { idx: 1, name: 'passed' },
@@ -29,7 +18,7 @@ const state = {
   build: {},
   integrations: {},
   stageCharts: {},
-  homeLinks: {}
+  homelinks: {}
 }
 
 Manager.use({

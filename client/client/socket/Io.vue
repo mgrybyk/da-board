@@ -19,6 +19,9 @@ export default {
 
     this.$options.sockets.SOCKET_INTEGRATIONS = data => this.socketIntegrations(data)
 
+    this.$options.sockets.SOCKET_HOMELINKS = data => this.socketHomeLinks(data)
+    this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE = data => this.socketHomeLinksUpdateOne(data)
+
     this.$options.sockets.SOCKET_TIME_SYNC = data => this.timeSync(data.time - new Date().getTime())
 
     this.$options.sockets.connect = () => {
@@ -31,6 +34,8 @@ export default {
       this.$socket.emit('GET_BUILD')
 
       this.$socket.emit('GET_INTEGRATIONS')
+
+      this.$socket.emit('GET_HOMELINKS')
 
       this.$socket.emit('TIME_SYNC')
 
@@ -53,6 +58,9 @@ export default {
 
     delete this.$options.sockets.SOCKET_INTEGRATIONS
 
+    delete this.$options.sockets.SOCKET_HOMELINKS
+    delete this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE
+
     delete this.$options.sockets.SOCKET_TIME_SYNC
   },
 
@@ -72,6 +80,9 @@ export default {
       'socketBuild',
 
       'socketIntegrations',
+
+      'socketHomeLinks',
+      'socketHomeLinksUpdateOne',
 
       'timeSync'
     ])

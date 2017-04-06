@@ -36,8 +36,13 @@ module.exports = io => {
 
     // integrations
     socket.on('GET_INTEGRATIONS', (data) => {
-      console.log('SOCKET_INTEGRATIONS')
       socket.emit('SOCKET_INTEGRATIONS', $store.getters.integrations)
+    })
+
+    // integrations
+    socket.on('GET_HOMELINKS', (data) => {
+      console.log('SOCKET_HOMELINKS')
+      socket.emit('SOCKET_HOMELINKS', $store.getters.homelinks)
     })
 
     // time sync

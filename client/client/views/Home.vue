@@ -25,17 +25,37 @@
 
   <h2>Links</h2>
   <div class="home-table">
-    <table></table>
+    <table class="table is-bordered is-striped is-narrow">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <TableItem
+          v-for="(item, key) in homeLinks"
+          :item="item"
+          :key="item._id">
+        </TableItem>
+      </tbody>
+    </table>
   </div>
 </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import TableItem from './home/tableItem'
 
 export default {
-  components: { },
+  components: { TableItem },
 
   beforeMount () { },
+
+  computed: mapGetters({
+    homeLinks: 'homeLinks'
+  }),
 
   destroyed () { },
 
@@ -53,19 +73,25 @@ export default {
   display: flex;
   flex-wrap: wrap;
 
-  & .home-tile {
+  .home-tile {
     height: 180px;
     width: 200px;
     margin: 10px 20px 30px 0;
     background-color: #f57070;
-    transition: background-color .3s;
+    transition: background-color .5s;
 
     &:hover {
       background-color: #ea5454;
       box-shadow: inset 0 0px 3px 2px #B83B5E;
+      i {
+        color: #f9f7f2;
+      }
+      span {
+        transform: scale(1.05);
+      }
     }
 
-    & a {
+    a {
       color: #f9f7f2;
       padding: 20px;
       display: flex;
@@ -75,12 +101,15 @@ export default {
       justify-content: space-between;
       flex-direction: column;
     }
-    & i {
+    i {
+      transition: color .4s;
       font-size: 86px;
+      color: #522546;
     }
-    & span {
+    span {
       text-align: center;
       font-size: 22px;
+      transition: transform .3s;
     }
   }
 }

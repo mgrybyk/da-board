@@ -51,6 +51,16 @@ export const socketIntegrationsUpdateOne = ({ commit }, integration) => {
   commit(types.SOCKET_INTEGRATIONS_UPDATE_ONE, integration)
 }
 
+// Home Links
+
+export const socketHomeLinks = ({ commit }, data) => {
+  commit(types.SOCKET_HOMELINKS, data)
+}
+
+export const socketHomeLinksUpdateOne = ({ commit }, integration) => {
+  commit(types.SOCKET_HOMELINKS_UPDATE_ONE, integration)
+}
+
 // Home Charts
 
 export const socketChartsUpdateOne = ({ commit }, chart) => {

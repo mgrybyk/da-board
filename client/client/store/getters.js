@@ -28,6 +28,7 @@ const buildPackage = state => state.build.package
 const buildNumber = state => state.build.number
 const timeDiff = state => state.timeDiff.timeDiff
 const auth = state => state.auth
+const homeLinks = state => state.homeLinks.data
 const componententry = state => {
   return state.menu.items.filter(c => c.meta && c.meta.label === 'Components')[0]
 }
@@ -51,5 +52,6 @@ export {
   buildNumber,
   timeDiff,
   auth,
+  homeLinks,
   componententry
 }

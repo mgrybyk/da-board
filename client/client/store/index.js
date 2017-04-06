@@ -13,6 +13,7 @@ import configs from './modules/configs'
 import build from './modules/build'
 import timeDiff from './modules/timeDiff'
 import auth from './modules/auth'
+import homeLinks from './modules/homeLinks'
 import menu from './modules/menu'
 
 Vue.use(Vuex)
@@ -31,6 +32,7 @@ const store = new Vuex.Store({
     build,
     timeDiff,
     auth,
+    homeLinks,
     menu
   },
   state: {

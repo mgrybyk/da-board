@@ -10,7 +10,9 @@ const getters = {
 
   executionStatuses: state => state.executionStatuses,
 
-  integrations: state => state.integrations
+  integrations: state => state.integrations,
+
+  homelinks: state => state.homelinks
 }
 
 module.exports = getters

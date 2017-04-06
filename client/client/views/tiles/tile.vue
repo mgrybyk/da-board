@@ -230,9 +230,6 @@ article.with-stripe {
       display: block;
       color: #fff;
     }
-    span {
-      vertical-align: middle;
-    }
     &:hover {
       background-color: rgba(119, 119, 119, 1);
     }
@@ -243,7 +240,6 @@ article.with-stripe {
       span {
         position: relative;
         z-index: 33;
-        top: -2px;
         font-weight: 700;
         color: #ff8d13;
       }

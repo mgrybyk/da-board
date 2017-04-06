@@ -25,9 +25,9 @@ async function init () {
   await $store.dispatch('setConfigs')
   await $store.dispatch('setBuild')
   await $store.dispatch('setTiles')
+  await $store.dispatch('setHomelinks')
   $store.dispatch('checkValidityStartup')
   $store.dispatch('recalcSorting', { sortBy: Number.MAX_VALUE })
-  // await $store.dispatch('setHomeLinks')
 }
 init()
 
