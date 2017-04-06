@@ -6,5 +6,6 @@ module.exports = Object.assign(
   require('./integrations'),
   require('./results'),
   require('./stageCharts'),
-  require('./tiles')
+  require('./tiles'),
+  require('./homelinks')
 )
