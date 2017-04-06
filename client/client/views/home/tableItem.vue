@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>
-      <a :href="item.name">{{ item.name }}</a>
+      <a :href="item.link" target="_blank">{{ item.name }}</a>
     </td>
     <td>
       {{ item.details }}
