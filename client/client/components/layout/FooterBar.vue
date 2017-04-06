@@ -1,11 +1,11 @@
 <template>
-  <footer class="footer">
+  <!--footer class="footer">
     <div class="container">
       <div class="content has-text-centered">
         <p>ads</p>
       </div>
     </div>
-  </footer>
+  </footer-->
 </template>
 
 <script>
