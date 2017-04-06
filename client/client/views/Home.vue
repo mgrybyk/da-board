@@ -84,20 +84,4 @@ export default {
     }
   }
 }
-
-// .is-cyan {
-//   background-color: #6acbef;
-//   transition: background-color 0.5s;
-// }
-// .is-cyan:hover {
-//   background-color: #43b6e0;
-// }
-// .is-purple {
-//   background-color: #694de2;
-//   transition: background-color 0.5s;
-// }
-// .is-purple:hover {
-//   background-color: #4c32bb;
-// }
-
 </style>
