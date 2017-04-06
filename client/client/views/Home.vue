@@ -1,24 +1,33 @@
 <template>
-  <div class="content has-text-centered">
-
-    <div class="tile is-ancestor">  
-      <div class="tile is-parent is-3">
-        <article class="tile is-child notification is-purple">
-          <span class="tile-text">
-            <a href="/#/dashboard"><i class="fa fa-tachometer"></i></a>
-          </span>
-        </article>
-      </div>
-      <div class="tile is-parent is-3">
-        <article class="tile is-child notification is-cyan">
-          <span class="tile-text">
-            <a href="/#/results"><i class="fa fa-table"></i></a>
-          </span>
-        </article>
-      </div>
+<div>
+  <div class="home-tiles">
+    <div class="home-tile is-cyan">
+      <a href="/#/configurations">
+        <i class="fa fa-laptop"></i>
+        <span>Configurations</span>
+      </a>
     </div>
-
+    
+    <div class="home-tile is-purple">
+      <a href="/#/results">
+        <i class="fa fa-table"></i>
+        <span>Results</span>
+      </a>
+    </div>
+    
+    <div class="home-tile is">
+      <a href="/#/charts">
+        <i class="fa fa-pie-chart"></i>
+        <span>Charts</span>
+      </a>
+    </div>
   </div>
+
+  <h2>Links</h2>
+  <div class="home-table">
+    <table></table>
+  </div>
+</div>
 </template>
 
 <script>
@@ -40,37 +49,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div.content {
-  line-height: normal;
-}
-.is-cyan {
-  background-color: #6acbef;
-  transition: background-color 0.5s;
-}
-.is-cyan:hover {
-  background-color: #43b6e0;
-}
-.is-purple {
-  background-color: #694de2;
-  transition: background-color 0.5s;
-}
-.is-purple:hover {
-  background-color: #4c32bb;
-}
-.tile a {
-  color: #fff;
-  font-size: 6em;
-  vertical-align: middle;
-  display: table-cell;
-  border-bottom: none;
-}
-.tile a:visited {
-  color: #fff;
-}
-.tile-text {
+.home-tiles {
+  display: flex;
+  flex-wrap: wrap;
 
+  & .home-tile {
+    height: 180px;
+    width: 200px;
+    margin: 10px 20px 30px 0;
+    background-color: #f57070;
+    transition: background-color .3s;
+
+    &:hover {
+      background-color: #ea5454;
+      box-shadow: inset 0 0px 3px 2px #B83B5E;
+    }
+
+    & a {
+      color: #f9f7f2;
+      padding: 20px;
+      display: flex;
+      height: 100%;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+    & i {
+      font-size: 86px;
+    }
+    & span {
+      text-align: center;
+      font-size: 22px;
+    }
+  }
 }
-article.notification {
-  padding: 2.75rem 0.5rem 0rem 0.5rem;
-}
+
+// .is-cyan {
+//   background-color: #6acbef;
+//   transition: background-color 0.5s;
+// }
+// .is-cyan:hover {
+//   background-color: #43b6e0;
+// }
+// .is-purple {
+//   background-color: #694de2;
+//   transition: background-color 0.5s;
+// }
+// .is-purple:hover {
+//   background-color: #4c32bb;
+// }
+
 </style>

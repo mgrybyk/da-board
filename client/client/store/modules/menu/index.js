@@ -20,7 +20,7 @@ const state = {
       name: 'Charts',
       path: '/charts',
       meta: {
-        icon: 'fa-tachometer'
+        icon: 'fa-pie-chart'
       },
       component: lazyLoading('charts', true)
     },
