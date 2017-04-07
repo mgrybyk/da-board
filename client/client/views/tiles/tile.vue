@@ -12,7 +12,12 @@
                 <a v-on:click="tileAction(index)" class="action">{{ index }}</a>
               </li>
               <li v-if="auth.isAuth && Object.keys(actions).length > 0" class="divider"></li>
-              <li><a href="http://google.com" target="_blank">Provider Admin</a></li>
+              <li v-for="(item, index) in config.links">
+                <a :href="formatUrl(item)" target="_blank">{{ index }}</a>
+              </li>
+              <li v-if="Object.keys(config.links || {}).length > 0 && (config.hostname || config.dbHostname)" class="divider"></li>
+              <li><a v-if="config.hostname" @click="copyToClipboard" class="action">Copy hostname<textarea class="hidden">{{config.hostname}}</textarea></a></li>
+              <li><a v-if="config.dbHostname" @click="copyToClipboard" class="action">Copy db host<textarea class="hidden">{{config.dbHostname}}</textarea></a></li>
             </ul>
           </div>
         </div>
@@ -21,9 +26,10 @@
     </div>
     <div class="box-height">
       <div class="env-details">
-        <p class="title">{{ config.type }}</p>
+        <p class="title" :title="config.hostname || ''">{{ config.name }}</p>
+        <p class="env-detail type">{{ config.type }}</p>
         <p class="env-detail">{{ tile ? tile.package : '' }}</p>
-        <p class="env-detail db-name">{{ config.dbName }} {{ config.dbVersion }}</p>
+        <p class="env-detail db-name" :title="config.dbHostname || ''">{{ config.dbName }} {{ config.dbVersion }}</p>
         <i :class="'fa fa-' + (config.isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
       </div>
@@ -41,17 +47,53 @@
       </a>
     </div>
   </article>
+
+  <modal :visible="showModal" @close="closeModalBasic">
+    <div class="box">
+      <h1 class="title">Confirmation!</h1>
+
+      <form v-on:submit.prevent="submit">
+        <div class="block">
+          <h4 class="title is-4">Are you sure you want to <strong>{{actionName}}</strong> <u>{{tile.name}}</u></h4>
+
+          <p class="control">
+            <button class="button is-primary" type="submit">Yes</button>
+            <button class="button is-link" @click="closeModalBasic" type="button">No</button>
+          </p>
+        </div>
+      </form>
+
+    </div>
+  </modal>
 </div>
 </template>
 
 <script>
+import { Modal } from 'vue-bulma-modal'
+
+const formatString = (str, params) => {
+  if (str === null || str === undefined) {
+    return str
+  }
+  Object.keys(params).forEach(key => {
+    str = str.replace(new RegExp(`\\{\\{${key}\\}\\}`, 'g'), params[key])
+  })
+
+  return str
+}
+
 export default {
-  components: { },
+  created () {
+    window.addEventListener('keyup', this.closeByEscape)
+  },
+  components: { Modal },
 
   data () {
     return {
+      showModal: false,
       timer: true,
-      visible: false
+      visible: false,
+      actionName: null
     }
   },
 
@@ -72,7 +114,35 @@ export default {
       }
     },
     tileAction (actionName) {
-      this.$socket.emit('INTEGRATION_ACTION', { configName: this.config.name, action: actionName })
+      this.actionName = actionName
+      this.openModalBasic()
+    },
+    openModalBasic () {
+      this.showModal = true
+    },
+    closeModalBasic () {
+      this.showModal = false
+      this.actionName = null
+    },
+    closeByEscape (ev) {
+      if (this.showModal === true && ev.key === 'Escape') {
+        this.closeModalBasic()
+      }
+    },
+    submit () {
+      this.$socket.emit('INTEGRATION_ACTION', { configName: this.config.name, action: this.actionName })
+      this.closeModalBasic()
+    },
+    copyToClipboard (ev) {
+      ev.toElement.firstElementChild.select()
+      document.execCommand('copy')
+    },
+    formatUrl (url) {
+      let cfgIntegration = this.config.integration
+      let integrationProps = (cfgIntegration && cfgIntegration.props) || {}
+      let rootUrl = (cfgIntegration && this.integrations[cfgIntegration.name] && this.integrations[cfgIntegration.name].rootUrl)
+      let params = { hostname: this.config.hostname, ...integrationProps, rootUrl }
+      return formatString(url, params)
     }
   },
 
@@ -125,8 +195,15 @@ export default {
       let actions = {}
       if (this.config.integration && this.config.integration.name &&
         this.integrations[this.config.integration.name] && this.integrations[this.config.integration.name].actions) {
-        actions = this.integrations[this.config.integration.name].actions
+        actions = { ...this.integrations[this.config.integration.name].actions }
       }
+      Object.keys(actions).forEach(key => {
+        let actionName = key.toLocaleLowerCase()
+        if ((this.tile.isRunning && actionName === 'run') ||
+           (!this.tile.isRunning && (key.startsWith('cancel') || key === 'abort' || key === 'stop'))) {
+          delete actions[key]
+        }
+      })
       return actions
     }
   },
@@ -246,7 +323,7 @@ article.with-stripe {
       progress {
         height: 100%;
         position: relative;
-        top: -25px;
+        top: -24px;
       }
     }
   }
@@ -269,8 +346,8 @@ article.with-stripe {
     font-size: 20px;
   }
   p.title {
-    font-size: 26px;
-    margin-bottom: 6px;
+    font-size: 24px;
+    margin-bottom: 0;
     height: 5ex;
     overflow: hidden;
   }
@@ -288,6 +365,15 @@ article.with-stripe {
 .dropdown {
     position: relative;
     display: inline-block;
+
+    .hidden {
+      opacity: 0;
+      position: absolute;
+      height: 0;
+      width: 0;
+      bottom: 0;
+      right: 0;
+    }
 }
 
 .dropdown-content {
@@ -338,106 +424,3 @@ article.with-stripe {
 }
 
 </style>
-<!--
-      <div class="tile is-parent is-3">
-        <article class="tile is-child box with-stripe color-failure" >
-          <div class="box-height">
-            <div class="env-details">
-              <i class="fa fa-firefox fa-lg env-icon"></i>
-              <p class="title">Upgrade major</p>
-              <p class="env-detail db-name">Oracle 12.1.0.2.0</p>
-              <i class="fa fa-linux fa-lg env-icon"></i>
-              <p class="env-detail os-name">Red Hat 6.8</p>
-            </div>
-          </div>
-          <div class="bottom-stripe">
-            <a style="color: #fff;"><span>See Installer<span></a>
-          <div>
-        </article>
-      </div>
-
-      <div class="tile is-parent is-3">
-        <article class="tile is-child box with-stripe color-failure" >
-          <div class="box-height">
-            <div class="env-details">
-              <i class="fa fa-firefox fa-lg env-icon"></i>
-              <p class="title">Upgrade major</p>
-              <p class="env-detail db-name">Oracle 12.1.0.2.0</p>
-              <i class="fa fa-linux fa-lg env-icon"></i>
-              <p class="env-detail os-name">Red Hat 6.8</p>
-            </div>
-          </div>
-          <div class="bottom-stripe">
-            <a style="color: #fff;"><span>See Installer<span></a>
-          <div>
-        </article>
-      </div>
-
-      <div class="tile is-parent is-3">
-        <article class="tile is-child box with-stripe color-failure" >
-          <div class="box-height">
-            <div class="env-details">
-              <i class="fa fa-firefox fa-lg env-icon"></i>
-              <p class="title">Upgrade minor</p>
-              <p class="env-detail db-name">MSSQL 2008 R2 SP1</p>
-              <i class="fa fa-windows fa-lg env-icon"></i>
-              <p class="env-detail os-name">Server 2008 R2</p>
-            </div>
-          </div>
-          <div class="bottom-stripe">
-            <a style="color: #fff;"><span>See UI<span></a>
-          <div>
-        </article>
-      </div>
-      
-      <div class="tile is-parent is-3">
-        <article class="tile is-child box with-stripe" >
-          <div class="box-height">
-            <div class="env-details">
-              <i class="fa fa-firefox fa-lg env-icon"></i>
-              <p class="title">skipDb</p>
-              <p class="env-detail db-name">MSSQL 2008 R2 SP1</p>
-              <i class="fa fa-windows fa-lg env-icon"></i>
-              <p class="env-detail os-name">Server 2008 R2</p>
-            </div>
-          </div>
-          <div class="bottom-stripe">
-            <progress class="progress is-info" value="65" max="100" style="height: 100%;">65%</progress>
-          <div>
-        </article>
-      </div>
-      
-      <div class="tile is-parent is-3">
-        <article class="tile is-child box with-stripe color-failure" >
-          <div class="box-height">
-            <div class="env-details">
-              <i class="fa fa-firefox fa-lg env-icon"></i>
-              <p class="title">Clean</p>
-              <p class="env-detail db-name">MSSQL 2008 R2 SP1</p>
-              <i class="fa fa-windows fa-lg env-icon"></i>
-              <p class="env-detail os-name">Server 2008 R2</p>
-            </div>
-          </div>
-          <div class="bottom-stripe">
-            <a style="color: #fff;"><span>See REST<span></a>
-          <div>
-        </article>
-      </div>
-    
-      <div class="tile is-parent is-3">
-        <article class="tile is-child box with-stripe color-success" >
-          <div class="box-height">
-            <div class="env-details">
-              <i class="fa fa-firefox fa-lg env-icon"></i>
-              <p class="title">useExisting</p>
-              <p class="env-detail db-name">MSSQL 2016</p>
-              <i class="fa fa-windows fa-lg env-icon"></i>
-              <p class="env-detail os-name">Server 2016</p>
-            </div>
-          </div>
-          <div class="bottom-stripe" style="display: none;">
-            <a style="color: #fff;"><span>See REST<span></a>
-          <div>
-        </article>
-      </div>
--->

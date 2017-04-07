@@ -1,0 +1,97 @@
+<template></template>
+
+<script>
+import Vue from 'vue'
+import { mapGetters } from 'vuex'
+import Notification from 'vue-bulma-notification'
+
+const NotificationComponent = Vue.extend(Notification)
+
+const openNotificationInBody = propsData => new NotificationComponent({
+  el: document.createElement('div'),
+  propsData
+})
+
+export default {
+  beforeMount () {
+    this.$options.sockets.SOCKET_INTEGRATION_ACTION_RESULT = data => this.showIntegrationActionResult(data)
+  },
+  destroyed () {
+    delete this.$options.sockets.SOCKET_INTEGRATION_ACTION_RESULT
+  },
+  components: { },
+  data () {
+    return {
+      buildChanged: false
+    }
+  },
+  methods: {
+    showNewBuild (newBuild) {
+      openNotificationInBody({
+        title: 'New Build Appeared!',
+        message: newBuild,
+        type: 'info',
+        direction: 'Right',
+        duration: 30000
+      })
+    },
+    showIntegrationActionResult (data) {
+      let msg = {
+        title: `${data.actionName} ${data.configName}`,
+        direction: 'Right'
+      }
+      if (data.isError) {
+        msg.title = 'Failed to ' + msg.title
+        msg.type = 'danger'
+        msg.message = `Error: ${data.error}`
+        msg.duration = 30000
+      } else {
+        msg.title = 'Succeeded to ' + msg.title
+        msg.type = 'info'
+        msg.message = 'Success!'
+      }
+      openNotificationInBody(msg)
+    }
+  },
+
+  computed: {
+    ...mapGetters([
+      'buildNumber',
+      'buildPackage'
+    ])
+  },
+
+  mounted () { },
+
+  watch: {
+    buildPackage: function (val) {
+      if (this.buildChanged) {
+        this.showNewBuild(this.buildPackage)
+      } else {
+        this.buildChanged = true
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+  a.login {
+    vertical-align: middle;
+  }
+  h1.title {
+    margin-bottom: 1rem;
+  }
+</style>
+<style lang="scss">
+  .modal-content {
+    max-height: calc(100vh - 60px);
+    margin: 0 35px 0 -15px;
+  }
+  @media (max-width:480px)
+  {
+    button.modal-close {
+      right: 0;
+    }
+  }
+</style>

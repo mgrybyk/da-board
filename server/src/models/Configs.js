@@ -10,12 +10,14 @@ var schema = mongoose.Schema({
   hostname: String,
   dbName: String,
   dbVersion: String,
+  dbHostname: String,
   osNameExt: String,
   browser: String,
   isNix: Boolean,
   duration: Number,
   stages: Array,
   sortBy: Number,
+  links: Object,
   disabled: Boolean
 })
 

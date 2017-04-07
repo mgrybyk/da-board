@@ -6,13 +6,14 @@
     <app-main></app-main>
     <footer-bar></footer-bar>
     <Io></Io>
+    <Notifications></Notifications>
   </div>
 </template>
 
 <script>
 import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 import { Navbar, Sidebar, AppMain, FooterBar } from 'components/layout/'
-import { Io } from './socket/'
+import { Io, Notifications } from './socket/'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -22,7 +23,8 @@ export default {
     AppMain,
     FooterBar,
     NprogressContainer,
-    Io
+    Io,
+    Notifications
   },
 
   beforeMount () {

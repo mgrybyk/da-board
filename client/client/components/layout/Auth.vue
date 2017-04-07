@@ -75,9 +75,7 @@ export default {
 
       username: '',
       password: '',
-      displayName: '',
-
-      buildChanged: false
+      displayName: ''
     }
   },
   methods: {
@@ -151,15 +149,6 @@ export default {
         duration: 3000
       })
     },
-    showNewBuild (newBuild) {
-      openNotificationInBody({
-        title: 'New Build Appeared!',
-        message: newBuild,
-        type: 'info',
-        direction: 'Right',
-        duration: 30000
-      })
-    },
     showErrorNotification (message) {
       openNotificationInModal({
         title: 'Error',
@@ -173,24 +162,12 @@ export default {
 
   computed: {
     ...mapGetters([
-      'auth',
-      'buildNumber',
-      'buildPackage'
+      'auth'
     ])
   },
 
   mounted () {
     this.getAuth()
-  },
-
-  watch: {
-    buildPackage: function (val) {
-      if (this.buildChanged) {
-        this.showNewBuild(this.buildPackage)
-      } else {
-        this.buildChanged = true
-      }
-    }
   }
 }
 </script>

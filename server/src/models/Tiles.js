@@ -12,7 +12,8 @@ var schema = mongoose.Schema({
   startTime: Number,
   stages: Object,
   processId: String,
-  processUrl: String
+  processUrl: String,
+  disabled: Boolean
 })
 
 schema.statics.getAll = cb => Model.find().exec(cb)
