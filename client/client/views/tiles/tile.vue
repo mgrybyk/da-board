@@ -30,7 +30,7 @@
         <p class="env-detail type">{{ config.type }}</p>
         <p class="env-detail">{{ tile ? tile.package : '' }}</p>
         <p class="env-detail db-name" :title="config.dbHostname || ''">{{ config.dbName }} {{ config.dbVersion }}</p>
-        <i :class="'fa fa-' + (config.isNix ? 'linux' : 'windows') + ' fa-lg env-icon'"></i>
+        <i :class="'fa-' + (config.isNix ? 'linux' : 'windows')" class="fa fa-lg env-icon"></i>
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
       </div>
     </div>
@@ -54,7 +54,7 @@
 
       <form v-on:submit.prevent="submit">
         <div class="block">
-          <h4 class="title is-4">Are you sure you want to <strong>{{actionName}}</strong> <u>{{tile.name}}</u></h4>
+          <h4 class="title is-4">Are you sure you want to <strong>{{actionName}}</strong> <u>{{config.name}}</u></h4>
 
           <p class="control">
             <button class="button is-primary" type="submit">Yes</button>
@@ -238,30 +238,23 @@ article.with-stripe {
   border-radius: 3px;
   box-shadow: 0 0 3px #dfdfdf;
 
-  &.color-failure {
-    box-shadow: 0 0 3px #f33960;
-  }
-  &.color-success {
-    box-shadow: 0 0 3px #1ac556;
-  }
-  &.color-running {
-    box-shadow: 0 0 3px #29d;
-  }
-
   p {
     color: #fff;
   }
 
   &.color-failure {
     background-color: #f33960;
+    box-shadow: 0 0 3px #f33960;
   }
   &.color-success {
     background-color: #1ac556;
+    box-shadow: 0 0 3px #1ac556;
   }
   &.color-running {
     background-color: #29d;
+    box-shadow: 0 0 3px #29d;
   }
-  &.color-cancelled {
+  &.color-cancelled, &.color-none {
     background-color: #eee;
     i.env-icon {
       color: #171717;
