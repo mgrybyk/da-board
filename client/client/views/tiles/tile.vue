@@ -134,7 +134,7 @@ export default {
       this.closeModalBasic()
     },
     copyToClipboard (ev) {
-      ev.toElement.firstElementChild.select()
+      ev.target.firstElementChild.select()
       document.execCommand('copy')
     },
     formatUrl (url) {
