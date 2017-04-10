@@ -24,9 +24,20 @@ module.exports = io => {
       socket.emit('SOCKET_CONFIGS', $store.getters.configs)
     })
     socket.on('CONFIGS_UPDATE_SORTING', (data) => {
-      console.log('CONFIGS_UPDATE_SORTING')
       $store.dispatch('updateConfigSorting', data)
       $store.dispatch('recalcSorting', data)
+    })
+    socket.on('CONFIGS_UPDATE_ONE', (data) => {
+      console.log('CONFIGS_UPDATE_ONE')
+      $store.dispatch('updateConfigDb', data)
+    })
+    socket.on('CONFIGS_NEW', (data) => {
+      console.log('CONFIGS_NEW')
+      if (!$store.getters.configs[data.name]) {
+        $store.dispatch('updateConfigDb', data)
+      } else {
+        console.log(`config with name '${data.name}' already exists.`)
+      }
     })
 
     // build
@@ -41,7 +52,6 @@ module.exports = io => {
 
     // integrations
     socket.on('GET_HOMELINKS', (data) => {
-      console.log('SOCKET_HOMELINKS')
       socket.emit('SOCKET_HOMELINKS', $store.getters.homelinks)
     })
 

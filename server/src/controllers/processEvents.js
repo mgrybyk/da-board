@@ -118,7 +118,6 @@ exports.setProcessEnded = (req, res, next) => {
     })
   })
 }
-// exports.setProcessEnded = setProcessEnded
 
 function updateDuration (tile, req, res, next) {
   if (tile.isFailure === false && tile.startTime) {

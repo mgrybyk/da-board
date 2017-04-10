@@ -20,6 +20,29 @@ const actions = {
     }
   },
 
+  updateConfigDb ({ state, commit, dispatch }, data) {
+    Configs.getOne(data.name, (err, config) => {
+      if (err) return log.error(err)
+
+      if (!config) {
+        config = new Configs(data)
+      } else {
+        Object.keys(data).forEach(key => {
+          if (!key.startsWith('_')) {
+            config[key] = data[key]
+            config.markModified(key)
+          }
+        })
+      }
+
+      config.save(err => {
+        if (err) return log.error(err)
+
+        $store.dispatch('updateConfig', config.toObject())
+      })
+    })
+  },
+
   createEmptyConfig ({ state, dispatch }, emptyConfig) {
     if (!state.configs[emptyConfig.name]) {
       let config = new Configs(emptyConfig)
