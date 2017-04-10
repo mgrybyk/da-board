@@ -316,7 +316,7 @@ article.with-stripe {
       line-height: 23px;
       span {
         position: relative;
-        z-index: 33;
+        z-index: 22;
         font-weight: 700;
         color: #ff8d13;
       }
@@ -363,6 +363,7 @@ article.with-stripe {
 
 /* Dropdown */
 .dropdown {
+    z-index: 33;
     position: relative;
     display: inline-block;
 
