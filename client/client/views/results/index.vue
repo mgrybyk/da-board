@@ -107,7 +107,7 @@ export default {
 }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
   td.is-icon {
     text-align: center;
   }
