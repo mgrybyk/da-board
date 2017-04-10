@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .table.is-striped tbody tr.failed {
   background-color: rgba(255,0,0, 0.1);
   &:hover {
@@ -127,103 +127,3 @@ i.fa-database.MSSQL {
   color: #f3a62d;
 }
 </style>
-<!--
-                <tr>
-                  <td class="is-icon">
-                    <i class="fa fa-chrome" style="color: #4aae48;"></i>
-                  </td>
-                  <td>
-                    6.1.4.984
-                  </td>
-                  <td>
-                    upgrade major
-                  </td>
-                  <td class="is-icon">
-                    <i class="fa fa-windows" style="color: #0cb3ee;"></i>
-                  </td>
-                  <td>
-                    Server 2012 R2
-                  </td>
-                  <td class="is-icon">
-                     <i class="fa fa-database" style="color: #f3a429;"></i>
-                  </td>
-                  <td>
-                    MSSQL 2008 R2 SP1
-                  </td>
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    1
-                  </td>
-
-                </tr>
-                <tr>
-                  <td class="is-icon">
-                    <i class="fa fa-internet-explorer" style="color: #29b6f6;"></i>
-                  </td>
-                  <td>
-                    6.1.4.984
-                  </td>
-                  <td>
-                    upgrade major
-                  </td>
-                  <td class="is-icon">
-                    <i class="fa fa-windows" style="color: #0cb3ee;"></i>
-                  </td>
-                  <td>
-                    Server 2016
-                  </td>
-                  <td class="is-icon">
-                    <i class="fa fa-database"></i>
-                  </td>
-                  <td>
-                    Derby
-                  </td>
-                  <td>
-                    26 Jan 10:01:42
-                    03:47:20
-                  </td>
-                  <td>
-                    2070 / 2048/4
-                  </td>
-
-                </tr>
-
-                <tr>
-                  <td class="is-icon">
-                    <i class="fa fa-firefox" style="color: #f58d00;"></i>
-                  </td>
-                  <td>
-                    6.1.4.984
-                  </td>
-                  <td>
-                    upgrade major
-                  </td>
-                  <td class="is-icon">
-                    <i class="fa fa-windows" style="color: #0cb3ee;"></i>
-                  </td>
-                  <td>
-                    Server 2016
-                  </td>
-                  <td class="is-icon">
-                    <i class="fa fa-database"></i>
-                  </td>
-                  <td>
-                    Derby
-                  </td>
-                  <td>
-                    26 Jan 10:01:42
-                    03:47:20
-                  </td>
-                  <td>
-                    2070 / 2048/4
-                  </td>
-
-                </tr>
-
-
-
-
-
--->
