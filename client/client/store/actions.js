@@ -79,6 +79,10 @@ export const socketConfigsUpdateOne = ({ commit }, config) => {
   commit(types.SOCKET_CONFIGS_UPDATE_ONE, config)
 }
 
+export const socketConfigsDelete = ({ commit }, config) => {
+  commit(types.SOCKET_CONFIGS_DELETE, config)
+}
+
 export const configsUpdateSorting = ({ commit }, tile) => {
   commit(types.CONFIGS_UPDATE_SORTING, tile)
 }

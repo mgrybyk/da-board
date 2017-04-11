@@ -47,7 +47,7 @@ const actions = {
       // commit chart
       if (_.isEqual(chart, Array.from(Array(Object.keys(state.executionStatuses).length), () => 0))) {
         if (state.charts.__init) {
-          io.emit('SOCKET_CHART_DELETE', { name: chartName })
+          commit('deleteChart', chartName)
         }
       } else {
         commit('updateChart', { name: chartName, data: chart })

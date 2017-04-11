@@ -21,14 +21,21 @@ const actions = {
   },
 
   updateConfigDb ({ state, commit, dispatch }, data) {
-    Configs.getOne(data.name, (err, config) => {
-      if (err) return log.error(err)
+    Configs.getOneById(data._id, (err, config) => {
+      if (err) {
+        log.error(err)
+        return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
+      }
 
+      let prevName = undefined
       if (!config) {
         config = new Configs(data)
       } else {
+        if (config.name !== data.name) {
+          prevName = config.name
+        }
         Object.keys(data).forEach(key => {
-          if (!key.startsWith('_')) {
+          if (!key.startsWith('_') && (config[key] !== data[key])) {
             config[key] = data[key]
             config.markModified(key)
           }
@@ -36,9 +43,13 @@ const actions = {
       }
 
       config.save(err => {
-        if (err) return log.error(err)
+        if (err) {
+          log.error(err)
+          return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
+        }
 
-        $store.dispatch('updateConfig', config.toObject())
+        dispatch('notifyDialogOk', data)
+        $store.dispatch('updateConfig', Object.assign({}, config.toObject(), { prevName }))
       })
     })
   },
@@ -88,14 +99,27 @@ const actions = {
     }
   },
 
-  deleteConfig ({ state, commit }, name) {
-    commit('deleteConfig', name)
+  removeConfigDb ({ state, commit, dispatch }, data) {
+    Configs.removeOne(data.name, (err, doc) => {
+      if (err || !doc) {
+        log.error(err)
+        return dispatch('notifyDeleteErr', Object.assign({}, data, { err }))
+      }
+      dispatch('notifyDeleteOk', data)
 
-    if (Object.keys(state.configs).length === 0) {
-      commit('deleteChart', 'Processes')
-    }
+      commit('deleteConfig', data.name)
 
-    io.emit('SOCKET_CONFIGS_DELETE', { name: name })
+      if (Object.keys(state.configs).length === 0) {
+        Object.keys(state.charts).forEach(chartName => {
+          if (!chartName.startsWith('_')) {
+            commit('deleteChart', chartName)
+          }
+        })
+      }
+
+      io.emit('SOCKET_CONFIGS_DELETE', { name: data.name })
+      dispatch('updateCharts')
+    })
   },
 
   recalcSorting ({ state, dispatch }, config) {

@@ -7,6 +7,7 @@ export default {
   beforeMount () {
     this.$options.sockets.SOCKET_CONFIGS = data => this.socketConfigs(data)
     this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE = data => this.socketConfigsUpdateOne(data)
+    this.$options.sockets.SOCKET_CONFIGS_DELETE = data => this.socketConfigsDelete(data)
 
     this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE = data => this.socketChartsUpdateOne(data)
 
@@ -46,6 +47,7 @@ export default {
   destroyed () {
     delete this.$options.sockets.SOCKET_CONFIGS
     delete this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE
+    delete this.$options.sockets.SOCKET_CONFIGS_DELETE
 
     delete this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE
 
@@ -68,6 +70,7 @@ export default {
     ...mapActions([
       'socketConfigs',
       'socketConfigsUpdateOne',
+      'socketConfigsDelete',
 
       'socketCharts',
       'socketChartsUpdateOne',

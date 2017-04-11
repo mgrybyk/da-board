@@ -124,25 +124,9 @@ function updateDuration (tile, req, res, next) {
     let duration = new Date().getTime() - tile.startTime
 
     if ($store.getters.configs[tile.name] && $store.getters.configs[tile.name].duration) {
-      duration = 0.5 * (duration + $store.getters.configs[tile.name].duration)
+      duration = 0.25 * (3 * duration + $store.getters.configs[tile.name].duration)
     }
 
-    Configs.getOne(tile.name, (err, config) => {
-      if (err || !req.body) return next(err, req, res, next)
-
-      if (!config) {
-        config = new Configs()
-        config.name = tile.name
-        config.type = 'GENERATED'
-      }
-
-      config.duration = Math.round(duration)
-      config.save(err => {
-        if (err) return next(err, req, res, next)
-
-        $store.dispatch('updateConfig', config.toObject())
-        return res.send()
-      })
-    })
+    $store.dispatch('updateConfigDb', { name: tile.name, type: 'GENERATED', duration: Math.round(duration) })
   }
 }

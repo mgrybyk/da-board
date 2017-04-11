@@ -45,11 +45,11 @@ const actions = {
     request(requestParams, (error, response, body) => {
       if (error) log.error(error)
       console.log('SOCKET_INTEGRATION_ACTION_RESULT')
-      io.emit('SOCKET_INTEGRATION_ACTION_RESULT', {
+      data['__socket'].emit('SOCKET_INTEGRATION_ACTION_RESULT', {
         actionName: data.action,
         configName: data.configName,
         isError: !!error || response.statusCode < 200 || response.statusCode > 399,
-        error: error || `Code: ${response.statusCode}; body: ${body.substr(0, 280)}${body.length > 280 && '...'}`
+        error: error || `Code: ${response.statusCode}; body: ${body.substr(0, 280)}${body.length > 280 && '...' || ''}`
       })
       console.log(response.statusCode, body)
     })

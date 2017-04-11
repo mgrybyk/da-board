@@ -29,15 +29,20 @@ module.exports = io => {
     })
     socket.on('CONFIGS_UPDATE_ONE', (data) => {
       console.log('CONFIGS_UPDATE_ONE')
-      $store.dispatch('updateConfigDb', data)
+      Object.keys(data).forEach(key => data[key] = data[key] === null ? undefined : data[key])
+      $store.dispatch('updateConfigDb', Object.assign({}, data, {'__socket': socket }))
     })
     socket.on('CONFIGS_NEW', (data) => {
       console.log('CONFIGS_NEW')
       if (!$store.getters.configs[data.name]) {
-        $store.dispatch('updateConfigDb', data)
+        $store.dispatch('updateConfigDb', Object.assign({}, data, {'__socket': socket }))
       } else {
-        console.log(`config with name '${data.name}' already exists.`)
+        $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `config with name '${data.name}' already exists.`}, {'__socket': socket }))
       }
+    })
+    socket.on('CONFIGS_DELETE', (data) => {
+      console.log('CONFIGS_DELETE')
+      $store.dispatch('removeConfigDb', Object.assign({}, data, {'__socket': socket }))
     })
 
     // build
@@ -63,7 +68,7 @@ module.exports = io => {
     // run process
     socket.on('INTEGRATION_ACTION', (data) => {
       console.log('INTEGRATION_ACTION', data.action)
-      $store.dispatch('integrationAction', data)
+      $store.dispatch('integrationAction', Object.assign({}, data, {'__socket': socket }))
     })
   })
 }

@@ -15,9 +15,13 @@ const openNotificationInBody = propsData => new NotificationComponent({
 export default {
   beforeMount () {
     this.$options.sockets.SOCKET_INTEGRATION_ACTION_RESULT = data => this.showIntegrationActionResult(data)
+    this.$options.sockets.SOCKET_DELETE_ERROR = data => this.showDeleteError(data)
+    this.$options.sockets.SOCKET_DELETE_OK = data => this.showDeleteOk(data)
   },
   destroyed () {
     delete this.$options.sockets.SOCKET_INTEGRATION_ACTION_RESULT
+    delete this.$options.sockets.SOCKET_DELETE_ERROR
+    delete this.$options.sockets.SOCKET_DELETE_OK
   },
   components: { },
   data () {
@@ -51,6 +55,23 @@ export default {
         msg.message = 'Success!'
       }
       openNotificationInBody(msg)
+    },
+    showDeleteError (data) {
+      openNotificationInBody({
+        title: 'Failed to delete ' + data.name,
+        message: `Error: ${data.error}`,
+        type: 'danger',
+        direction: 'Right',
+        duration: 10000
+      })
+    },
+    showDeleteOk (data) {
+      openNotificationInBody({
+        title: 'Success!',
+        message: `${data.name} was deleted.`,
+        type: 'info',
+        direction: 'Right'
+      })
     }
   },
 

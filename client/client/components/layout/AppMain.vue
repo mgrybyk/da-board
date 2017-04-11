@@ -42,3 +42,68 @@ export default {
   padding: 20px;
 }
 </style>
+
+<style lang="scss">
+.table-responsive {
+  display: block;
+  width: 100%;
+  min-height: .01%;
+  overflow-x: auto;
+  th {
+    text-align: center;
+  }
+}
+
+.table-responsive .table td {
+  vertical-align: middle;
+  text-align: center;
+  i.fa {
+    vertical-align: initial;
+  }
+}
+
+td.is-icon.has-link {
+  padding: 0;
+  height: 1px;
+  transition: background-color .3s;
+  i.fa {
+    transition: color .3s;
+  }
+  a {
+    min-height: 32px;
+    display: block;
+    padding: .25em .5em;
+    height: 100%;
+    i {
+      position: relative;
+      top: calc(50% - 12px);
+    }
+  }
+}
+td.is-icon.has-link {
+  $edit-color: #00d1b2;
+  i { color: $edit-color; }
+  &:hover {
+    background-color: $edit-color;
+    i { color: #fff; }
+  }
+}
+td.is-icon.remove {
+  $remove-color: #ff3860;
+  i { color: $remove-color; }
+  &:hover {
+    background-color: $remove-color;
+    i { color: #fff; }
+  }
+}
+
+// Dialog
+textarea.textarea {
+  height: auto;
+  min-height: 60px;
+}
+
+form .control:not(:last-child) {
+    margin-bottom: .75rem;
+}
+</style>

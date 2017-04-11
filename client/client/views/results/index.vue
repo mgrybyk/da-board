@@ -95,29 +95,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-responsive {
-  display: block;
-  width: 100%;
-  min-height: .01%;
-  overflow-x: auto;
-  
-  th {
-    text-align: center;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-  td.is-icon {
-    text-align: center;
-  }
-  .table-responsive .table td {
-    vertical-align: middle;
-  }
-  i.fa {
-    vertical-align: initial;
-  }
-
   @media (max-width:480px)
   {
     .table.is-narrow td, .table.is-narrow th {

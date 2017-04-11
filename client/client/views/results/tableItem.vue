@@ -64,13 +64,22 @@ export default {
     background-color: rgba(255,0,0, 0.2);
   }
 }
-i.fa {
-  transition: color .3s;
+
+.table-responsive .table td {
+  vertical-align: middle;
+  text-align: center;
+  i.fa {
+    vertical-align: initial;
+  }
 }
+
 td.is-icon.has-link {
   padding: 0;
   height: 1px;
   transition: background-color .3s;
+  i.fa {
+    transition: color .3s;
+  }
   a {
     min-height: 32px;
     display: block;

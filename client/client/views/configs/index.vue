@@ -18,7 +18,7 @@
                   <th>DbName</th>
                   <th>DbVersion</th>
                   <th>Integration</th>
-                  <th>Hide</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -55,19 +55,31 @@ export default {
       showModal: false,
       itemFiltered: {},
       model: {
-        name: { name: 'Name', isRequired: true },
-        type: { name: 'Type' },
-        hostname: { name: 'Hostname' },
-        dbName: { name: 'Database Name' },
-        dbVersion: { name: 'Database Version' },
+        name: { name: 'Name', isRequired: true, placeholder: 'env1' },
+        type: { name: 'Type', placeholder: 'Upgrade, SSL' },
+        hostname: { name: 'Hostname', placeholder: 'qa-env1' },
+        dbName: { name: 'Database Name', placeholder: 'MSSQL' },
+        dbVersion: { name: 'Database Version', placeholder: '2016' },
         dbHostname: { name: 'Database Hostname' },
-        osNameExt: { name: 'OS' },
+        osNameExt: { name: 'OS', placeholder: 'Server 2012' },
         isNix: { name: 'Is Linux?', type: Boolean },
-        browser: { name: 'Browser' },
-        stages: { name: 'Stages (comma separated)', type: Array },
-        links: { name: 'Links', type: Object },
-        integration: { name: 'Integration', type: Object },
-        disabled: { name: 'Is Disabled?', type: Boolean }
+        browser: { name: 'Browser', placeholder: 'internet-explorer', title: 'firefox, chrome, internet-explorer, edge icons are supported' },
+        stages: { name: 'Stages (comma separated)', type: Array, placeholder: 'rest,ui', title: 'stages should be comma separated' },
+        links: {
+          name: 'Links',
+          type: Object,
+          placeholder: `{ "jenkins job": "{{rootUrl}}/job/{{JOB_NAME}}",
+  "tomcat": "http://{{hostname}}:8080" }`,
+          title: 'Use variables: name, hostname, any property from integration'
+        },
+        integration: {
+          name: 'Integration',
+          type: Object,
+          placeholder: `{ "name": "qa-jenkins",
+  "props": { "JOB_NAME": "rest-env1" } }`,
+          title: 'Map config to integration and define properties if you need.'
+        },
+        disabled: { name: 'Is Disabled?', type: Boolean, title: 'config won\'t be shown in configurations any more' }
       }
     }
   },
