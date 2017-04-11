@@ -21,6 +21,10 @@ const actions = {
       commit('initChart', stage)
     } else {
       commit('deleteChart', stage.name)
+      Object.keys(state.integrations).forEach(integrationName => {
+        let chartName = `${chart.name}_${integrationName}`
+        commit('deleteChart', chartName)
+      })
     }
 
     io.emit('SOCKET_STAGE_UPDATE_ONE', state.stageCharts[stage.name])
