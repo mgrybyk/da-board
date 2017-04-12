@@ -5,7 +5,11 @@ function notify(data, eventType, err) {
     err = err.toString()
     msg.error = `${err.substr(0, 280)}${err.length > 280 && '...' || ''}`
   }
-  data['__socket'].emit(eventType, msg)
+  if (data['__socket']) {
+    data['__socket'].emit(eventType, msg)
+  } else {
+    io.emit(eventType, msg)
+  }
 }
 
 const actions = {
