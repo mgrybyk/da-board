@@ -53,6 +53,60 @@ const actions = {
       })
       console.log(response.statusCode, body)
     })
+  },
+
+  updateIntegrationDb ({ state, commit, dispatch }, data) {
+    let condition = {}
+    if (data._id) {
+      condition._id = data._id
+    } else {
+      condition.name = data.name
+    }
+    Integrations.getOneBy(condition, (err, integration) => {
+      if (err) {
+        log.error(err)
+        return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
+      }
+
+      let prevName = undefined
+      if (!integration) {
+        integration = new Integrations(data)
+      } else {
+        if (integration.name !== data.name) {
+          prevName = integration.name
+        }
+        Object.keys(data).forEach(key => {
+          if (!key.startsWith('_') && (integration[key] !== data[key])) {
+            integration[key] = data[key]
+            integration.markModified(key)
+          }
+        })
+      }
+
+      integration.save(err => {
+        if (err) {
+          log.error(err)
+          return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
+        }
+
+        dispatch('notifyDialogOk', data)
+        $store.dispatch('updateIntegration', Object.assign({}, integration.toObject(), { prevName }))
+      })
+    })
+  },
+
+  removeIntegrationDb ({ state, commit, dispatch }, data) {
+    Integrations.removeOne(data.name, (err, doc) => {
+      if (err || !doc) {
+        log.error(err)
+        return dispatch('notifyDeleteErr', Object.assign({}, data, { err }))
+      }
+      dispatch('notifyDeleteOk', data)
+
+      commit('deleteIntegration', data.name)
+
+      io.emit('SOCKET_INTEGRATIONS_DELETE', { name: data.name })
+    })
   }
 }
 

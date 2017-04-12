@@ -54,6 +54,23 @@ module.exports = io => {
     socket.on('GET_INTEGRATIONS', (data) => {
       socket.emit('SOCKET_INTEGRATIONS', $store.getters.integrations)
     })
+    socket.on('INTEGRATIONS_UPDATE_ONE', (data) => {
+      console.log('INTEGRATIONS_UPDATE_ONE')
+      Object.keys(data).forEach(key => data[key] = data[key] === null ? undefined : data[key])
+      $store.dispatch('updateIntegrationDb', Object.assign({}, data, {'__socket': socket }))
+    })
+    socket.on('INTEGRATIONS_NEW', (data) => {
+      console.log('INTEGRATIONS_NEW')
+      if (!$store.getters.integrations[data.name]) {
+        $store.dispatch('updateIntegrationDb', Object.assign({}, data, {'__socket': socket }))
+      } else {
+        $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `Integration with name '${data.name}' already exists.`}, {'__socket': socket }))
+      }
+    })
+    socket.on('INTEGRATIONS_DELETE', (data) => {
+      console.log('INTEGRATIONS_DELETE')
+      $store.dispatch('removeIntegrationDb', Object.assign({}, data, {'__socket': socket }))
+    })
 
     // homelinks
     socket.on('GET_HOMELINKS', (data) => {

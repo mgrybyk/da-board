@@ -51,6 +51,10 @@ export const socketIntegrationsUpdateOne = ({ commit }, integration) => {
   commit(types.SOCKET_INTEGRATIONS_UPDATE_ONE, integration)
 }
 
+export const socketIntegrationsDelete = ({ commit }, integration) => {
+  commit(types.SOCKET_INTEGRATIONS_DELETE, integration)
+}
+
 // Home Links
 
 export const socketHomeLinks = ({ commit }, data) => {

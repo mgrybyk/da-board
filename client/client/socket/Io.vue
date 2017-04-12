@@ -19,6 +19,8 @@ export default {
     this.$options.sockets.SOCKET_BUILD = data => this.socketBuild(data)
 
     this.$options.sockets.SOCKET_INTEGRATIONS = data => this.socketIntegrations(data)
+    this.$options.sockets.SOCKET_INTEGRATIONS_UPDATE_ONE = data => this.socketIntegrationsUpdateOne(data)
+    this.$options.sockets.SOCKET_INTEGRATIONS_DELETE = data => this.socketIntegrationsDelete(data)
 
     this.$options.sockets.SOCKET_HOMELINKS = data => this.socketHomeLinks(data)
     this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE = data => this.socketHomeLinksUpdateOne(data)
@@ -60,6 +62,8 @@ export default {
     delete this.$options.sockets.SOCKET_BUILD
 
     delete this.$options.sockets.SOCKET_INTEGRATIONS
+    delete this.$options.sockets.SOCKET_INTEGRATIONS_UPDATE_ONE
+    delete this.$options.sockets.SOCKET_INTEGRATIONS_DELETE
 
     delete this.$options.sockets.SOCKET_HOMELINKS
     delete this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE
@@ -85,6 +89,8 @@ export default {
       'socketBuild',
 
       'socketIntegrations',
+      'socketIntegrationsUpdateOne',
+      'socketIntegrationsDelete',
 
       'socketHomeLinks',
       'socketHomeLinksUpdateOne',

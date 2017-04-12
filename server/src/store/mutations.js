@@ -22,6 +22,9 @@ const mutations = {
   updateIntegration (state, entry) {
     state.integrations[entry.name] = entry
   },
+  deleteIntegration (state, name) {
+    delete state.integrations[name]
+  },
 
   updateHomelink (state, entry) {
     state.homelinks[entry.name] = entry
