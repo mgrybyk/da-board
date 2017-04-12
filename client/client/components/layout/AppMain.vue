@@ -67,6 +67,7 @@ export default {
 }
 
 td.is-icon.has-link {
+  width: 2%;
   text-align: center;
   padding: 0;
   height: 1px;
