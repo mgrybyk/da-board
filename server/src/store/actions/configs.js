@@ -21,7 +21,13 @@ const actions = {
   },
 
   updateConfigDb ({ state, commit, dispatch }, data) {
-    Configs.getOneById(data._id, (err, config) => {
+    let condition = {}
+    if (data._id) {
+      condition._id = _id
+    } else {
+      condition.name = data.name
+    }
+    Configs.getOneBy(condition, (err, config) => {
       if (err) {
         log.error(err)
         return dispatch('notifyDialogErr', Object.assign({}, data, { err }))

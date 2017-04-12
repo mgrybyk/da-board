@@ -1,6 +1,8 @@
 function notify(data, eventType, err) {
   let msg = { name: data.name }
   if (err) {
+    if (err.message) err = err.message
+    err = err.toString()
     msg.error = `${err.substr(0, 280)}${err.length > 280 && '...' || ''}`
   }
   data['__socket'].emit(eventType, msg)
