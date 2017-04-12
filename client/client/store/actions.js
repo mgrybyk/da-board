@@ -57,8 +57,12 @@ export const socketHomeLinks = ({ commit }, data) => {
   commit(types.SOCKET_HOMELINKS, data)
 }
 
-export const socketHomeLinksUpdateOne = ({ commit }, integration) => {
-  commit(types.SOCKET_HOMELINKS_UPDATE_ONE, integration)
+export const socketHomeLinksUpdateOne = ({ commit }, homeLink) => {
+  commit(types.SOCKET_HOMELINKS_UPDATE_ONE, homeLink)
+}
+
+export const socketHomeLinksDelete = ({ commit }, homeLink) => {
+  commit(types.SOCKET_HOMELINKS_DELETE, homeLink)
 }
 
 // Home Charts

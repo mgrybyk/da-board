@@ -22,6 +22,7 @@ export default {
 
     this.$options.sockets.SOCKET_HOMELINKS = data => this.socketHomeLinks(data)
     this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE = data => this.socketHomeLinksUpdateOne(data)
+    this.$options.sockets.SOCKET_HOMELINKS_DELETE = data => this.socketHomeLinksDelete(data)
 
     this.$options.sockets.SOCKET_TIME_SYNC = data => this.timeSync(data.time - new Date().getTime())
 
@@ -62,6 +63,7 @@ export default {
 
     delete this.$options.sockets.SOCKET_HOMELINKS
     delete this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE
+    delete this.$options.sockets.SOCKET_HOMELINKS_DELETE
 
     delete this.$options.sockets.SOCKET_TIME_SYNC
   },
@@ -86,6 +88,7 @@ export default {
 
       'socketHomeLinks',
       'socketHomeLinksUpdateOne',
+      'socketHomeLinksDelete',
 
       'timeSync'
     ])

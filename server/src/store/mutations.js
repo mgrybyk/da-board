@@ -26,6 +26,9 @@ const mutations = {
   updateHomelink (state, entry) {
     state.homelinks[entry.name] = entry
   },
+  deleteHomelink (state, name) {
+    delete state.homelinks[name]
+  },
 
   updateStage (state, stage) {
     state.stageCharts[stage.name] = stage

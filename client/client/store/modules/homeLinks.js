@@ -13,6 +13,11 @@ const mutations = {
     let homeLinks = {...state.data}
     homeLinks[homeLink.name] = homeLink
     state.data = homeLinks
+  },
+
+  [types.SOCKET_HOMELINKS_DELETE] (state, homeLink) {
+    delete state.data[homeLink.name]
+    state.data = {...state.data}
   }
 }
 

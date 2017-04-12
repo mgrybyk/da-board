@@ -55,9 +55,26 @@ module.exports = io => {
       socket.emit('SOCKET_INTEGRATIONS', $store.getters.integrations)
     })
 
-    // integrations
+    // homelinks
     socket.on('GET_HOMELINKS', (data) => {
       socket.emit('SOCKET_HOMELINKS', $store.getters.homelinks)
+    })
+    socket.on('HOMELINKS_UPDATE_ONE', (data) => {
+      console.log('HOMELINKS_UPDATE_ONE')
+      Object.keys(data).forEach(key => data[key] = data[key] === null ? undefined : data[key])
+      $store.dispatch('updateHomelinkDb', Object.assign({}, data, {'__socket': socket }))
+    })
+    socket.on('HOMELINKS_NEW', (data) => {
+      console.log('HOMELINKS_NEW')
+      if (!$store.getters.homelinks[data.name]) {
+        $store.dispatch('updateHomelinkDb', Object.assign({}, data, {'__socket': socket }))
+      } else {
+        $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `Link with name '${data.name}' already exists.`}, {'__socket': socket }))
+      }
+    })
+    socket.on('HOMELINKS_DELETE', (data) => {
+      console.log('HOMELINKS_DELETE')
+      $store.dispatch('removeHomelinkDb', Object.assign({}, data, {'__socket': socket }))
     })
 
     // time sync
