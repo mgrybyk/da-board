@@ -11,6 +11,9 @@ const mutations = {
 
   [types.SOCKET_INTEGRATIONS_UPDATE_ONE] (state, integration) {
     let integrations = {...state.data}
+    if (integration.prevName) {
+      delete integrations[integration.prevName]
+    }
     integrations[integration.name] = integration
     state.data = integrations
   },

@@ -6,9 +6,6 @@ const mutations = {
       mutations.initChart(state, { name: 'Processes' })
     }
 
-    if (config.prevName) {
-      delete state.configs[config.prevName]
-    }
     state.configs[config.name] = config
   },
   deleteConfig (state, name) {

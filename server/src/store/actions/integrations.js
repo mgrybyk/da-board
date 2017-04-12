@@ -91,6 +91,9 @@ const actions = {
 
         dispatch('notifyDialogOk', data)
         $store.dispatch('updateIntegration', Object.assign({}, integration.toObject(), { prevName }))
+        if (prevName) {
+          commit('deleteIntegration', prevName)
+        }
       })
     })
   },

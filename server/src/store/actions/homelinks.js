@@ -50,6 +50,9 @@ const actions = {
 
         dispatch('notifyDialogOk', data)
         $store.dispatch('updateHomelink', Object.assign({}, homelink.toObject(), { prevName }))
+        if (prevName) {
+          commit('deleteHomelink', prevName)
+        }
       })
     })
   },

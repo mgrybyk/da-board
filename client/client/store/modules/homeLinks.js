@@ -11,6 +11,9 @@ const mutations = {
 
   [types.SOCKET_HOMELINKS_UPDATE_ONE] (state, homeLink) {
     let homeLinks = {...state.data}
+    if (homeLink.prevName) {
+      delete homeLinks[homeLink.prevName]
+    }
     homeLinks[homeLink.name] = homeLink
     state.data = homeLinks
   },

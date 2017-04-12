@@ -56,6 +56,9 @@ const actions = {
 
         dispatch('notifyDialogOk', data)
         $store.dispatch('updateConfig', Object.assign({}, config.toObject(), { prevName }))
+        if (prevName) {
+          commit('deleteConfig', prevName)
+        }
       })
     })
   },
