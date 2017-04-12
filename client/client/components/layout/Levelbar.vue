@@ -1,7 +1,8 @@
 <template>
   <nav class="level app-levelbar">
+    <div class="is-hidden-mobile"></div>
     <div class="level-left">
-      <div class="level-item">
+      <div class="has-text-centered">
         <h3 class="subtitle is-5">
           <strong>{{ name }}</strong>
         </h3>

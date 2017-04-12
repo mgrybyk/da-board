@@ -54,15 +54,20 @@ export default {
   }
 }
 
-.table-responsive .table td {
-  vertical-align: middle;
-  text-align: center;
-  i.fa {
-    vertical-align: initial;
+.table-responsive {
+  .table td {
+    vertical-align: middle;
+    i.fa {
+      vertical-align: initial;
+    }
+  }
+  &.centered .table td {
+    text-align: center;
   }
 }
 
 td.is-icon.has-link {
+  text-align: center;
   padding: 0;
   height: 1px;
   transition: background-color .3s;
@@ -105,5 +110,18 @@ textarea.textarea {
 
 form .control:not(:last-child) {
     margin-bottom: .75rem;
+}
+
+// New Button
+div.top-control>* {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  margin-left: 20px;
+  user-select: none;
+}
+button.is-smaller {
+  border-radius: 2px;
+  font-size: 0.85rem;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
-          <div class="table-responsive">
+          <div class="table-responsive centered">
             <table class="table is-bordered is-striped is-narrow">
               <thead>
                 <tr>

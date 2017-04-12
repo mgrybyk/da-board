@@ -45,22 +45,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-td.is-icon.has-link {
-  $edit-color: #00d1b2;
-  i { color: $edit-color; }
-  &:hover {
-    background-color: $edit-color;
-    i { color: #fff; }
-  }
-}
-td.is-icon.remove {
-  $remove-color: #ff3860;
-  i { color: $remove-color; }
-  &:hover {
-    background-color: $remove-color;
-    i { color: #fff; }
-  }
-}
 tr.item-disabled {
   opacity: .5;
 }

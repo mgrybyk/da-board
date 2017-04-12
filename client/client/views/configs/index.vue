@@ -1,11 +1,11 @@
 <template>
   <div>
-    <button class="button is-info is-small top-control" @click="showModal=!showModal">New</button>
+    <div class="top-control"><button class="button is-info is-smaller" @click="showModal=!showModal">New</button></div>
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
           <h1>Count {{ Object.keys(configs).length }}</h1>
-          <div class="table-responsive">
+          <div class="table-responsive centered">
             <table class="table is-bordered is-striped is-narrow">
               <thead>
                 <tr>
@@ -103,15 +103,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .top-control {
-    position: absolute;
-    top: 20px;
-    right: 140px;
-  }
-  @media (max-width:768px)
-  {
-    .top-control {
-      right: 0;
-    }
-  }
 </style>

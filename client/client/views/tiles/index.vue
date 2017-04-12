@@ -1,6 +1,6 @@
 <template>
   <div>
-  <vb-switch v-model="dragEnabled" v-if="auth.isAuth">Sort</vb-switch>
+  <div class="top-control"><vb-switch v-model="dragEnabled" v-if="auth.isAuth">Sort</vb-switch></div>
   <div v-for="(integration, index) in integrationsWithNone" :key="integration._id">
     <h2 class="title" v-if="Object.keys(configsFiltered(integration.name)).length > 0">{{ integration.displayName || integration.name || 'No Integration' }}</h2>
     <draggable :options="{ disabled: !dragEnabled || !auth.isAuth }" @start="drag=true" @end="onEnd.apply(this, [...arguments, integration.name])" class="my-tile-parent">
@@ -98,19 +98,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .switch {
-    position: absolute;
-    top: 20px;
-    right: 140px;
-  }
   div.my-tile-parent {
     display: flex;
     flex-wrap: wrap;
-  }
-  @media (max-width:768px)
-  {
-    .switch {
-      right: 0;
-    }
   }
 </style>
