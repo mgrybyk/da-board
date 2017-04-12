@@ -23,7 +23,7 @@ const actions = {
   updateConfigDb ({ state, commit, dispatch }, data) {
     let condition = {}
     if (data._id) {
-      condition._id = _id
+      condition._id = data._id
     } else {
       condition.name = data.name
     }
