@@ -127,6 +127,6 @@ function updateDuration (tile, req, res, next) {
       duration = 0.25 * (3 * duration + $store.getters.configs[tile.name].duration)
     }
 
-    $store.dispatch('updateConfigDb', { name: tile.name, type: 'GENERATED', duration: Math.round(duration) })
+    $store.dispatch('updateConfigDb', { name: tile.name, duration: Math.round(duration) })
   }
 }
