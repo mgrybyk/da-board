@@ -1,5 +1,5 @@
 <template>
-  <tr :class="item.disabled && 'item-disabled'">
+  <tr>
     <td class="is-icon has-link">
       <a @click="showModal=!showModal">
         <i class="fa fa-pencil"></i>
@@ -30,11 +30,7 @@ export default {
 
   components: { ItemDialog, ItemConfirmation },
 
-  props: ['item', 'baseModel'],
-
-  methods: { },
-
-  computed: { }
+  props: ['item', 'baseModel']
 }
 </script>
 

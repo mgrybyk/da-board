@@ -41,12 +41,9 @@ import TableItem from './tableItem'
 export default {
   components: { TableItem, ItemDialog },
 
-  beforeMount () { },
-
   data () {
     return {
       showModal: false,
-      itemFiltered: {},
       model: {
         name: { name: 'Name', isRequired: true, placeholder: 'google' },
         link: { name: 'Link', placeholder: 'https://google.com' },

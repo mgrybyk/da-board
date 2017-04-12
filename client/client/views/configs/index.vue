@@ -4,7 +4,6 @@
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
-          <h1>Count {{ Object.keys(configs).length }}</h1>
           <div class="table-responsive centered">
             <table class="table is-bordered is-striped is-narrow">
               <thead>
