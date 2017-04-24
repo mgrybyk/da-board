@@ -6,6 +6,7 @@ var schema = mongoose.Schema({
   name: { type: String, unique: true, required: true, dropDups: true },
   displayName: String,
   rootUrl: String,
+  processUrlTemplate: String,
   auth: Object,
   actions: Object,
   remote: Object

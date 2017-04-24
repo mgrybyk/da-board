@@ -2,7 +2,7 @@
 
 // see http://vuejs-templates.github.io/webpack for documentation.
 const path = require('path')
-const backendUrl = 'http://docker-sda:81'
+const backendUrl = 'http://localhost:81'
 
 module.exports = {
   build: {
