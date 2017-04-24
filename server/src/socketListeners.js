@@ -72,6 +72,28 @@ module.exports = io => {
       $store.dispatch('removeIntegrationDb', Object.assign({}, data, {'__socket': socket }))
     })
 
+    // stages
+    socket.on('GET_STAGES', (data) => {
+      socket.emit('SOCKET_STAGES', $store.getters.stageCharts)
+    })
+    socket.on('STAGES_UPDATE_ONE', (data) => {
+      console.log('STAGES_UPDATE_ONE')
+      Object.keys(data).forEach(key => data[key] = data[key] === null ? undefined : data[key])
+      $store.dispatch('updateStageDb', Object.assign({}, data, {'__socket': socket }))
+    })
+    socket.on('STAGES_NEW', (data) => {
+      console.log('STAGES_NEW')
+      if (!$store.getters.stageCharts[data.name]) {
+        $store.dispatch('updateStageDb', Object.assign({}, data, {'__socket': socket }))
+      } else {
+        $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `Stage with name '${data.name}' already exists.`}, {'__socket': socket }))
+      }
+    })
+    socket.on('STAGES_DELETE', (data) => {
+      console.log('STAGES_DELETE')
+      $store.dispatch('removeStageDb', Object.assign({}, data, {'__socket': socket }))
+    })
+
     // homelinks
     socket.on('GET_HOMELINKS', (data) => {
       socket.emit('SOCKET_HOMELINKS', $store.getters.homelinks)

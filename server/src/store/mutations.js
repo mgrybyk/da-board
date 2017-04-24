@@ -33,6 +33,9 @@ const mutations = {
   updateStage (state, stage) {
     state.stageCharts[stage.name] = stage
   },
+  deleteStage (state, name) {
+    delete state.configs[name]
+  },
 
   updateBuild (state, build) {
     state.build = build
