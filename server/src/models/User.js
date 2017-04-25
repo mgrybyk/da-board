@@ -29,6 +29,8 @@ schema.statics.saveUser = function (obj, cb) {
   })
 }
 
+schema.statics.getAll = cb => Model.find({}, { username: 1, displayName: 1 }).exec(cb)
+
 function encryptPassword (pwd) {
   let cipher = crypto.createCipher(CONFIG.algorithm, CONFIG.key)
   return cipher.update(pwd, 'utf8', 'hex') + cipher.final('hex')

@@ -26,6 +26,14 @@ export default {
     this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE = data => this.socketHomeLinksUpdateOne(data)
     this.$options.sockets.SOCKET_HOMELINKS_DELETE = data => this.socketHomeLinksDelete(data)
 
+    this.$options.sockets.SOCKET_STAGES = data => this.socketStages(data)
+    this.$options.sockets.SOCKET_STAGES_UPDATE_ONE = data => this.socketStagesUpdateOne(data)
+    this.$options.sockets.SOCKET_STAGES_DELETE = data => this.socketStagesDelete(data)
+
+    this.$options.sockets.SOCKET_USERS = data => this.socketUsers(data)
+    this.$options.sockets.SOCKET_USERS_UPDATE_ONE = data => this.socketUsersUpdateOne(data)
+    this.$options.sockets.SOCKET_USERS_DELETE = data => this.socketUsersDelete(data)
+
     this.$options.sockets.SOCKET_TIME_SYNC = data => this.timeSync(data.time - new Date().getTime())
 
     this.$options.sockets.connect = () => {
@@ -40,6 +48,10 @@ export default {
       this.$socket.emit('GET_INTEGRATIONS')
 
       this.$socket.emit('GET_HOMELINKS')
+
+      this.$socket.emit('GET_STAGES')
+
+      this.$socket.emit('GET_USERS')
 
       this.$socket.emit('TIME_SYNC')
 
@@ -69,6 +81,14 @@ export default {
     delete this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE
     delete this.$options.sockets.SOCKET_HOMELINKS_DELETE
 
+    delete this.$options.sockets.SOCKET_STAGES
+    delete this.$options.sockets.SOCKET_STAGES_UPDATE_ONE
+    delete this.$options.sockets.SOCKET_STAGES_DELETE
+
+    delete this.$options.sockets.SOCKET_USERS
+    delete this.$options.sockets.SOCKET_USERS_UPDATE_ONE
+    delete this.$options.sockets.SOCKET_USERS_DELETE
+
     delete this.$options.sockets.SOCKET_TIME_SYNC
   },
 
@@ -95,6 +115,14 @@ export default {
       'socketHomeLinks',
       'socketHomeLinksUpdateOne',
       'socketHomeLinksDelete',
+
+      'socketUsers',
+      'socketUsersUpdateOne',
+      'socketUsersDelete',
+
+      'socketStages',
+      'socketStagesUpdateOne',
+      'socketStagesDelete',
 
       'timeSync'
     ])

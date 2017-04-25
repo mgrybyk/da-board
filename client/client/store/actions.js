@@ -69,6 +69,34 @@ export const socketHomeLinksDelete = ({ commit }, homeLink) => {
   commit(types.SOCKET_HOMELINKS_DELETE, homeLink)
 }
 
+// Users
+
+export const socketUsers = ({ commit }, data) => {
+  commit(types.SOCKET_USERS, data)
+}
+
+export const socketUsersUpdateOne = ({ commit }, user) => {
+  commit(types.SOCKET_USERS_UPDATE_ONE, user)
+}
+
+export const socketUsersDelete = ({ commit }, user) => {
+  commit(types.SOCKET_USERS_DELETE, user)
+}
+
+// Stages
+
+export const socketStages = ({ commit }, data) => {
+  commit(types.SOCKET_STAGES, data)
+}
+
+export const socketStagesUpdateOne = ({ commit }, stage) => {
+  commit(types.SOCKET_STAGES_UPDATE_ONE, stage)
+}
+
+export const socketStagesDelete = ({ commit }, stage) => {
+  commit(types.SOCKET_STAGES_DELETE, stage)
+}
+
 // Home Charts
 
 export const socketChartsUpdateOne = ({ commit }, chart) => {
