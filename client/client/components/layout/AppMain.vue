@@ -113,6 +113,16 @@ form .control:not(:last-child) {
     margin-bottom: .75rem;
 }
 
+.modal .modal-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 3px;
+  .box {
+    border-radius: 2px;
+    margin-right: -4px;
+  }
+}
+
 // New Button
 div.top-control>* {
   position: absolute;
