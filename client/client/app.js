@@ -26,6 +26,9 @@ router.beforeEach((route, redirect, next) => {
   if (state.app.device.isMobile && state.app.sidebar.opened) {
     store.commit(TOGGLE_SIDEBAR, false)
   }
+  if (store.getters.auth.isAuth === false && window.location.hash.includes('admin')) {
+    window.location.href = '/'
+  }
   next()
 })
 

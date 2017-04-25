@@ -132,6 +132,9 @@ export default {
           this.setAuth({ isAuth: true, username: data.body.user.username })
         } else {
           this.setAuth({ isAuth: false })
+          if (window.location.hash.includes('admin')) {
+            window.location.href = '/'
+          }
         }
       })
     },

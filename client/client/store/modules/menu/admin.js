@@ -1,38 +1,51 @@
 import lazyLoading from './lazyLoading'
 
+function isLoggedIn (to, from, next) {
+  if (window.localStorage.isAuth === 'true') {
+    next()
+  } else {
+    next('/')
+  }
+}
+
 export default {
   isAuth: true,
   meta: {
     label: 'Admin',
     icon: 'fa-cog',
-    expanded: false
+    expanded: true
   },
 
   children: [
     {
       name: 'Configs',
-      path: '/configs',
-      component: lazyLoading('configs', true)
+      path: '/admin/configs',
+      component: lazyLoading('configs', true),
+      beforeEnter: isLoggedIn
     },
     {
       name: 'Home Links',
-      path: '/links',
-      component: lazyLoading('homeLinks', true)
+      path: '/admin/links',
+      component: lazyLoading('homeLinks', true),
+      beforeEnter: isLoggedIn
     },
     {
       name: 'Integrations',
-      path: '/integrations',
-      component: lazyLoading('integrations', true)
+      path: '/admin/integrations',
+      component: lazyLoading('integrations', true),
+      beforeEnter: isLoggedIn
     },
     {
       name: 'Stages',
-      path: '/stages',
-      component: lazyLoading('stages', true)
+      path: '/admin/stages',
+      component: lazyLoading('stages', true),
+      beforeEnter: isLoggedIn
     },
     {
-      name: 'Users',
-      path: '/users',
-      component: lazyLoading('users', true)
+      name: 'Users (in dev!)',
+      path: '/admin/users',
+      component: lazyLoading('users', true),
+      beforeEnter: isLoggedIn
     }
   ]
 }
