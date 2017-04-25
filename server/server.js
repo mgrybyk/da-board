@@ -31,9 +31,6 @@ async function init () {
 }
 init()
 
-// watch file, disabled for #hackfest
-// require('./src/watcher')()
-
 // passport
 require('./config/modules/passport')(require('./src/models/User'))
 
@@ -41,12 +38,14 @@ require('./config/modules/passport')(require('./src/models/User'))
 var app = require('express')()
 
 // setup express and routes
-require('./config/modules/express')(app, require('./src/routes'), mongooseConnection)
+let express = require('./config/modules/express')
+express(app, require('./src/routes'), mongooseConnection)
 
 const http = require('http').Server(app)
 
 // socket.io
 const io = require('socket.io')(http)
+express.passportIo(io)
 global.io = io
 require('./src/socketListeners')(io)
 

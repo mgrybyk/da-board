@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const MongoStore = require('connect-mongo')(session)
 const fileUpload = require('express-fileupload')
+let sessionMiddleware = {}
 
 module.exports = (app, routes, mongooseConnection) => {
   var userSession = {
@@ -18,12 +19,13 @@ module.exports = (app, routes, mongooseConnection) => {
     },
     store: new MongoStore({ mongooseConnection: mongooseConnection })
   }
+  sessionMiddleware = session(userSession)
   var pathToPublic = CONFIG.pathToApp
   // app.use(logWho);
   app.use(express.static(pathToPublic))
   app.use(cookieParser())
   app.use(bodyParser.json())
-  app.use(session(userSession))
+  app.use(sessionMiddleware)
   app.use(passport.initialize())
   app.use(passport.session())
   app.use(fileUpload())
@@ -32,13 +34,25 @@ module.exports = (app, routes, mongooseConnection) => {
   app.use(internalServerError)
 }
 
+module.exports.passportIo = io => {
+  io.use(function (socket, next) {
+    sessionMiddleware(socket.request, socket.request.res, next)
+  })
+  io.use(function (socket, next) {
+    passport.initialize()(socket.request, socket.request.res, next)
+  })
+  io.use(function (socket, next) {
+    passport.session()(socket.request, socket.request.res, next)
+  })
+}
+
 // function logWho(req, res, next) {
 //   var who = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 //   log.verbose(who + ' req: ' + req.headers.host + req.url);
 //   next();
 // }
 
-function pageNotFound (req, res, next) {
+function pageNotFound(req, res, next) {
   res.status(404)
   log.warn('Not found URL: ' + req.url)
   return res.send({
@@ -47,7 +61,7 @@ function pageNotFound (req, res, next) {
   })
 }
 
-function internalServerError (err, req, res, next) {
+function internalServerError(err, req, res, next) {
   err.message = err.message || 'Unknown error'
   res.status(err.status || 500)
   log.error('Internal error(%d): %s', res.statusCode, err.message)
