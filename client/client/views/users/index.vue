@@ -11,6 +11,7 @@
                   <th>Name</th>
                   <th>Display Name</th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
