@@ -3,6 +3,7 @@
 
 require('shelljs/global')
 env.NODE_ENV = 'production'
+const isSilent = process.argv[2] === 'silent'
 
 const path = require('path')
 const config = require('../config')
@@ -11,7 +12,7 @@ const webpack = require('webpack')
 const webpackConfig = require('./webpack.prod.conf')
 
 const spinner = ora('building for production...')
-spinner.start()
+!isSilent && spinner.start()
 
 const assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
 rm('-rf', assetsPath)
@@ -20,13 +21,13 @@ cp('-R', 'client/assets/*', assetsPath)
 
 const compiler = webpack(webpackConfig)
 const ProgressPlugin = require('webpack/lib/ProgressPlugin')
-compiler.apply(new ProgressPlugin())
+!isSilent && compiler.apply(new ProgressPlugin())
 
 compiler.run((err, stats) => {
-  spinner.stop()
+  !isSilent && spinner.stop()
   if (err) throw err
   process.stdout.write(stats.toString({
-    colors: true,
+    colors: !isSilent,
     modules: false,
     children: false,
     chunks: false,
