@@ -197,7 +197,7 @@ export default {
         this.integrations[this.config.integration.name] && this.integrations[this.config.integration.name].actions) {
         actions = { ...this.integrations[this.config.integration.name].actions }
       }
-      Object.keys(actions).forEach(key => {
+      this.tile && Object.keys(actions).forEach(key => {
         let actionName = key.toLocaleLowerCase()
         if ((this.tile.isRunning && actionName === 'run') ||
            (!this.tile.isRunning && (key.startsWith('cancel') || key === 'abort' || key === 'stop'))) {
