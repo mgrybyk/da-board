@@ -36,6 +36,27 @@ const actions = {
 
       dispatch('setTiles')
     })
+  },
+
+  setFlag ({ state, commit, dispatch }, data) {
+    Tiles.getOne(data.name, (err, tile) => {
+      if (err) return log.error(err)
+
+      if (data.clear === true) {
+        tile.userFlag = undefined
+      } else {
+        tile.userFlag = {
+          flag: data.flag,
+          timestamp: data.timestamp
+        }
+      }
+
+      tile.save(err => {
+        if (err) return log.error(err)
+
+        dispatch('updateTile', tile.toObject())
+      })
+    })
   }
 }
 
