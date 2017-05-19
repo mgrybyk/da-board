@@ -2,8 +2,11 @@
 <div class="my-tile">
   <article class="with-stripe" :class="'color-' + getStatus">
     <div class="stripe top-stripe">
-      <i class="fa fa-check-circle-o"></i>
-      <i class="fa fa-lock"></i>
+      <i class="flag ok fa fa-check-circle-o" title="Mark as ok"></i>
+      <i class="flag bad fa fa-exclamation-circle" title="Mark as bad"></i>
+      <i v-if="getStatus === 'locked'" class="flag lock fa fa-unlock-alt" title="Remove lock"></i>
+      <i v-else class="flag lock fa fa-lock" title="Mark as locked"></i>
+
       <i class="fa fa-chevron-down" v-on:click="toggleDropdown">
         <div class="dropdown">
           <div v-bind:class="{ 'show': visible }" class="dropdown-content">
@@ -51,7 +54,7 @@
   <modal :visible="showModal" @close="closeModalBasic">
     <div class="box">
       <h1 class="title">Confirmation!</h1>
-
+ 
       <form v-on:submit.prevent="submit">
         <div class="block">
           <h4 class="title is-4">Are you sure you want to <strong>{{actionName}}</strong> <u>{{config.name}}</u></h4>
@@ -151,6 +154,12 @@ export default {
       if (!this.tile) return 'none'
       if (this.tile.isRunning) {
         return 'running'
+      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'Lock') {
+        return 'locked'
+      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'Fix') {
+        return 'success'
+      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'Fail') {
+        return 'failure'
       } else if (this.tile.isCancelled) {
         return 'cancelled'
       } else {
@@ -254,6 +263,10 @@ article.with-stripe {
     background-color: #29d;
     box-shadow: 0 0 3px #29d;
   }
+  &.color-locked {
+    background-color: #c5b41f;
+    box-shadow: 0 0 3px #c5b41f;
+  }
   &.color-cancelled, &.color-none {
     background-color: #eee;
     i.env-icon {
@@ -276,9 +289,20 @@ article.with-stripe {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    i.flag {
+      font-weight: 200;
+      transition: transform .5s, font-weight .3s;
+      &:hover {
+        font-weight: 500;
+        transform: scale(1.25);
+      }
+      &.ok { color: #1ac556; }
+      &.bad { color: #f33960; }
+      &.lock { color: #c5b41f; }
+    }
     i {
       padding: 0 10px;
-      font-size: 16px;
+      font-size: 18px;
       cursor: pointer;
     }
     i:hover {
