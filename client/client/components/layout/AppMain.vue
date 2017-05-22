@@ -104,6 +104,10 @@ td.is-icon.remove {
 }
 
 // Dialog
+div.modal.is-active {
+  z-index: 2048;
+}
+
 textarea.textarea {
   height: auto;
   min-height: 60px;
