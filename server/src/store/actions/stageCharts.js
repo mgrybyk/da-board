@@ -39,7 +39,7 @@ const actions = {
         return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
       }
 
-      let prevName = undefined
+      let prevName
       if (!stage) {
         stage = new StageCharts(data)
       } else {
@@ -64,7 +64,7 @@ const actions = {
         $store.dispatch('updateStage', Object.assign({}, stage.toObject(), { prevName }))
         if (prevName) {
           commit('deleteStage', prevName)
-          
+
           dispatch('removeChartOfStage', prevName)
         }
       })

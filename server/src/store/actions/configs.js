@@ -33,7 +33,7 @@ const actions = {
         return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
       }
 
-      let prevName = undefined
+      let prevName
       if (!config) {
         config = new Configs(data)
       } else {

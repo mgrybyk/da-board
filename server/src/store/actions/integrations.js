@@ -3,7 +3,7 @@ const formatStr = require('../../utils')
 const request = require('request')
 
 const actions = {
-  async setIntegrations({ commit, dispatch }) {
+  async setIntegrations ({ commit, dispatch }) {
     return Integrations.getAll((err, results) => {
       if (err) return log.error(err)
 
@@ -11,12 +11,12 @@ const actions = {
     })
   },
 
-  updateIntegration({ state, commit, dispatch }, item) {
+  updateIntegration ({ state, commit, dispatch }, item) {
     commit('updateIntegration', item)
     io.emit('SOCKET_INTEGRATIONS_UPDATE_ONE', state.integrations[item.name])
   },
 
-  integrationAction({ state }, data) {
+  integrationAction ({ state }, data) {
     let processId = ''
     if (state.tiles[data.configName] && state.tiles[data.configName].processId) {
       processId = state.tiles[data.configName].processId
@@ -49,7 +49,7 @@ const actions = {
         actionName: data.action,
         configName: data.configName,
         isError: !!error || response.statusCode < 200 || response.statusCode > 399,
-        error: error || `Code: ${response.statusCode}; body: ${body.substr(0, 280)}${body.length > 280 && '...' || ''}`
+        error: error || `Code: ${response.statusCode}; body: ${body.substr(0, 280)}${body.length > 280 ? '...' : ''}`
       })
       console.log(response.statusCode, body)
     })
@@ -68,7 +68,7 @@ const actions = {
         return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
       }
 
-      let prevName = undefined
+      let prevName
       if (!integration) {
         integration = new Integrations(data)
       } else {

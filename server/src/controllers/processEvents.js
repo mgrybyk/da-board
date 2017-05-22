@@ -1,7 +1,6 @@
 'use strict'
 
 const Tiles = require('./../models/Tiles')
-const Configs = require('./../models/Configs')
 const formatStr = require('../utils')
 
 exports.updateStageStatus = (req, res, next) => {
