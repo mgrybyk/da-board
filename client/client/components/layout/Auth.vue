@@ -104,6 +104,8 @@ export default {
           displayName: this.displayName
         }).then(data => {
           if (data.body.success === true && data.body.user) {
+            this.$socket.close()
+            this.$socket.connect()
             this.setAuth({ isAuth: true, username: data.body.user.username })
             this.closeModalBasic()
             this.showDisplayName(data.body.user.displayName)
@@ -117,6 +119,8 @@ export default {
           password: this.password
         }).then(data => {
           if (data.body.success === true && data.body.user) {
+            this.$socket.close()
+            this.$socket.connect()
             this.setAuth({ isAuth: true, username: data.body.user.username })
             this.closeModalBasic()
             this.showDisplayName(data.body.user.displayName)
@@ -140,6 +144,8 @@ export default {
     },
     logout () {
       Vue.http.post('api/logout').then(data => {
+        this.$socket.close()
+        this.$socket.connect()
         this.getAuth()
       })
     },
