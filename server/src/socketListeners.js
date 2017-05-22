@@ -26,12 +26,14 @@ module.exports = io => {
     // configs
     addGetUpdateDeleteListeners(socket, 'CONFIGS', 'configs', 'Config')
     socket.on('CONFIGS_UPDATE_SORTING', (data) => {
+      if (!socket.request.isAuthenticated()) return
       $store.dispatch('updateConfigSorting', data)
       $store.dispatch('recalcSorting', data)
     })
 
     // run process
     socket.on('INTEGRATION_ACTION', (data) => {
+      if (!socket.request.isAuthenticated()) return
       $store.dispatch('integrationAction', Object.assign({}, data, { '__socket': socket }))
     })
 
@@ -47,6 +49,7 @@ module.exports = io => {
 
     // set flag
     socket.on('FLAG_SET', (data) => {
+      if (!socket.request.isAuthenticated()) return
       $store.dispatch('setFlag', Object.assign({}, data, { '__socket': socket }))
     })
 
@@ -68,10 +71,12 @@ module.exports = io => {
 function addGetUpdateDeleteListeners (socket, eventType, getterType, dispatcherType) {
   addGetListener(socket, eventType, getterType)
   socket.on(`${eventType}_UPDATE_ONE`, (data) => {
+    if (!socket.request.isAuthenticated()) return
     Object.keys(data).forEach(key => { data[key] = data[key] === null ? undefined : data[key] })
     $store.dispatch(`update${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))
   })
   socket.on(`${eventType}_NEW`, (data) => {
+    if (!socket.request.isAuthenticated()) return
     if (!$store.getters[getterType][data.name]) {
       $store.dispatch(`update${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))
     } else {
@@ -79,6 +84,7 @@ function addGetUpdateDeleteListeners (socket, eventType, getterType, dispatcherT
     }
   })
   socket.on(`${eventType}_DELETE`, (data) => {
+    if (!socket.request.isAuthenticated()) return
     $store.dispatch(`remove${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))
   })
 }
