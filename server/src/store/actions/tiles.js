@@ -42,12 +42,18 @@ const actions = {
     Tiles.getOne(data.name, (err, tile) => {
       if (err) return log.error(err)
 
-      if (data.clear === true) {
+      if (!tile) {
+        tile = new Tiles()
+        tile.name = data.name
+      }
+
+      if (tile.userFlag && tile.userFlag.flag === data.flag && tile.userFlag.user === data.__socket.request.user.displayName) {
         tile.userFlag = undefined
       } else {
         tile.userFlag = {
           flag: data.flag,
-          timestamp: data.timestamp
+          timestamp: new Date().getTime(),
+          user: data.__socket.request.user.displayName
         }
       }
 

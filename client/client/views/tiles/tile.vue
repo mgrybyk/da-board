@@ -1,11 +1,11 @@
 <template>
 <div class="my-tile">
   <article class="with-stripe" :class="'color-' + getStatus">
-    <div class="stripe top-stripe">
-      <i class="flag ok fa fa-check-circle-o" title="Mark as ok"></i>
-      <i class="flag bad fa fa-exclamation-circle" title="Mark as bad"></i>
-      <i v-if="getStatus === 'locked'" class="flag lock fa fa-unlock-alt" title="Remove lock"></i>
-      <i v-else class="flag lock fa fa-lock" title="Mark as locked"></i>
+    <div class="stripe top-stripe" :class="!auth.isAuth && 'notAuth'">
+      <i class="flag ok fa fa-check-circle-o" title="Mark as ok" @click="setFlag('ok')"></i>
+      <i class="flag bad fa fa-exclamation-circle" title="Mark as bad" @click="setFlag('bad')"></i>
+      <i v-if="getStatus === 'locked'" class="flag lock fa fa-unlock-alt" title="Remove lock" @click="setFlag('lock')"></i>
+      <i v-else class="flag lock fa fa-lock" title="Mark as locked" @click="setFlag('lock')"></i>
 
       <i class="fa fa-chevron-down" v-on:click="toggleDropdown">
         <div class="dropdown">
@@ -38,9 +38,15 @@
       </div>
     </div>
     <div class="stripe bottom-stripe">
-      <a v-if="!tile"><span>No activity</span></a>
+      <a v-if="!tile || (tile.isCancelled === undefined && tile.isFailure === undefined && tile.userFlag === undefined && tile.isRunning === undefined)"><span>No activity</span></a>
       <a v-else-if="!tile.isRunning" :href="tile.processUrl && tile.processUrl" target="_blank">
-        <span v-if="tile.isCancelled">Aborted</span>
+        <span v-if="tile.userFlag" :title="new Date(tile.userFlag.timestamp).toLocaleString()">
+          <i class="fa fa-lock flag" v-if="tile.userFlag.flag === 'lock'"></i>
+          <i class="fa fa-thumbs-o-up flag" v-else-if="tile.userFlag.flag === 'ok'"></i>
+          <i class="fa fa-thumbs-o-down flag" v-else-if="tile.userFlag.flag === 'bad'"></i>
+          <i class="fa fa-question-circle flag" v-else></i> by {{ tile.userFlag.user }}
+        </span>
+        <span v-else-if="tile.isCancelled">Aborted</span>
         <span v-else-if="tile.isFailure">Failed: {{ getReason }}</span>
         <span v-else-if="!tile.isFailure">Tests Passed</span>
       </a>
@@ -146,19 +152,25 @@ export default {
       let rootUrl = (cfgIntegration && this.integrations[cfgIntegration.name] && this.integrations[cfgIntegration.name].rootUrl)
       let params = { hostname: this.config.hostname, ...integrationProps, rootUrl }
       return formatString(url, params)
+    },
+    setFlag (flagType) {
+      if (!this.auth.isAuth) return
+      this.$socket.emit('FLAG_SET', { flag: flagType, name: this.config.name })
     }
   },
 
   computed: {
     getStatus () {
       if (!this.tile) return 'none'
-      if (this.tile.isRunning) {
+      if (this.tile.isRunning === undefined && this.tile.isFailure === undefined && this.tile.isCancelled === undefined && this.tile.userFlag === undefined) {
+        return 'none'
+      } else if (this.tile.isRunning) {
         return 'running'
-      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'Lock') {
+      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'lock') {
         return 'locked'
-      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'Fix') {
+      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'ok') {
         return 'success'
-      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'Fail') {
+      } else if (this.tile.userFlag && this.tile.userFlag.flag === 'bad') {
         return 'failure'
       } else if (this.tile.isCancelled) {
         return 'cancelled'
@@ -233,6 +245,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$col_bad: #f33960;
+$col_ok: #1ac556;
+$col_run: #29d;
+$col_lock: #c5b41f;
+
 div.my-tile {
   width: 220px;
   padding: 0 0 15px 15px;
@@ -252,20 +269,20 @@ article.with-stripe {
   }
 
   &.color-failure {
-    background-color: #f33960;
-    box-shadow: 0 0 3px #f33960;
+    background-color: $col_bad;
+    box-shadow: 0 0 3px $col_bad;
   }
   &.color-success {
-    background-color: #1ac556;
-    box-shadow: 0 0 3px #1ac556;
+    background-color: $col_ok;
+    box-shadow: 0 0 3px $col_ok;
   }
   &.color-running {
-    background-color: #29d;
-    box-shadow: 0 0 3px #29d;
+    background-color: $col_run;
+    box-shadow: 0 0 3px $col_run;
   }
   &.color-locked {
-    background-color: #c5b41f;
-    box-shadow: 0 0 3px #c5b41f;
+    background-color: $col_lock;
+    box-shadow: 0 0 3px $col_lock;
   }
   &.color-cancelled, &.color-none {
     background-color: #eee;
@@ -289,24 +306,48 @@ article.with-stripe {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &.notAuth i.flag {
+      cursor: default;
+      transition: none;
+      color: #777 !important;
+      &:hover {
+        transform: none;
+      }
+    }
     i.flag {
       font-weight: 200;
-      transition: transform .5s, font-weight .3s;
+      transition: transform .5s, font-weight .3s, color .5s;
       &:hover {
         font-weight: 500;
         transform: scale(1.25);
       }
-      &.ok { color: #1ac556; }
-      &.bad { color: #f33960; }
-      &.lock { color: #c5b41f; }
+      &.ok {
+        color: $col_ok;
+        &:hover {
+          color: saturate($col_ok, 50%);
+        }
+      }
+      &.bad {
+        color: $col_bad;
+        &:hover {
+          color: saturate($col_bad, 50%);
+        }
+      }
+      &.lock {
+        color: $col_lock;        
+        &:hover {
+          color: saturate($col_lock, 50%);
+        }
+      }
     }
     i {
+      transition: color .5s;
       padding: 0 10px;
       font-size: 18px;
       cursor: pointer;
     }
     i:hover {
-      color: #29d;
+      color: $col_run;
     }
     &:hover {
       background-color: rgba(255, 255, 255, 0.85);
@@ -342,6 +383,9 @@ article.with-stripe {
         position: relative;
         top: -24px;
       }
+    }
+    i.flag {
+      vertical-align: inherit;
     }
   }
 }

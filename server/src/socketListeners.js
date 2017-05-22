@@ -47,7 +47,7 @@ module.exports = io => {
 
     // set flag
     socket.on('FLAG_SET', (data) => {
-      $store.dispatch('setFlag', data)
+      $store.dispatch('setFlag', Object.assign({}, data, { '__socket': socket }))
     })
 
     // users
