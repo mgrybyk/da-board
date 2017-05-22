@@ -54,6 +54,7 @@ exports.setProcessRunning = (req, res, next) => {
     result.startTime = new Date().getTime()
     result.isCancelled = false
     result.isFailure = undefined
+    result.userFlag = undefined
     result.stages = {}
     result.processId = req.body.processId
     let config = $store.getters.configs[req.body.name]
