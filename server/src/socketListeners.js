@@ -16,7 +16,7 @@ module.exports = io => {
     addGetUpdateDeleteListeners(socket, 'STAGES', 'stageCharts', 'Stage')
 
     // homelinks
-    addGetUpdateDeleteListeners(socket, 'GET_HOMELINKS', 'homelinks', 'Homelink')
+    addGetUpdateDeleteListeners(socket, 'HOMELINKS', 'homelinks', 'Homelink')
 
     // time sync
     socket.on('TIME_SYNC', (data) => {
