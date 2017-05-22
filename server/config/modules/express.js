@@ -8,6 +8,8 @@ const passport = require('passport')
 const MongoStore = require('connect-mongo')(session)
 const fileUpload = require('express-fileupload')
 let sessionMiddleware = {}
+const passportInstance = passport.initialize()
+const passportSessionInstance = passport.session()
 
 module.exports = (app, routes, mongooseConnection) => {
   var userSession = {
@@ -26,8 +28,8 @@ module.exports = (app, routes, mongooseConnection) => {
   app.use(cookieParser())
   app.use(bodyParser.json())
   app.use(sessionMiddleware)
-  app.use(passport.initialize())
-  app.use(passport.session())
+  app.use(passportInstance)
+  app.use(passportSessionInstance)
   app.use(fileUpload())
   routes.routes(app)
   app.use(pageNotFound)
@@ -39,10 +41,10 @@ module.exports.passportIo = io => {
     sessionMiddleware(socket.request, socket.request.res, next)
   })
   io.use(function (socket, next) {
-    passport.initialize()(socket.request, socket.request.res, next)
+    passportInstance(socket.request, socket.request.res, next)
   })
   io.use(function (socket, next) {
-    passport.session()(socket.request, socket.request.res, next)
+    passportSessionInstance(socket.request, socket.request.res, next)
   })
 }
 
@@ -52,7 +54,7 @@ module.exports.passportIo = io => {
 //   next();
 // }
 
-function pageNotFound(req, res, next) {
+function pageNotFound (req, res, next) {
   res.status(404)
   log.warn('Not found URL: ' + req.url)
   return res.send({
@@ -61,7 +63,7 @@ function pageNotFound(req, res, next) {
   })
 }
 
-function internalServerError(err, req, res, next) {
+function internalServerError (err, req, res, next) {
   err.message = err.message || 'Unknown error'
   res.status(err.status || 500)
   log.error('Internal error(%d): %s', res.statusCode, err.message)
