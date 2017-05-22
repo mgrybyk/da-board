@@ -4,7 +4,7 @@ const actions = {
   async setBuild ({ commit }) {
     return Build.getOne((err, result) => {
       if (err) return log.error(err)
-
+      if (!result) return
       commit('updateBuild', result.toObject())
     })
   },
