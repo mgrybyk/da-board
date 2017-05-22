@@ -135,4 +135,9 @@ button.is-smaller {
   border-radius: 2px;
   font-size: 0.85rem;
 }
+
+// Notification
+.notifications .notification {
+  word-wrap: break-word;
+}
 </style>
