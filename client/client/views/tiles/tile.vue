@@ -1,7 +1,7 @@
 <template>
 <div class="my-tile">
   <article class="with-stripe" :class="'color-' + getStatus">
-    <div class="stripe top-stripe" :class="!auth.isAuth && 'notAuth'">
+    <div class="stripe top-stripe" :class="(!auth.isAuth || (tile && tile.isRunning)) && 'flags-disabled'">
       <i class="flag ok fa fa-check-circle-o" title="Mark as ok" @click="setFlag('ok')"></i>
       <i class="flag bad fa fa-exclamation-circle" title="Mark as bad" @click="setFlag('bad')"></i>
       <i v-if="getStatus === 'locked'" class="flag lock fa fa-unlock-alt" title="Remove lock" @click="setFlag('lock')"></i>
@@ -245,13 +245,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$col_bad: #f33960;
-$col_ok: #1ac556;
-$col_run: #29d;
-$col_lock: #c5b41f;
+$col_bad: #f79595;
+$col_ok: #b9ea9b;
+$col_run: #9fc3ff;
+$col_lock: #f1e79c;
 
 div.my-tile {
-  width: 220px;
+  width: 260px;
   padding: 0 0 15px 15px;
 }
 .box-height {
@@ -262,36 +262,30 @@ article.with-stripe {
   padding: 0;
   transition: background-color 1s;
   border-radius: 3px;
-  box-shadow: 0 0 3px #dfdfdf;
+  box-shadow: 0 0 3px #c3c3c3;
 
   p {
-    color: #fff;
+    color: #171717;
   }
 
   &.color-failure {
     background-color: $col_bad;
-    box-shadow: 0 0 3px $col_bad;
+    box-shadow: 0 0 3px darken($col_bad, 10%);
   }
   &.color-success {
     background-color: $col_ok;
-    box-shadow: 0 0 3px $col_ok;
+    box-shadow: 0 0 3px darken($col_ok, 30%);
   }
   &.color-running {
     background-color: $col_run;
-    box-shadow: 0 0 3px $col_run;
+    box-shadow: 0 0 3px darken($col_run, 30%);
   }
   &.color-locked {
     background-color: $col_lock;
-    box-shadow: 0 0 3px $col_lock;
+    box-shadow: 0 0 3px darken($col_lock, 30%);
   }
   &.color-cancelled, &.color-none {
     background-color: #eee;
-    i.env-icon {
-      color: #171717;
-    }
-    p {
-      color: #171717;
-    }
   }
 }
 .stripe {
@@ -306,7 +300,7 @@ article.with-stripe {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    &.notAuth i.flag {
+    &.flags-disabled i.flag {
       cursor: default;
       transition: none;
       color: #777 !important;
@@ -322,28 +316,28 @@ article.with-stripe {
         transform: scale(1.25);
       }
       &.ok {
-        color: $col_ok;
+        color: darken($col_ok, 35%);
         &:hover {
-          color: saturate($col_ok, 50%);
+          color: saturate(darken($col_ok, 30%), 15%);
         }
       }
       &.bad {
-        color: $col_bad;
+        color: darken($col_bad, 10%);
         &:hover {
-          color: saturate($col_bad, 50%);
+          color: saturate(darken($col_bad, 7%), 25%);
         }
       }
       &.lock {
-        color: $col_lock;        
+        color: darken($col_lock, 30%);        
         &:hover {
-          color: saturate($col_lock, 50%);
+          color: saturate(darken($col_lock, 30%), 10%);
         }
       }
     }
     i {
       transition: color .5s;
       padding: 0 10px;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
     }
     i:hover {
@@ -392,6 +386,7 @@ article.with-stripe {
 
 .env-details {
   padding: 10px;
+  font-size: 18px;
 
   p.db-name {
     white-space: nowrap;
@@ -400,25 +395,25 @@ article.with-stripe {
   }
 
   i.env-icon {
-    color: #fff;
     float: right;
     position: relative;
     top: 6px;
-    font-size: 20px;
+    font-size: 22px;
   }
   p.title {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 0;
     height: 5ex;
     overflow: hidden;
+    font-weight: 400;
   }
   p.db-name {
-    font-size: 18px;
+    font-size: 19px;
     margin-bottom: 6px;
   }
   p.os-name {
     margin-bottom: 0;
-    font-size: 17px;
+    font-size: 19px;
   }
 }
 
@@ -443,14 +438,15 @@ article.with-stripe {
   position: absolute;
   right: 0;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 190px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   opacity: 0;
   transition: opacity .33s;
   visibility: hidden;
 
-  li {    
+  li {
+    font-size: 18px;
     text-decoration: none;    
 
     a {
