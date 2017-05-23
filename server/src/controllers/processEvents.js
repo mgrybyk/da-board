@@ -76,6 +76,35 @@ exports.setProcessRunning = (req, res, next) => {
   })
 }
 
+exports.setEnvPackage = (req, res, next) => {
+  log.verbose('setEnvPackage', req.body)
+
+  if (!req.body || !req.body.name) return next(req, res, next)
+
+  Tiles.getOne(req.body.name, (err, result) => {
+    if (err) return next(err, req, res, next)
+
+    if (!result) {
+      result = new Tiles()
+      result.name = req.body.name
+
+      $store.dispatch('createEmptyConfig', { name: req.body.name })
+    }
+
+    result.package = req.body.package
+    if ($store.getters.build.package) {
+      result.isValid = $store.getters.build.package === result.package
+    } else result.isValid = true
+
+    result.save(err => {
+      if (err) return next(err, req, res, next)
+
+      $store.dispatch('updateTile', result.toObject())
+      return res.send()
+    })
+  })
+}
+
 // function setProcessEnded (req, res, next) {
 exports.setProcessEnded = (req, res, next) => {
   log.verbose('setProcessEnded', req.body)

@@ -25,9 +25,10 @@ exports.routes = app => {
   app.post('/api/build', build.updateBuild) // package, number
 
   // api
-  app.post('/api/stage', processEvents.updateStageStatus) // type, state (running, failed, passed), processName
-  app.post('/api/processRunning', processEvents.setProcessRunning) // processName, package
-  app.post('/api/processEnded', processEvents.setProcessEnded) // processName, status
+  app.post('/api/stage', processEvents.updateStageStatus) // name, stage, status (running, failed, passed)
+  app.post('/api/processRunning', processEvents.setProcessRunning) // name, package, processId
+  app.post('/api/processEnded', processEvents.setProcessEnded) // name, isFailue, isCancelled
+  app.post('/api/envBuild', processEvents.setEnvPackage) // name, package
 
   // integrations
   app.post('/api/da-subscription', integrationsDa.daProcessEnded) // parse and redirect to processEnded
