@@ -188,7 +188,8 @@ export default {
       if (currentTime - startTime > duration) return 100
       let diff = currentTime - startTime + this.timeDiff
       diff = (diff > 0) ? diff : 0
-      return Math.round(100 * diff / duration)
+      let percent = Math.round(100 * diff / duration)
+      return percent >= 100 ? 100 : percent
     },
     getPhase () {
       if (!this.tile.stages) return ''
