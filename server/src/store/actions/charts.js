@@ -21,7 +21,7 @@ const actions = {
           //
           // Processes chart
           //
-          if (!tile || !tile.isValid) {
+          if (!tile || !tile.isValid || tile.isFailure === undefined) {
             chart[NOT_EXECUTED.idx]++
           } else {
             if (tile.isRunning) {
