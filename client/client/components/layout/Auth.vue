@@ -144,8 +144,7 @@ export default {
     },
     logout () {
       Vue.http.post('api/logout').then(data => {
-        this.$socket.close()
-        this.$socket.connect()
+        this.$socket.emit('LOGOUT')
         this.getAuth()
       })
     },

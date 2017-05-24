@@ -14,7 +14,7 @@ const passportSessionInstance = passport.session()
 module.exports = (app, routes, mongooseConnection) => {
   var userSession = {
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret: 'daBoard J:O#$Y*(#',
     cookie: {
       maxAge: 60480000000 // one hour is 3600000

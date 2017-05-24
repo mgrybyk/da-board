@@ -53,6 +53,12 @@ module.exports = io => {
       $store.dispatch('setFlag', Object.assign({}, data, { '__socket': socket }))
     })
 
+    // logout
+    socket.on('LOGOUT', () => {
+      if (!socket.request.isAuthenticated()) return
+      socket.request.logout()
+    })
+
     // users
     socket.on('GET_USERS', (data) => {
       User.getAll((err, results) => {
