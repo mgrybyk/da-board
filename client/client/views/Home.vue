@@ -25,7 +25,7 @@
 
   <h2>Links</h2>
   <section v-for="group in groups.names">
-    <h3 v-if="group !== null">{{group}}</h3>
+    <h3 v-if="group !== ''">{{group}}</h3>
     <div class="home-table">
       <table class="table is-bordered is-striped is-narrow">
         <thead>
@@ -64,13 +64,16 @@ export default {
       let groups = { names: [], filtered: {} }
       Object.keys(this.homeLinks).forEach(key => {
         let group = this.homeLinks[key].group
-        if (!group) group = null
+        if (!group) group = ''
         if (!groups.names.includes(group)) {
           groups.names.push(group)
-          if (!groups.filtered[group]) groups.filtered[group] = []
-          groups.filtered[group].push(this.homeLinks[key])
+          if (!groups.filtered[group]) {
+            groups.filtered[group] = []
+          }
         }
+        groups.filtered[group].push(this.homeLinks[key])
       })
+      groups.names.sort()
       return groups
     }
   },
