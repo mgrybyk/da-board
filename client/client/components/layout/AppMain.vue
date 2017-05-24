@@ -126,7 +126,16 @@ form .control:not(:last-child) {
     margin-right: -4px;
   }
 }
-
+@media screen and (min-width: 1280px) {
+  .modal-content, .modal-card {
+    width: 960px;
+  }
+}
+@media screen and (min-width: 1800px) {
+  .modal-content, .modal-card {
+    width: 1600px;
+  }
+}
 // New Button
 div.top-control>* {
   position: absolute;
