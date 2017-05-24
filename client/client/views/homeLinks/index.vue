@@ -11,6 +11,7 @@
                   <th></th>
                   <th>Name</th>
                   <th>Details</th>
+                  <th>Group</th>
                   <th></th>
                 </tr>
               </thead>
@@ -47,7 +48,8 @@ export default {
       model: {
         name: { name: 'Name', isRequired: true, placeholder: 'google' },
         link: { name: 'Link', placeholder: 'https://google.com' },
-        details: { name: 'Details', placeholder: 'Google search engine!' }
+        details: { name: 'Details', placeholder: 'Google search engine!' },
+        group: { name: 'Group', placeholder: 'Some value you want to group links by..' }
       }
     }
   },

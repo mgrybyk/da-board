@@ -3,9 +3,7 @@
     <td>
       <a :href="item.link" target="_blank">{{ item.name }}</a>
     </td>
-    <td>
-      {{ item.details }}
-    </td>
+    <td>{{ item.details }}</td>
   </tr>
 </template>
 

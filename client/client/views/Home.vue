@@ -24,24 +24,27 @@
   </div>
 
   <h2>Links</h2>
-  <div class="home-table">
-    <table class="table is-bordered is-striped is-narrow">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <TableItem
-          v-for="(item, key) in homeLinks"
-          :item="item"
-          :key="item._id">
-        </TableItem>
-      </tbody>
-    </table>
+  <section v-for="group in groups.names">
+    <h3 v-if="group !== null">{{group}}</h3>
+    <div class="home-table">
+      <table class="table is-bordered is-striped is-narrow">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <TableItem
+            v-for="(item, key) in groups.filtered[group]"
+            :item="item"
+            :key="item._id">
+          </TableItem>
+        </tbody>
+      </table>
+    </div>
+  </section>
   </div>
-</div>
 </template>
 
 <script>
@@ -53,9 +56,24 @@ export default {
 
   beforeMount () { },
 
-  computed: mapGetters({
-    homeLinks: 'homeLinks'
-  }),
+  computed: {
+    ...mapGetters({
+      homeLinks: 'homeLinks'
+    }),
+    groups () {
+      let groups = { names: [], filtered: {} }
+      Object.keys(this.homeLinks).forEach(key => {
+        let group = this.homeLinks[key].group
+        if (!group) group = null
+        if (!groups.names.includes(group)) {
+          groups.names.push(group)
+          if (!groups.filtered[group]) groups.filtered[group] = []
+          groups.filtered[group].push(this.homeLinks[key])
+        }
+      })
+      return groups
+    }
+  },
 
   destroyed () { },
 
