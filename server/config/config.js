@@ -1,10 +1,11 @@
 'use strict'
 var pathToApp = 'www'
 var pathToWorkDir = 'workDir'
+const port = process.argv[2] || '81'
 
 module.exports = {
   host: '',
-  port: 81,
+  port: port,
 
   pathToApp: pathToApp,
   appHtml: pathToApp + '/index.html',
