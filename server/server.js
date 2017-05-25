@@ -21,12 +21,10 @@ global.$store = require('./src/store/store')
 // get required data from db and put to store for further usage
 async function init () {
   await $store.dispatch('setIntegrations')
-  await $store.dispatch('setStages')
   await $store.dispatch('setConfigs')
-  await $store.dispatch('setBuild')
+  await $store.dispatch('setBuilds')
   await $store.dispatch('setTiles')
   await $store.dispatch('setHomelinks')
-  $store.dispatch('checkValidityStartup')
   $store.dispatch('recalcSorting', { sortBy: Number.MAX_VALUE })
 }
 init()

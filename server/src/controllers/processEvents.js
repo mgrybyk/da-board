@@ -14,14 +14,11 @@ exports.updateStageStatus = (req, res, next) => {
     if (!result) {
       result = new Tiles()
       result.name = req.body.name
-
-      // $store.dispatch('addStage', { name: req.body.name, stages: [req.body.stage] })
     }
 
     if (!result.toObject().stages) { result.stages = {} }
 
     result.stages[req.body.stage] = req.body.status
-    // result.markModified(`stages`)
     result.markModified(`stages.${req.body.stage}`)
 
     result.save(err => {
@@ -63,10 +60,6 @@ exports.setProcessRunning = (req, res, next) => {
         Object.assign({}, { rootUrl: integration.rootUrl }, config.integration.props, { processId: req.body.processId }))
     } else { result.processUrl = undefined }
 
-    if ($store.getters.build.package) {
-      result.isValid = $store.getters.build.package === result.package
-    } else result.isValid = true
-
     result.save(err => {
       if (err) return next(err, req, res, next)
 
@@ -92,9 +85,6 @@ exports.setEnvPackage = (req, res, next) => {
     }
 
     result.package = req.body.package
-    if ($store.getters.build.package) {
-      result.isValid = $store.getters.build.package === result.package
-    } else result.isValid = true
 
     result.save(err => {
       if (err) return next(err, req, res, next)

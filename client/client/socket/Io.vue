@@ -9,14 +9,10 @@ export default {
     this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE = data => this.socketConfigsUpdateOne(data)
     this.$options.sockets.SOCKET_CONFIGS_DELETE = data => this.socketConfigsDelete(data)
 
-    this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE = data => this.socketChartsUpdateOne(data)
-
     this.$options.sockets.SOCKET_TILES = data => this.socketTiles(data)
     this.$options.sockets.SOCKET_TILES_UPDATE_ONE = data => this.socketTilesUpdateOne(data)
 
     this.$options.sockets.SOCKET_RESULTS_CHANGED = data => this.resultsIsChanged(true)
-
-    this.$options.sockets.SOCKET_BUILD = data => this.socketBuild(data)
 
     this.$options.sockets.SOCKET_INTEGRATIONS = data => this.socketIntegrations(data)
     this.$options.sockets.SOCKET_INTEGRATIONS_UPDATE_ONE = data => this.socketIntegrationsUpdateOne(data)
@@ -26,9 +22,9 @@ export default {
     this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE = data => this.socketHomeLinksUpdateOne(data)
     this.$options.sockets.SOCKET_HOMELINKS_DELETE = data => this.socketHomeLinksDelete(data)
 
-    this.$options.sockets.SOCKET_STAGES = data => this.socketStages(data)
-    this.$options.sockets.SOCKET_STAGES_UPDATE_ONE = data => this.socketStagesUpdateOne(data)
-    this.$options.sockets.SOCKET_STAGES_DELETE = data => this.socketStagesDelete(data)
+    this.$options.sockets.SOCKET_BUILDS = data => this.socketBuilds(data)
+    this.$options.sockets.SOCKET_BUILDS_UPDATE_ONE = data => this.socketBuildsUpdateOne(data)
+    this.$options.sockets.SOCKET_BUILDS_DELETE = data => this.socketBuildsDelete(data)
 
     this.$options.sockets.SOCKET_USERS = data => this.socketUsers(data)
     this.$options.sockets.SOCKET_USERS_UPDATE_ONE = data => this.socketUsersUpdateOne(data)
@@ -39,17 +35,13 @@ export default {
     this.$options.sockets.connect = () => {
       this.$socket.emit('GET_CONFIGS')
 
-      this.$socket.emit('GET_CHARTS')
-
       this.$socket.emit('GET_TILES')
-
-      this.$socket.emit('GET_BUILD')
 
       this.$socket.emit('GET_INTEGRATIONS')
 
       this.$socket.emit('GET_HOMELINKS')
 
-      this.$socket.emit('GET_STAGES')
+      this.$socket.emit('GET_BUILDS')
 
       this.$socket.emit('GET_USERS')
 
@@ -64,14 +56,10 @@ export default {
     delete this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE
     delete this.$options.sockets.SOCKET_CONFIGS_DELETE
 
-    delete this.$options.sockets.SOCKET_CHARTS_UPDATE_ONE
-
     delete this.$options.sockets.SOCKET_TILES
     delete this.$options.sockets.SOCKET_TILES_UPDATE_ONE
 
     delete this.$options.sockets.SOCKET_RESULTS_CHANGED
-
-    delete this.$options.sockets.SOCKET_BUILD
 
     delete this.$options.sockets.SOCKET_INTEGRATIONS
     delete this.$options.sockets.SOCKET_INTEGRATIONS_UPDATE_ONE
@@ -81,9 +69,9 @@ export default {
     delete this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE
     delete this.$options.sockets.SOCKET_HOMELINKS_DELETE
 
-    delete this.$options.sockets.SOCKET_STAGES
-    delete this.$options.sockets.SOCKET_STAGES_UPDATE_ONE
-    delete this.$options.sockets.SOCKET_STAGES_DELETE
+    delete this.$options.sockets.SOCKET_BUILDS
+    delete this.$options.sockets.SOCKET_BUILDS_UPDATE_ONE
+    delete this.$options.sockets.SOCKET_BUILDS_DELETE
 
     delete this.$options.sockets.SOCKET_USERS
     delete this.$options.sockets.SOCKET_USERS_UPDATE_ONE
@@ -98,15 +86,10 @@ export default {
       'socketConfigsUpdateOne',
       'socketConfigsDelete',
 
-      'socketCharts',
-      'socketChartsUpdateOne',
-
       'socketTiles',
       'socketTilesUpdateOne',
 
       'resultsIsChanged',
-
-      'socketBuild',
 
       'socketIntegrations',
       'socketIntegrationsUpdateOne',
@@ -120,9 +103,9 @@ export default {
       'socketUsersUpdateOne',
       'socketUsersDelete',
 
-      'socketStages',
-      'socketStagesUpdateOne',
-      'socketStagesDelete',
+      'socketBuilds',
+      'socketBuildsUpdateOne',
+      'socketBuildsDelete',
 
       'timeSync'
     ])

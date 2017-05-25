@@ -2,7 +2,10 @@
   <div>
   <div class="top-control"><vb-switch v-model="dragEnabled" v-if="auth.isAuth">Sort</vb-switch></div>
   <div v-for="(integration, index) in integrationsWithNone" :key="integration._id">
-    <h2 class="title" v-if="Object.keys(configsFiltered(integration.name)).length > 0">{{ integration.displayName || integration.name || 'No Integration' }}</h2>
+    <h2 class="title" v-if="Object.keys(configsFiltered(integration.name)).length > 0">
+      {{ integration.displayName || integration.name || 'No Integration' }} 
+      (Latest build: {{ builds[integration.name] && builds[integration.name].package || 'N/A'}})
+    </h2>
     <draggable :options="{ disabled: !dragEnabled || !auth.isAuth }" @start="drag=true" @end="onEnd.apply(this, [...arguments, integration.name])" class="my-tile-parent">
       <Tile
           v-for="(item, index) in configsFiltered(integration.name)"
@@ -11,6 +14,7 @@
           :config="item"
           :auth="auth"
           :integrations="integrations"
+          :builds="builds"
           :key="item._id"
           @end="onEnd(this)">
         </Tile>
@@ -86,7 +90,8 @@ export default {
       configs: 'configsEnabled',
       timeDiff: 'timeDiff',
       auth: 'auth',
-      integrations: 'integrations'
+      integrations: 'integrations',
+      builds: 'builds'
     }),
     integrationsWithNone () {
       return {...this.integrations, 'zzz': { name: undefined }}

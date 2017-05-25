@@ -10,14 +10,10 @@ const state = {
     RUNNING: { idx: 2, name: 'running' },
     NOT_EXECUTED: { idx: 3, name: null }
   },
-  charts: {
-    __init: false
-  },
   tiles: {},
   configs: {},
-  build: {},
+  builds: {},
   integrations: {},
-  stageCharts: {},
   homelinks: {}
 }
 

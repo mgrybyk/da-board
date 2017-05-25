@@ -6,7 +6,6 @@ var schema = mongoose.Schema({
   name: { type: String, unique: true, required: true, dropDups: true },
   package: String,
   isFailure: Boolean,
-  isValid: Boolean,
   isCancelled: Boolean,
   isRunning: Boolean,
   startTime: Number,

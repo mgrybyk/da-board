@@ -36,9 +36,9 @@ export default {
       beforeEnter: isLoggedIn
     },
     {
-      name: 'Stages',
-      path: '/admin/stages',
-      component: lazyLoading('stages', true),
+      name: 'Builds',
+      path: '/admin/builds',
+      component: lazyLoading('builds', true),
       beforeEnter: isLoggedIn
     },
     {

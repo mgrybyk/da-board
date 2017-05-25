@@ -5,17 +5,16 @@
         <i class="fa fa-pencil"></i>
       </a>
     </td>
-    <td>{{ item.name }}</td>
-    <td>{{ item.displayName }}</td>
-    <td>{{ item.isChart }}</td>
+    <td>{{ item.integration }}</td>
+    <td>{{ item.package }}</td>
     <td class="is-icon has-link remove">
       <a @click="showConfirmation=!showConfirmation">
         <i class="fa fa-trash"></i>
       </a>
     </td>
 
-  <ItemDialog :item="item" :baseModel="baseModel" :title="'Edit'" :socketEventName="'STAGES_UPDATE_ONE'" :openModal="showModal"></ItemDialog>
-  <ItemConfirmation :actionName="'delete'" :name="item.name" :socketEventName="'STAGES_DELETE'" :openConfirmation="showConfirmation"></ItemConfirmation>
+  <ItemDialog :item="item" :baseModel="baseModel" :title="'Edit'" :socketEventName="'BUILDS_UPDATE_ONE'" :openModal="showModal" :propName="'integration'"></ItemDialog>
+  <ItemConfirmation :actionName="'delete build for'" :name="item.integration" :socketEventName="'BUILDS_DELETE'" :openConfirmation="showConfirmation"></ItemConfirmation>
 
   </tr>
 </template>

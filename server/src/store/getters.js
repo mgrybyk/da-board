@@ -1,12 +1,9 @@
 const getters = {
-  charts: state => state.charts,
-  stageCharts: state => state.stageCharts,
-
   tiles: state => state.tiles,
 
   configs: state => state.configs,
 
-  build: state => state.build,
+  builds: state => state.builds,
 
   executionStatuses: state => state.executionStatuses,
 

@@ -10,14 +10,9 @@ const actions = {
   },
 
   updateConfig ({ state, commit, dispatch }, config) {
-    let configsCount = Object.keys(state.configs).length
     commit('updateConfig', config)
 
     io.emit('SOCKET_CONFIGS_UPDATE_ONE', state.configs[config.name])
-
-    if (configsCount !== Object.keys(state.configs).length) {
-      dispatch('updateCharts')
-    }
   },
 
   updateConfigDb ({ state, commit, dispatch }, data) {
@@ -89,25 +84,6 @@ const actions = {
     })
   },
 
-  addStage ({ state, dispatch }, configWithStage) {
-    let currentConfig = state.configs[configWithStage.name]
-    if (!currentConfig) {
-      dispatch('createEmptyConfig', configWithStage)
-    } else if (!currentConfig.stages.includes(configWithStage.stages[0])) {
-      Configs.getOne(configWithStage.name, (err, config) => {
-        if (err) return log.error(err)
-
-        config.stages.push(configWithStage.stages[0])
-        config.markModified('stages')
-        config.save(err => {
-          if (err) return log.error(err)
-
-          dispatch('updateConfig', config.toObject())
-        })
-      })
-    }
-  },
-
   removeConfigDb ({ state, commit, dispatch }, data) {
     Configs.removeOne(data.name, (err, doc) => {
       if (err || !doc) {
@@ -117,17 +93,7 @@ const actions = {
       dispatch('notifyDeleteOk', data)
 
       commit('deleteConfig', data.name)
-
-      if (Object.keys(state.configs).length === 0) {
-        Object.keys(state.charts).forEach(chartName => {
-          if (!chartName.startsWith('_')) {
-            commit('deleteChart', chartName)
-          }
-        })
-      }
-
       io.emit('SOCKET_CONFIGS_DELETE', { name: data.name })
-      dispatch('updateCharts')
     })
   },
 

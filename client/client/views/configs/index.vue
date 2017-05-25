@@ -63,7 +63,6 @@ export default {
         osNameExt: { name: 'OS', placeholder: 'Server 2012' },
         isNix: { name: 'Is Linux?', type: Boolean },
         browser: { name: 'Browser', placeholder: 'internet-explorer', title: 'firefox, chrome, internet-explorer, edge icons are supported' },
-        stages: { name: 'Stages (comma separated)', type: Array, placeholder: 'rest,ui', title: 'stages should be comma separated' },
         links: {
           name: 'Links',
           type: Object,

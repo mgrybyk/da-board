@@ -31,7 +31,7 @@
       <div class="env-details">
         <p class="title" :title="config.hostname || ''">{{ config.name }}</p>
         <p class="env-detail type">{{ config.type }}</p>
-        <p class="env-detail">{{ tile ? tile.package : '' }}</p>
+        <p class="env-detail"><em title="Build is not latest!">{{buildWarn}}</em> {{ (tile && tile.package) || 'N/A' }}</p>
         <p class="env-detail db-name" :title="config.dbHostname || ''">{{ config.dbName }} {{ config.dbVersion }}</p>
         <i :class="'fa-' + (config.isNix ? 'linux' : 'windows')" class="fa fa-lg env-icon"></i>
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
@@ -106,7 +106,7 @@ export default {
     }
   },
 
-  props: ['config', 'tile', 'timeDiff', 'auth', 'integrations'],
+  props: ['config', 'tile', 'timeDiff', 'auth', 'integrations', 'builds'],
 
   methods: {
     toggleDropdown (evt) {
@@ -227,6 +227,13 @@ export default {
         }
       })
       return actions
+    },
+    buildWarn () {
+      let buildWarn = ''
+      if (!this.tile || !this.tile.package || !this.config.integration || !this.config.integration.name || !this.builds[this.config.integration.name]) {
+        return buildWarn
+      }
+      return this.builds[this.config.integration.name].package !== this.tile.package ? '(!)' : buildWarn
     }
   },
 

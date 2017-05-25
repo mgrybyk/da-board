@@ -6,14 +6,11 @@ module.exports = io => {
     // tiles
     addGetListener(socket, 'TILES', 'tiles')
 
-    // build
-    addGetListener(socket, 'BUILD', 'build')
-
     // integrations
     addGetUpdateDeleteListeners(socket, 'INTEGRATIONS', 'integrations', 'Integration')
 
-    // stages
-    addGetUpdateDeleteListeners(socket, 'STAGES', 'stageCharts', 'Stage')
+    // builds
+    addGetUpdateDeleteListeners(socket, 'BUILDS', 'builds', 'Builds', 'integration')
 
     // homelinks
     addGetUpdateDeleteListeners(socket, 'HOMELINKS', 'homelinks', 'Homelink')
@@ -35,16 +32,6 @@ module.exports = io => {
     socket.on('INTEGRATION_ACTION', (data) => {
       if (!socket.request.isAuthenticated()) return
       $store.dispatch('integrationAction', Object.assign({}, data, { '__socket': socket }))
-    })
-
-    // charts
-    socket.on('GET_CHARTS', (data) => {
-      Object.keys($store.getters.charts).forEach(key => {
-        let chart = $store.getters.charts[key]
-        if (chart.data) {
-          socket.emit('SOCKET_CHARTS_UPDATE_ONE', chart)
-        }
-      })
     })
 
     // set flag
@@ -74,7 +61,7 @@ module.exports = io => {
   })
 }
 
-function addGetUpdateDeleteListeners (socket, eventType, getterType, dispatcherType) {
+function addGetUpdateDeleteListeners (socket, eventType, getterType, dispatcherType, propName) {
   addGetListener(socket, eventType, getterType)
   socket.on(`${eventType}_UPDATE_ONE`, (data) => {
     if (!socket.request.isAuthenticated()) return
@@ -82,11 +69,12 @@ function addGetUpdateDeleteListeners (socket, eventType, getterType, dispatcherT
     $store.dispatch(`update${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))
   })
   socket.on(`${eventType}_NEW`, (data) => {
+    let pName = propName || 'name'
     if (!socket.request.isAuthenticated()) return
-    if (!$store.getters[getterType][data.name]) {
+    if (!$store.getters[getterType][data[pName]]) {
       $store.dispatch(`update${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))
     } else {
-      $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `${dispatcherType} with name '${data.name}' already exists.` }, { '__socket': socket }))
+      $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `${dispatcherType} with ${pName} '${data[pName]}' already exists.` }, { '__socket': socket }))
     }
   })
   socket.on(`${eventType}_DELETE`, (data) => {

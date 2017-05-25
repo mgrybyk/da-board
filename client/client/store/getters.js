@@ -8,7 +8,6 @@ const results = state => state.results.data
 const resultsChanged = state => state.results.changed
 const tiles = state => state.tiles
 const integrations = state => state.integrations.data
-const charts = state => state.charts.data
 const configsObject = state => state.configs.data
 const configs = state => {
   let configsArr = []
@@ -24,12 +23,10 @@ const configs = state => {
   return configsArr
 }
 const configsEnabled = state => configs(state).filter(config => config.disabled !== true)
-const buildPackage = state => state.build.package
-const buildNumber = state => state.build.number
 const timeDiff = state => state.timeDiff.timeDiff
 const auth = state => state.auth
 const homeLinks = state => state.homeLinks.data
-const stages = state => state.stages.data
+const builds = state => state.builds.data
 const users = state => state.users.data
 const componententry = state => {
   return state.menu.items.filter(c => c.meta && c.meta.label === 'Components')[0]
@@ -46,16 +43,13 @@ export {
   resultsChanged,
   tiles,
   integrations,
-  charts,
   configsObject,
   configs,
   configsEnabled,
-  buildPackage,
-  buildNumber,
   timeDiff,
   auth,
   homeLinks,
-  stages,
+  builds,
   users,
   componententry
 }

@@ -15,7 +15,6 @@ var schema = mongoose.Schema({
   browser: String,
   isNix: Boolean,
   duration: Number,
-  stages: Array,
   sortBy: Number,
   links: Object,
   disabled: Boolean

@@ -14,13 +14,6 @@
         <span>Results</span>
       </a>
     </div>
-    
-    <div class="home-tile is">
-      <a href="/#/charts">
-        <i class="fa fa-pie-chart"></i>
-        <span>Charts</span>
-      </a>
-    </div>
   </div>
 
   <h2>Links</h2>

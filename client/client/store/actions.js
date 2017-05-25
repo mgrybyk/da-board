@@ -83,26 +83,18 @@ export const socketUsersDelete = ({ commit }, user) => {
   commit(types.SOCKET_USERS_DELETE, user)
 }
 
-// Stages
+// Builds
 
-export const socketStages = ({ commit }, data) => {
-  commit(types.SOCKET_STAGES, data)
+export const socketBuilds = ({ commit }, data) => {
+  commit(types.SOCKET_BUILDS, data)
 }
 
-export const socketStagesUpdateOne = ({ commit }, stage) => {
-  commit(types.SOCKET_STAGES_UPDATE_ONE, stage)
+export const socketBuildsUpdateOne = ({ commit }, build) => {
+  commit(types.SOCKET_BUILDS_UPDATE_ONE, build)
 }
 
-export const socketStagesDelete = ({ commit }, stage) => {
-  commit(types.SOCKET_STAGES_DELETE, stage)
-}
-
-// Home Charts
-
-export const socketChartsUpdateOne = ({ commit }, chart) => {
-  commit(types.SOCKET_CHART_CHANGED, { name: chart.name, changed: true })
-  setTimeout(() => { commit(types.SOCKET_CHARTS_UPDATE_ONE, chart) }, 200)
-  setTimeout(() => { commit(types.SOCKET_CHART_CHANGED, { name: chart.name, changed: false }) }, 300)
+export const socketBuildsDelete = ({ commit }, build) => {
+  commit(types.SOCKET_BUILDS_DELETE, build)
 }
 
 // Configs
@@ -121,12 +113,6 @@ export const socketConfigsDelete = ({ commit }, config) => {
 
 export const configsUpdateSorting = ({ commit }, tile) => {
   commit(types.CONFIGS_UPDATE_SORTING, tile)
-}
-
-// Build
-
-export const socketBuild = ({ commit }, build) => {
-  commit(types.SOCKET_BUILD, build)
 }
 
 // Time sync

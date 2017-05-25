@@ -17,14 +17,6 @@ const state = {
       component: lazyLoading('Home', false)
     },
     {
-      name: 'Charts',
-      path: '/charts',
-      meta: {
-        icon: 'fa-pie-chart'
-      },
-      component: lazyLoading('charts', true)
-    },
-    {
       name: 'Configurations',
       path: '/configurations',
       meta: {

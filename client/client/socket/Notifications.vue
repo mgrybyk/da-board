@@ -2,7 +2,6 @@
 
 <script>
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
 import Notification from 'vue-bulma-notification'
 
 const NotificationComponent = Vue.extend(Notification)
@@ -25,20 +24,9 @@ export default {
   },
   components: { },
   data () {
-    return {
-      buildChanged: false
-    }
+    return { }
   },
   methods: {
-    showNewBuild (newBuild) {
-      openNotificationInBody({
-        title: 'New Build Appeared!',
-        message: newBuild,
-        type: 'info',
-        direction: 'Right',
-        duration: 30000
-      })
-    },
     showIntegrationActionResult (data) {
       let msg = {
         title: `${data.actionName} ${data.configName}`,
@@ -72,25 +60,6 @@ export default {
         type: 'info',
         direction: 'Right'
       })
-    }
-  },
-
-  computed: {
-    ...mapGetters([
-      'buildNumber',
-      'buildPackage'
-    ])
-  },
-
-  mounted () { },
-
-  watch: {
-    buildPackage: function (val) {
-      if (this.buildChanged) {
-        this.showNewBuild(this.buildPackage)
-      } else {
-        this.buildChanged = true
-      }
     }
   }
 }

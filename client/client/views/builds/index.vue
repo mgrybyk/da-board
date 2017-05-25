@@ -9,15 +9,14 @@
               <thead>
                 <tr>
                   <th></th>
-                  <th>Name</th>
-                  <th>Display Name</th>
-                  <th>Is Chart</th>
+                  <th>Integration</th>
+                  <th>Package (Build)</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <TableItem
-                  v-for="(item, key) in stages"
+                  v-for="(item, key) in builds"
                   :item="item"
                   :baseModel="model"
                   :key="item._id">
@@ -29,7 +28,7 @@
       </div>
     </div>
 
-    <ItemDialog :item="{}" :baseModel="model" :title="'New'" :socketEventName="'STAGES_NEW'" :openModal="showModal"></ItemDialog>
+    <ItemDialog :item="{}" :baseModel="model" :title="'New'" :socketEventName="'BUILDS_NEW'" :openModal="showModal"></ItemDialog>
 
   </div>
 </template>
@@ -46,16 +45,15 @@ export default {
     return {
       showModal: false,
       model: {
-        name: { name: 'Name', isRequired: true, placeholder: 'Unique name' },
-        displayName: { name: 'Display Name', placeholder: 'Human readable name' },
-        isChart: { name: 'Is Chart', type: Boolean }
+        integration: { name: 'Integration', isRequired: true, placeholder: 'Integration unique name' },
+        package: { name: 'Package (Build number)', isRequired: true, placeholder: 'Build number' }
       }
     }
   },
 
   computed: {
     ...mapGetters({
-      stages: 'stages'
+      builds: 'builds'
     })
   },
 
