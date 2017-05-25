@@ -31,7 +31,7 @@
       <div class="env-details">
         <p class="title" :title="config.hostname || ''">{{ config.name }}</p>
         <p class="env-detail type">{{ config.type }}</p>
-        <p class="env-detail"><em title="Build is not latest!">{{buildWarn}}</em> {{ (tile && tile.package) || 'N/A' }}</p>
+        <p class="env-detail"><em class="build-warn" title="Build is not latest!">{{buildWarn}}</em> {{ (tile && tile.package) || 'N/A' }}</p>
         <p class="env-detail db-name" :title="config.dbHostname || ''">{{ config.dbName }} {{ config.dbVersion }}</p>
         <i :class="'fa-' + (config.isNix ? 'linux' : 'windows')" class="fa fa-lg env-icon"></i>
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
@@ -294,6 +294,10 @@ article.with-stripe {
   }
   &.color-cancelled, &.color-none {
     background-color: #eee;
+  }
+
+  .build-warn {
+    color: #bf2929;
   }
 }
 .stripe {
