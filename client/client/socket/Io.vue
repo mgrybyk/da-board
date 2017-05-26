@@ -31,24 +31,6 @@ export default {
     this.$options.sockets.SOCKET_USERS_DELETE = data => this.socketUsersDelete(data)
 
     this.$options.sockets.SOCKET_TIME_SYNC = data => this.timeSync(data.time - new Date().getTime())
-
-    this.$options.sockets.connect = () => {
-      this.$socket.emit('GET_CONFIGS')
-
-      this.$socket.emit('GET_TILES')
-
-      this.$socket.emit('GET_INTEGRATIONS')
-
-      this.$socket.emit('GET_HOMELINKS')
-
-      this.$socket.emit('GET_BUILDS')
-
-      this.$socket.emit('GET_USERS')
-
-      this.$socket.emit('TIME_SYNC')
-
-      this.resultsIsChanged(true)
-    }
   },
 
   destroyed () {
@@ -109,6 +91,26 @@ export default {
 
       'timeSync'
     ])
+  },
+
+  mounted () {
+    this.$options.sockets.connect = () => {
+      this.$socket.emit('GET_CONFIGS')
+
+      this.$socket.emit('GET_TILES')
+
+      this.$socket.emit('GET_INTEGRATIONS')
+
+      this.$socket.emit('GET_HOMELINKS')
+
+      this.$socket.emit('GET_BUILDS')
+
+      this.$socket.emit('GET_USERS')
+
+      this.$socket.emit('TIME_SYNC')
+
+      this.resultsIsChanged(true)
+    }
   }
 }
 </script>

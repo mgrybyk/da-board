@@ -22,7 +22,7 @@ exports.routes = app => {
   app.post('/api/results/newFile', results.newFile)
 
   // build
-  app.post('/api/build', build.updateBuild) // package, number
+  app.post('/api/build', build.updateBuild) // integration, package, number
 
   // api
   app.post('/api/stage', processEvents.updateStageStatus) // name, stage, status (running, failed, passed)
