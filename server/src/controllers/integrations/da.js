@@ -19,7 +19,7 @@ exports.daProcessEnded = (req, res, next) => {
   log.verbose('daProcessEnded', req.body.result)
 
   if (!req.body.externalData || !req.body.externalData.name || !req.body.externalData.propName) {
-    console.log(req.body)
+    log.trace(req.body)
     return next({ message: 'badly configured DA integration.' }, req, res, next)
   }
 

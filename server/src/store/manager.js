@@ -20,7 +20,7 @@ const dispatch = (actionType, payload) => {
   const entry = store._actions[actionType]
   let state = store._state
   if (!entry) {
-    console.error(`[store] unknown action type: ${actionType}`)
+    log.error(`[store] unknown action type: ${actionType}`)
     return
   }
   return entry({ state, commit, dispatch }, payload)
@@ -29,7 +29,7 @@ const dispatch = (actionType, payload) => {
 const commit = (mutationType, payload) => {
   const entry = store._mutations[mutationType]
   if (!entry) {
-    console.error(`[store] unknown mutation type: ${mutationType}`)
+    log.error(`[store] unknown mutation type: ${mutationType}`)
     return
   }
   entry(store._state, payload)

@@ -50,8 +50,6 @@ exports.signup = (req, res, next) => {
     return res.send(responseData)
   }
 
-  log.verbose(req.body)
-
   if (req.body.username.length < 2 || req.body.password.length < 2) {
     responseData.message = 'Login and password length should be 3 symbols or more.'
     return res.send(responseData)

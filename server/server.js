@@ -20,6 +20,7 @@ global.$store = require('./src/store/store')
 
 // get required data from db and put to store for further usage
 async function init () {
+  await require('./config/prepopulate')()
   await $store.dispatch('setIntegrations')
   await $store.dispatch('setConfigs')
   await $store.dispatch('setBuilds')
