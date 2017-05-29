@@ -15,7 +15,7 @@ const mongooseOpts = {
   }
 }
 if (isAuth) {
-  mongooseOpts.user = process.env.MONGODB_USER || 'dba',
+  mongooseOpts.user = process.env.MONGODB_USER || 'dba'
   mongooseOpts.pass = process.env.MONGODB_PASS || 'password'
 }
 
