@@ -9,3 +9,4 @@ db
 www/assets
 www/favicon.png
 www/index.html
+.env

@@ -15,7 +15,7 @@ module.exports = (app, routes, mongooseConnection) => {
   var userSession = {
     resave: true,
     saveUninitialized: false,
-    secret: 'daBoard J:O#$Y*(#',
+    secret: process.env.EXPRESS_SESSION_SECRET || 'daBoard J:O#$Y*(#',
     cookie: {
       maxAge: 60480000000 // one hour is 3600000
     },

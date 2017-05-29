@@ -1,11 +1,12 @@
 'use strict'
+require('dotenv').config()
+
 var pathToApp = 'www'
 var pathToWorkDir = 'workDir'
-const port = process.argv[2] || '81'
 
 module.exports = {
-  host: '',
-  port: port,
+  host: process.env.EXPRESS_HOST || '',
+  port: process.env.EXPRESS_PORT || '81',
 
   pathToApp: pathToApp,
   appHtml: pathToApp + '/index.html',
@@ -17,7 +18,7 @@ module.exports = {
   pathToWdOutput: pathToWorkDir + '/output',
 
   algorithm: 'aes256',
-  key: 'daBoard MG*(P$G',
+  key: process.env.PASSPORT_KEY || 'daBoard MG*(P$G',
 
   allureEnvProperties: 'environment.properties'
 }
