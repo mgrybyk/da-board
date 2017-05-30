@@ -7,6 +7,7 @@
 - see links to most important places for you project
 - and much more
 
-![](https://raw.githubusercontent.com/mgrybyk/da-board/readme/cat.png)
+![](https://raw.githubusercontent.com/mgrybyk/da-board/master/readme/tiles.jpg)
+![](readme/results.jpg?raw=true)
 
 Full doc: https://docs.google.com/document/d/1Str5qD5b8jwkQqVn62mpGv_elP5AkSeb5iInr8t3cQ0/edit#
