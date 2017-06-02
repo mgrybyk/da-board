@@ -43,13 +43,22 @@ const actions = {
     }
 
     request(requestParams, (error, response, body) => {
-      if (error) log.error(error)
-      data['__socket'].emit('SOCKET_INTEGRATION_ACTION_RESULT', {
+      let socketData = {
         actionName: data.action,
-        configName: data.configName,
-        isError: !!error || response.statusCode < 200 || response.statusCode > 399,
-        error: error.message || error || `Code: ${response.statusCode}; body: ${body.substr(0, 280)}${body.length > 280 ? '...' : ''}`
-      })
+        configName: data.configName
+      }
+      if (error) {
+        log.error(error)
+        socketData.isError = !!error || response.statusCode < 200 || response.statusCode > 399
+        socketData.error = error.message || error
+      } else {
+        socketData.isError = response.statusCode < 200 || response.statusCode > 399
+        if (socketData.isError) {
+          socketData.error = `Code: ${response.statusCode}; body: ${body.substr(0, 280)}${body.length > 280 ? '...' : ''}`
+        }
+      }
+
+      data['__socket'].emit('SOCKET_INTEGRATION_ACTION_RESULT', socketData)
     })
   },
 
