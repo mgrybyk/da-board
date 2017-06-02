@@ -94,6 +94,23 @@ export default {
 }
 </script>
 
+<style lang="scss">
+  @media (max-width:680px)
+  {
+    .hide-column-small { display: none; }
+  }
+
+  @media (max-width:901px)
+  {
+    .hide-column-medium { display: none; }
+  }
+
+  @media (min-width:900px)
+  {
+    .hide-column-large { display: none; }
+  }
+</style>
+
 <style lang="scss" scoped>
   @media (max-width:480px)
   {
@@ -108,20 +125,5 @@ export default {
     .tile.is-parent {
       padding: 0;
     }
-  }
-
-  @media (max-width:680px)
-  {
-    .hide-column-small { display: none; }
-  }
-
-  @media (max-width:901px)
-  {
-    .hide-column-medium { display: none; }
-  }
-
-  @media (min-width:900px)
-  {
-    .hide-column-large { display: none; }
   }
 </style>
