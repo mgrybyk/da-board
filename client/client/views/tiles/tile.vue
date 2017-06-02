@@ -421,9 +421,10 @@ article.with-stripe {
   p.title {
     font-size: 26px;
     margin-bottom: 0;
-    height: 5ex;
+    height: 4.9ex;
     overflow: hidden;
     font-weight: 400;
+    white-space: normal;
   }
   p.db-name {
     font-size: 19px;
