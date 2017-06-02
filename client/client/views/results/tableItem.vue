@@ -73,24 +73,6 @@ export default {
   }
 }
 
-td.is-icon.has-link {
-  padding: 0;
-  height: 1px;
-  transition: background-color .3s;
-  i.fa {
-    transition: color .3s;
-  }
-  a {
-    min-height: 32px;
-    display: block;
-    padding: .25em .5em;
-    height: 100%;
-    i {
-      position: relative;
-      top: calc(50% - 12px);
-    }
-  }
-}
 td.internet-explorer {
   $ie-color: #29b6f6;
   i { color: $ie-color; }

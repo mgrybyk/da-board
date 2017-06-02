@@ -70,7 +70,7 @@ td.is-icon.has-link {
   width: 2%;
   text-align: center;
   padding: 0;
-  height: 1px;
+  height: 100%;
   transition: background-color .3s;
   i.fa {
     transition: color .3s;
@@ -152,5 +152,10 @@ button.is-smaller {
 // Notification
 .notifications .notification {
   word-wrap: break-word;
+}
+
+table tbody tr {
+  // fucking firefox fix
+  height: 100%;
 }
 </style>
