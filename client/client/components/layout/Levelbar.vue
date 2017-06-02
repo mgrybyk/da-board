@@ -63,3 +63,15 @@ export default {
   justify-content: initial;
 }
 </style>
+
+<style lang="scss">
+ol.breadcrumb {
+  --separator: none;
+
+  li:not(:last-child):after {
+    content: " /";
+    margin-right: 5px;
+    color: #aaa;
+  }
+}
+</style>
