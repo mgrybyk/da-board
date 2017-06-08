@@ -1,5 +1,10 @@
 # da-board
 
+## Dashboard to manage and monitor environments
+Written with **Vue.js 2** & **Node 8**
+
+
+## Features
 - see when env deployment started / completed and current stage in real time
 - manage config (start, stop, abort, etc)
 - mark env as locked/fix/etc
