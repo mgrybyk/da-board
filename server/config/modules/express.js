@@ -38,12 +38,15 @@ module.exports = (app, routes, mongooseConnection) => {
 
 module.exports.passportIo = io => {
   io.use(function (socket, next) {
+    if (!socket.request.res) socket.request.res = {}
     sessionMiddleware(socket.request, socket.request.res, next)
   })
   io.use(function (socket, next) {
+    if (!socket.request.res) socket.request.res = {}
     passportInstance(socket.request, socket.request.res, next)
   })
   io.use(function (socket, next) {
+    if (!socket.request.res) socket.request.res = {}
     passportSessionInstance(socket.request, socket.request.res, next)
   })
 }

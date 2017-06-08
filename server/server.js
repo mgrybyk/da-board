@@ -45,6 +45,7 @@ const http = require('http').Server(app)
 // socket.io
 const io = require('socket.io')(http)
 express.passportIo(io)
+io.set('transports', ['websocket', 'polling'])
 global.io = io
 require('./src/socketListeners')(io)
 

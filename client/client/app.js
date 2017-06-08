@@ -19,7 +19,7 @@ const socketPlugin = {
   }
 }
 
-let msocket = socketio()
+let msocket = socketio({ transports: ['websocket', 'polling'] })
 Vue.use(socketPlugin, msocket)
 
 // Enable devtools
