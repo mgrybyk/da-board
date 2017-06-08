@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import NProgress from 'vue-nprogress'
-import VueSocketio from 'vue-socket.io'
+// import VueSocketio from 'vue-socket.io'
+import socketio from 'socket.io-client'
 import { sync } from 'vuex-router-sync'
 import App from './App.vue'
 import router from './router'
@@ -11,7 +12,15 @@ import { TOGGLE_SIDEBAR } from 'vuex-store/mutation-types'
 
 Vue.use(Resource)
 Vue.use(NProgress)
-Vue.use(VueSocketio, window.location.origin, store)
+
+const socketPlugin = {
+  install (Vue, socket) {
+    Vue.prototype.$socket = socket
+  }
+}
+
+let msocket = socketio()
+Vue.use(socketPlugin, msocket)
 
 // Enable devtools
 Vue.config.devtools = true

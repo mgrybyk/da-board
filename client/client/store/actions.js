@@ -28,7 +28,7 @@ export const resultsClear = ({ commit }) => {
 }
 
 export const resultsIsChanged = ({ commit }, changed) => {
-  commit(types.RESULTS_CHANGED, changed)
+  commit(types.SOCKET_RESULTS_CHANGED, changed)
 }
 
 // Tiles

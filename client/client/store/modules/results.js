@@ -14,7 +14,7 @@ const mutations = {
     state.data = []
   },
 
-  [types.RESULTS_CHANGED] (state, changed) {
+  [types.SOCKET_RESULTS_CHANGED] (state, changed) {
     state.changed = changed
   }
 }

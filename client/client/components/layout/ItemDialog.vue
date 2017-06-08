@@ -37,6 +37,7 @@
 import { Modal } from 'vue-bulma-modal'
 import Vue from 'vue'
 import Notification from 'vue-bulma-notification'
+import * as types from '../../store/mutation-types'
 
 const NotificationComponent = Vue.extend(Notification)
 const openNotificationInModal = propsData => {
@@ -69,13 +70,13 @@ export default {
   methods: {
     openModalBasic () {
       this.showModal = true
-      this.$options.sockets.SOCKET_DIALOG_ERROR = data => this.showDialogError(data)
-      this.$options.sockets.SOCKET_DIALOG_OK = data => this.showDialogOk(data)
+      this.$socket.on(types.SOCKET_DIALOG_ERROR, data => this.showDialogError(data))
+      this.$socket.on(types.SOCKET_DIALOG_OK, data => this.showDialogOk(data))
     },
     closeModalBasic () {
       this.showModal = false
-      delete this.$options.sockets.SOCKET_DIALOG_ERROR
-      delete this.$options.sockets.SOCKET_DIALOG_OK
+      delete this.$socket.off(types.SOCKET_DIALOG_ERROR)
+      delete this.$socket.off(types.SOCKET_DIALOG_OK)
     },
     closeByEscape (ev) {
       if (this.showModal === true && ev.key === 'Escape') {

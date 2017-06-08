@@ -2,64 +2,66 @@
 
 <script>
 import { mapActions } from 'vuex'
+import * as types from '../store/mutation-types'
 
 export default {
   beforeMount () {
-    this.$options.sockets.SOCKET_CONFIGS = data => this.socketConfigs(data)
-    this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE = data => this.socketConfigsUpdateOne(data)
-    this.$options.sockets.SOCKET_CONFIGS_DELETE = data => this.socketConfigsDelete(data)
+    this.$socket.on(types.SOCKET_CONFIGS, data => this.socketConfigs(data))
+    this.$socket.on(types.SOCKET_CONFIGS, data => this.socketConfigs(data))
+    this.$socket.on(types.SOCKET_CONFIGS_UPDATE_ONE, data => this.socketConfigsUpdateOne(data))
+    this.$socket.on(types.SOCKET_CONFIGS_DELETE, data => this.socketConfigsDelete(data))
 
-    this.$options.sockets.SOCKET_TILES = data => this.socketTiles(data)
-    this.$options.sockets.SOCKET_TILES_UPDATE_ONE = data => this.socketTilesUpdateOne(data)
+    this.$socket.on(types.SOCKET_TILES, data => this.socketTiles(data))
+    this.$socket.on(types.SOCKET_TILES_UPDATE_ONE, data => this.socketTilesUpdateOne(data))
 
-    this.$options.sockets.SOCKET_RESULTS_CHANGED = data => this.resultsIsChanged(true)
+    this.$socket.on(types.SOCKET_RESULTS_CHANGED, data => this.resultsIsChanged(true))
 
-    this.$options.sockets.SOCKET_INTEGRATIONS = data => this.socketIntegrations(data)
-    this.$options.sockets.SOCKET_INTEGRATIONS_UPDATE_ONE = data => this.socketIntegrationsUpdateOne(data)
-    this.$options.sockets.SOCKET_INTEGRATIONS_DELETE = data => this.socketIntegrationsDelete(data)
+    this.$socket.on(types.SOCKET_INTEGRATIONS, data => this.socketIntegrations(data))
+    this.$socket.on(types.SOCKET_INTEGRATIONS_UPDATE_ONE, data => this.socketIntegrationsUpdateOne(data))
+    this.$socket.on(types.SOCKET_INTEGRATIONS_DELETE, data => this.socketIntegrationsDelete(data))
 
-    this.$options.sockets.SOCKET_HOMELINKS = data => this.socketHomeLinks(data)
-    this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE = data => this.socketHomeLinksUpdateOne(data)
-    this.$options.sockets.SOCKET_HOMELINKS_DELETE = data => this.socketHomeLinksDelete(data)
+    this.$socket.on(types.SOCKET_HOMELINKS, data => this.socketHomeLinks(data))
+    this.$socket.on(types.SOCKET_HOMELINKS_UPDATE_ONE, data => this.socketHomeLinksUpdateOne(data))
+    this.$socket.on(types.SOCKET_HOMELINKS_DELETE, data => this.socketHomeLinksDelete(data))
 
-    this.$options.sockets.SOCKET_BUILDS = data => this.socketBuilds(data)
-    this.$options.sockets.SOCKET_BUILDS_UPDATE_ONE = data => this.socketBuildsUpdateOne(data)
-    this.$options.sockets.SOCKET_BUILDS_DELETE = data => this.socketBuildsDelete(data)
+    this.$socket.on(types.SOCKET_BUILDS, data => this.socketBuilds(data))
+    this.$socket.on(types.SOCKET_BUILDS_UPDATE_ONE, data => this.socketBuildsUpdateOne(data))
+    this.$socket.on(types.SOCKET_BUILDS_DELETE, data => this.socketBuildsDelete(data))
 
-    this.$options.sockets.SOCKET_USERS = data => this.socketUsers(data)
-    this.$options.sockets.SOCKET_USERS_UPDATE_ONE = data => this.socketUsersUpdateOne(data)
-    this.$options.sockets.SOCKET_USERS_DELETE = data => this.socketUsersDelete(data)
+    this.$socket.on(types.SOCKET_USERS, data => this.socketUsers(data))
+    this.$socket.on(types.SOCKET_USERS_UPDATE_ONE, data => this.socketUsersUpdateOne(data))
+    this.$socket.on(types.SOCKET_USERS_DELETE, data => this.socketUsersDelete(data))
 
-    this.$options.sockets.SOCKET_TIME_SYNC = data => this.timeSync(data.time - new Date().getTime())
+    this.$socket.on(types.SOCKET_TIME_SYNC, data => this.timeSync(data.time - new Date().getTime()))
   },
 
   destroyed () {
-    delete this.$options.sockets.SOCKET_CONFIGS
-    delete this.$options.sockets.SOCKET_CONFIGS_UPDATE_ONE
-    delete this.$options.sockets.SOCKET_CONFIGS_DELETE
+    delete this.$socket.off(types.SOCKET_CONFIGS)
+    delete this.$socket.off(types.SOCKET_CONFIGS_UPDATE_ONE)
+    delete this.$socket.off(types.SOCKET_CONFIGS_DELETE)
 
-    delete this.$options.sockets.SOCKET_TILES
-    delete this.$options.sockets.SOCKET_TILES_UPDATE_ONE
+    delete this.$socket.off(types.SOCKET_TILES)
+    delete this.$socket.off(types.SOCKET_TILES_UPDATE_ONE)
 
-    delete this.$options.sockets.SOCKET_RESULTS_CHANGED
+    delete this.$socket.off(types.SOCKET_RESULTS_CHANGED)
 
-    delete this.$options.sockets.SOCKET_INTEGRATIONS
-    delete this.$options.sockets.SOCKET_INTEGRATIONS_UPDATE_ONE
-    delete this.$options.sockets.SOCKET_INTEGRATIONS_DELETE
+    delete this.$socket.off(types.SOCKET_INTEGRATIONS)
+    delete this.$socket.off(types.SOCKET_INTEGRATIONS_UPDATE_ONE)
+    delete this.$socket.off(types.SOCKET_INTEGRATIONS_DELETE)
 
-    delete this.$options.sockets.SOCKET_HOMELINKS
-    delete this.$options.sockets.SOCKET_HOMELINKS_UPDATE_ONE
-    delete this.$options.sockets.SOCKET_HOMELINKS_DELETE
+    delete this.$socket.off(types.SOCKET_HOMELINKS)
+    delete this.$socket.off(types.SOCKET_HOMELINKS_UPDATE_ONE)
+    delete this.$socket.off(types.SOCKET_HOMELINKS_DELETE)
 
-    delete this.$options.sockets.SOCKET_BUILDS
-    delete this.$options.sockets.SOCKET_BUILDS_UPDATE_ONE
-    delete this.$options.sockets.SOCKET_BUILDS_DELETE
+    delete this.$socket.off(types.SOCKET_BUILDS)
+    delete this.$socket.off(types.SOCKET_BUILDS_UPDATE_ONE)
+    delete this.$socket.off(types.SOCKET_BUILDS_DELETE)
 
-    delete this.$options.sockets.SOCKET_USERS
-    delete this.$options.sockets.SOCKET_USERS_UPDATE_ONE
-    delete this.$options.sockets.SOCKET_USERS_DELETE
+    delete this.$socket.off(types.SOCKET_USERS)
+    delete this.$socket.off(types.SOCKET_USERS_UPDATE_ONE)
+    delete this.$socket.off(types.SOCKET_USERS_DELETE)
 
-    delete this.$options.sockets.SOCKET_TIME_SYNC
+    delete this.$socket.off(types.SOCKET_TIME_SYNC)
   },
 
   methods: {
@@ -94,7 +96,7 @@ export default {
   },
 
   mounted () {
-    this.$options.sockets.connect = () => {
+    this.$socket.on('connect', () => {
       this.$socket.emit('GET_CONFIGS')
 
       this.$socket.emit('GET_TILES')
@@ -110,7 +112,7 @@ export default {
       this.$socket.emit('TIME_SYNC')
 
       this.resultsIsChanged(true)
-    }
+    })
   }
 }
 </script>

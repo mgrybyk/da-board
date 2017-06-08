@@ -3,6 +3,7 @@
 <script>
 import Vue from 'vue'
 import Notification from 'vue-bulma-notification'
+import * as types from '../store/mutation-types'
 
 const NotificationComponent = Vue.extend(Notification)
 
@@ -13,14 +14,14 @@ const openNotificationInBody = propsData => new NotificationComponent({
 
 export default {
   beforeMount () {
-    this.$options.sockets.SOCKET_INTEGRATION_ACTION_RESULT = data => this.showIntegrationActionResult(data)
-    this.$options.sockets.SOCKET_DELETE_ERROR = data => this.showDeleteError(data)
-    this.$options.sockets.SOCKET_DELETE_OK = data => this.showDeleteOk(data)
+    this.$socket.on(types.SOCKET_INTEGRATION_ACTION_RESULT, data => this.showIntegrationActionResult(data))
+    this.$socket.on(types.SOCKET_DELETE_ERROR, data => this.showDeleteError(data))
+    this.$socket.on(types.SOCKET_DELETE_OK, data => this.showDeleteOk(data))
   },
   destroyed () {
-    delete this.$options.sockets.SOCKET_INTEGRATION_ACTION_RESULT
-    delete this.$options.sockets.SOCKET_DELETE_ERROR
-    delete this.$options.sockets.SOCKET_DELETE_OK
+    delete this.$socket.off(types.SOCKET_INTEGRATION_ACTION_RESULT)
+    delete this.$socket.off(types.SOCKET_DELETE_ERROR)
+    delete this.$socket.off(types.SOCKET_DELETE_OK)
   },
   components: { },
   data () {
