@@ -16,6 +16,7 @@
                   <th>Actions</th>
                   <th>Remote Calls</th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

@@ -13,12 +13,18 @@
     <td>{{ item.dbName }}</td>
     <td>{{ item.dbVersion }}</td>
     <td>{{ item.integration && item.integration.name || 'None' }}</td>
+    <td class="is-icon has-link">
+      <a @click="showCopyModal=!showCopyModal" title="Copy">
+        <i class="fa fa-copy"></i>
+      </a>
+    </td>
     <td class="is-icon has-link remove">
       <a @click="showConfirmation=!showConfirmation">
         <i class="fa fa-trash"></i>
       </a>
     </td>
     
+  <ItemDialog :item="newItem(item)" :baseModel="baseModel" :title="'Copy'" :socketEventName="'CONFIGS_COPY'" :openModal="showCopyModal"></ItemDialog>
   <ItemDialog :item="item" :baseModel="baseModel" :title="'Edit'" :socketEventName="'CONFIGS_UPDATE_ONE'" :openModal="showModal"></ItemDialog>
   <ItemConfirmation :actionName="'delete'" :name="item.name" :socketEventName="'CONFIGS_DELETE'" :openConfirmation="showConfirmation"></ItemConfirmation>
   
@@ -31,14 +37,21 @@ import ItemConfirmation from '../../components/layout/ItemConfirmation'
 
 export default {
   data () {
-    return { showModal: false, showConfirmation: false }
+    return { showModal: false, showConfirmation: false, showCopyModal: false }
   },
 
   components: { ItemDialog, ItemConfirmation },
 
   props: ['item', 'baseModel'],
 
-  methods: { },
+  methods: {
+    newItem (item) {
+      let newItem = this.$lodash.cloneDeep(item)
+      delete newItem._id
+      newItem.name += '-COPY'
+      return newItem
+    }
+  },
 
   computed: { }
 }

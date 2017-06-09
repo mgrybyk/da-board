@@ -77,6 +77,15 @@ function addGetUpdateDeleteListeners (socket, eventType, getterType, dispatcherT
       $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `${dispatcherType} with ${pName} '${data[pName]}' already exists.` }, { '__socket': socket }))
     }
   })
+  socket.on(`${eventType}_COPY`, (data) => {
+    let pName = propName || 'name'
+    if (!socket.request.isAuthenticated()) return
+    if (!$store.getters[getterType][data[pName]]) {
+      $store.dispatch(`update${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))
+    } else {
+      $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `${dispatcherType} with ${pName} '${data[pName]}' already exists.` }, { '__socket': socket }))
+    }
+  })
   socket.on(`${eventType}_DELETE`, (data) => {
     if (!socket.request.isAuthenticated()) return
     $store.dispatch(`remove${dispatcherType}Db`, Object.assign({}, data, { '__socket': socket }))

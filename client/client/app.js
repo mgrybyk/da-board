@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import NProgress from 'vue-nprogress'
-// import VueSocketio from 'vue-socket.io'
 import socketio from 'socket.io-client'
 import { sync } from 'vuex-router-sync'
 import App from './App.vue'
@@ -9,18 +8,13 @@ import router from './router'
 import store from './store'
 import * as filters from './filters'
 import { TOGGLE_SIDEBAR } from 'vuex-store/mutation-types'
+import lodash from 'lodash'
+Object.defineProperty(Vue.prototype, '$lodash', { value: lodash })
+const $socket = socketio({ transports: ['websocket', 'polling'] })
+Object.defineProperty(Vue.prototype, '$socket', { value: $socket })
 
 Vue.use(Resource)
 Vue.use(NProgress)
-
-const socketPlugin = {
-  install (Vue, socket) {
-    Vue.prototype.$socket = socket
-  }
-}
-
-let msocket = socketio({ transports: ['websocket', 'polling'] })
-Vue.use(socketPlugin, msocket)
 
 // Enable devtools
 Vue.config.devtools = true
