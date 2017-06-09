@@ -1,5 +1,3 @@
-const _ = require('lodash')
-
 const mutations = {
   updateConfig (state, config) {
     state.configs[config.name] = config
