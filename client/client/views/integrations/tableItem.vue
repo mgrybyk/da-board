@@ -7,7 +7,7 @@
     </td>
     <td>{{ item.name }}</td>
     <td>{{ item.displayName }}</td>
-    <td>{{ item.rootUrl }}</td>
+    <td style="word-break: break-word;">{{ item.rootUrl }}</td>
     <td>{{ item.auth && item.auth.user || 'None' }}</td>
     <td>{{ joinKeys(item.actions) }}</td>
     <td>{{ joinKeys(item.remote) }}</td>
