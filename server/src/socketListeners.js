@@ -58,6 +58,43 @@ module.exports = io => {
         socket.emit('SOCKET_USERS', users)
       })
     })
+    socket.on('USERS_UPDATE_ONE', (data) => {
+      if (!socket.request.isAuthenticated()) return
+      if (socket.request.user.username !== data.username && socket.request.user.username !== 'admin') return
+      User.getOneBy({ _id: data._id }, (err, user) => {
+        if (err || !user) {
+          return $store.dispatch('notifyDialogErr', Object.assign({}, data, { err: `Failed to update user: ${user.username}` }, { '__socket': socket }))
+        }
+        user.displayName = data.displayName
+        if (data.password && data.password.trim().length >= 3) user.password = User.encryptPassword(data.password.trim())
+        user.save()
+        $store.dispatch('notifyDialogOk', Object.assign({}, { name: user.username }, { '__socket': socket }))
+        socket.emit('SOCKET_USERS_UPDATE_ONE', user.toObject())
+      })
+    })
+    socket.on('USERS_RESET', (data) => {
+      if (!socket.request.isAuthenticated()) return
+      if (socket.request.user.username !== data.name && socket.request.user.username !== 'admin') return
+      User.getOneBy({ username: data.name }, (err, user) => {
+        if (err || !user) {
+          return log.error('failed to reset password', err)
+        }
+        user.password = User.encryptPassword('password')
+        user.save()
+        $store.dispatch('notifyDialogOk', Object.assign({}, { name: user.username }, { '__socket': socket }))
+      })
+    })
+    socket.on('USERS_DELETE', (data) => {
+      if (!socket.request.isAuthenticated()) return
+      if (socket.request.user.username !== 'admin' || data.name === 'admin') return
+      User.removeOne(data.name, (err, doc) => {
+        if (err || !doc) {
+          return $store.dispatch('notifyDeleteErr', Object.assign({}, data, { err }))
+        }
+        $store.dispatch('notifyDeleteOk', Object.assign({}, data, { '__socket': socket }))
+        io.emit('SOCKET_USERS_DELETE', { name: data.name })
+      })
+    })
   })
 }
 

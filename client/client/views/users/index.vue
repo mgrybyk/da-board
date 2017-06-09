@@ -11,7 +11,7 @@
                   <th>Name</th>
                   <th>Display Name</th>
                   <th></th>
-                  <th></th>
+                  <th v-if="auth.username === 'admin'"></th>
                 </tr>
               </thead>
               <tbody>

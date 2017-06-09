@@ -30,6 +30,8 @@ schema.statics.saveUser = function (obj, cb) {
 }
 
 schema.statics.getAll = cb => Model.find({}, { username: 1, displayName: 1 }).exec(cb)
+schema.statics.getOneBy = (condition, cb) => Model.findOne(condition).exec(cb)
+schema.statics.removeOne = (username, cb) => Model.findOneAndRemove({ username: username }).exec(cb)
 
 function encryptPassword (pwd) {
   let cipher = crypto.createCipher(CONFIG.algorithm, CONFIG.key)
@@ -38,3 +40,4 @@ function encryptPassword (pwd) {
 
 const Model = mongoose.model('Users', schema)
 module.exports = Model
+module.exports.encryptPassword = encryptPassword

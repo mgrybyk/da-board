@@ -11,10 +11,7 @@ const mutations = {
 
   [types.SOCKET_USERS_UPDATE_ONE] (state, user) {
     let users = {...state.data}
-    if (user.prevName) {
-      delete users[user.prevName]
-    }
-    users[user.name] = user
+    users[user.username] = user
     state.data = users
   },
 

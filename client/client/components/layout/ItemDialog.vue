@@ -11,6 +11,8 @@
             <p class="control">
               <textarea class="textarea" :placeholder="row.placeholder" :title="row.title" v-model="itemFiltered[key]" v-if="row.type === Object" :rows="row.rows || 2"></textarea>
               <input class="checkbox" type="checkbox" :title="row.title" v-model="itemFiltered[key]" v-else-if="row.type === Boolean">
+              <input class="input" :placeholder="row.placeholder" :title="row.title" type="password" v-model="itemFiltered[key]" 
+                     :required="row.isRequired" v-else-if="row.name === 'Password'">
               <input class="input" :placeholder="row.placeholder" :title="row.title" type="text" v-model="itemFiltered[key]" :required="row.isRequired" v-else>
             </p>
           </div>

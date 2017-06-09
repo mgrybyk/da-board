@@ -42,7 +42,7 @@ export default {
       beforeEnter: isLoggedIn
     },
     {
-      name: 'Users (in dev!)',
+      name: 'Users',
       path: '/admin/users',
       component: lazyLoading('users', true),
       beforeEnter: isLoggedIn

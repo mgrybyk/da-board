@@ -12,15 +12,15 @@
         <i class="fa fa-key"></i>
       </a>
     </td>
-    <td class="has-link remove" :class="((auth.username === item.username) || auth.username === 'admin') && 'is-icon'">
-      <a v-if="((auth.username === item.username) || auth.username === 'admin')" @click="showDeleteConfirmation=!showDeleteConfirmation">
+    <td v-if="auth.username === 'admin'" class="has-link remove" :class="auth.username === 'admin' && 'is-icon'">
+      <a @click="showDeleteConfirmation=!showDeleteConfirmation">
         <i class="fa fa-trash"></i>
       </a>
     </td>
 
-  <ItemDialog :item="item" :baseModel="baseModel" :title="'Edit'" :socketEventName="'USERS_UPDATE_ONE'" :openModal="showModal"></ItemDialog>
+  <ItemDialog :item="item" :baseModel="model" :title="'Edit'" :socketEventName="'USERS_UPDATE_ONE'" :openModal="showModal"></ItemDialog>
   <ItemConfirmation :actionName="'delete'" :name="item.username" :socketEventName="'USERS_DELETE'" :openConfirmation="showDeleteConfirmation"></ItemConfirmation>
-  <ItemConfirmation :actionName="'reset password for'" :name="item.username" :socketEventName="'USERS_RESET'" :openConfirmation="showResetConfirmation"></ItemConfirmation>
+  <ItemConfirmation :actionName="'reset password (to password) for'" :name="item.username" :socketEventName="'USERS_RESET'" :openConfirmation="showResetConfirmation"></ItemConfirmation>
 
   </tr>
 </template>
@@ -38,7 +38,13 @@ export default {
 
   props: ['item', 'baseModel', 'auth'],
 
-  methods: {
+  computed: {
+    model () {
+      if (this.auth.username !== this.item.username) return this.baseModel
+      let model = Object.assign({}, this.baseModel)
+      model.password = { name: 'Password', placeholder: 'at least 3 symbols!' }
+      return model
+    }
   }
 }
 </script>
