@@ -9,7 +9,9 @@ const getters = {
 
   integrations: state => state.integrations,
 
-  homelinks: state => state.homelinks
+  homelinks: state => state.homelinks,
+
+  settings: state => state.settings
 }
 
 module.exports = getters

@@ -24,6 +24,10 @@ const mutations = {
     delete state.homelinks[name]
   },
 
+  updateSettings (state, entry) {
+    state.settings[entry.name] = entry
+  },
+
   updateBuild (state, build) {
     state.builds[build.integration] = build
   },

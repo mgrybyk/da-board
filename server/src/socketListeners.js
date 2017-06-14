@@ -15,6 +15,9 @@ module.exports = io => {
     // homelinks
     addGetUpdateDeleteListeners(socket, 'HOMELINKS', 'homelinks', 'Homelink')
 
+    // settings
+    addGetUpdateDeleteListeners(socket, 'SETTINGS', 'settings', 'Settings')
+
     // time sync
     socket.on('TIME_SYNC', (data) => {
       socket.emit('SOCKET_TIME_SYNC', { time: new Date().getTime() })

@@ -6,5 +6,6 @@ module.exports = Object.assign(
   require('./results'),
   require('./tiles'),
   require('./homelinks'),
-  require('./notifications')
+  require('./notifications'),
+  require('./settings')
 )

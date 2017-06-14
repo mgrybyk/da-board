@@ -14,7 +14,8 @@ const state = {
   configs: {},
   builds: {},
   integrations: {},
-  homelinks: {}
+  homelinks: {},
+  settings: {}
 }
 
 Manager.use({

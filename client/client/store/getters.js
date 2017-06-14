@@ -26,6 +26,7 @@ const configsEnabled = state => configs(state).filter(config => config.disabled 
 const timeDiff = state => state.timeDiff.timeDiff
 const auth = state => state.auth
 const homeLinks = state => state.homeLinks.data
+const settings = state => state.settings.data
 const builds = state => state.builds.data
 const users = state => state.users.data
 const componententry = state => {
@@ -49,6 +50,7 @@ export {
   timeDiff,
   auth,
   homeLinks,
+  settings,
   builds,
   users,
   componententry

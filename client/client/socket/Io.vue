@@ -24,6 +24,9 @@ export default {
     this.$socket.on(types.SOCKET_HOMELINKS_UPDATE_ONE, data => this.socketHomeLinksUpdateOne(data))
     this.$socket.on(types.SOCKET_HOMELINKS_DELETE, data => this.socketHomeLinksDelete(data))
 
+    this.$socket.on(types.SOCKET_SETTINGS, data => this.socketSettings(data))
+    this.$socket.on(types.SOCKET_SETTINGS_UPDATE_ONE, data => this.socketSettingsUpdateOne(data))
+
     this.$socket.on(types.SOCKET_BUILDS, data => this.socketBuilds(data))
     this.$socket.on(types.SOCKET_BUILDS_UPDATE_ONE, data => this.socketBuildsUpdateOne(data))
     this.$socket.on(types.SOCKET_BUILDS_DELETE, data => this.socketBuildsDelete(data))
@@ -52,6 +55,9 @@ export default {
     delete this.$socket.off(types.SOCKET_HOMELINKS)
     delete this.$socket.off(types.SOCKET_HOMELINKS_UPDATE_ONE)
     delete this.$socket.off(types.SOCKET_HOMELINKS_DELETE)
+
+    delete this.$socket.off(types.SOCKET_SETTINGS)
+    delete this.$socket.off(types.SOCKET_SETTINGS_UPDATE_ONE)
 
     delete this.$socket.off(types.SOCKET_BUILDS)
     delete this.$socket.off(types.SOCKET_BUILDS_UPDATE_ONE)
@@ -83,6 +89,9 @@ export default {
       'socketHomeLinksUpdateOne',
       'socketHomeLinksDelete',
 
+      'socketSettings',
+      'socketSettingsUpdateOne',
+
       'socketUsers',
       'socketUsersUpdateOne',
       'socketUsersDelete',
@@ -104,6 +113,8 @@ export default {
       this.$socket.emit('GET_INTEGRATIONS')
 
       this.$socket.emit('GET_HOMELINKS')
+
+      this.$socket.emit('GET_SETTINGS')
 
       this.$socket.emit('GET_BUILDS')
 

@@ -26,6 +26,7 @@ async function init () {
   await $store.dispatch('setBuilds')
   await $store.dispatch('setTiles')
   await $store.dispatch('setHomelinks')
+  await $store.dispatch('setSettings')
   $store.dispatch('recalcSorting', { sortBy: Number.MAX_VALUE })
 }
 init()

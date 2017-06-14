@@ -50,6 +50,11 @@ exports.signup = (req, res, next) => {
     return res.send(responseData)
   }
 
+  if ($store.getters.settings['signup_allowed'].flag !== true) {
+    responseData.message = 'Signup not allowed. Please contact any existing user to allow it.'
+    return res.send(responseData)
+  }
+
   if (req.body.username.length < 2 || req.body.password.length < 2) {
     responseData.message = 'Login and password length should be 3 symbols or more.'
     return res.send(responseData)

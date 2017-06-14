@@ -69,6 +69,16 @@ export const socketHomeLinksDelete = ({ commit }, homeLink) => {
   commit(types.SOCKET_HOMELINKS_DELETE, homeLink)
 }
 
+// Settings
+
+export const socketSettings = ({ commit }, data) => {
+  commit(types.SOCKET_SETTINGS, data)
+}
+
+export const socketSettingsUpdateOne = ({ commit }, option) => {
+  commit(types.SOCKET_SETTINGS_UPDATE_ONE, option)
+}
+
 // Users
 
 export const socketUsers = ({ commit }, data) => {
