@@ -20,6 +20,7 @@ exports.updateStageStatus = (req, res, next) => {
 
     result.stages[req.body.stage] = req.body.status
     result.markModified(`stages.${req.body.stage}`)
+    result.timestamp = new Date().getTime()
 
     result.save(err => {
       if (err) return next(err, req, res, next)
@@ -53,6 +54,7 @@ exports.setProcessRunning = (req, res, next) => {
     result.userFlag = undefined
     result.stages = {}
     result.processId = req.body.processId
+    result.timestamp = new Date().getTime()
     let config = $store.getters.configs[req.body.name]
     if (req.body.processId && config && config.integration) {
       let integration = $store.getters.integrations[config.integration.name]
@@ -85,6 +87,7 @@ exports.setEnvPackage = (req, res, next) => {
     }
 
     result.package = req.body.package
+    result.timestamp = new Date().getTime()
 
     result.save(err => {
       if (err) return next(err, req, res, next)
@@ -114,6 +117,7 @@ exports.setProcessEnded = (req, res, next) => {
     if (!result.toObject().stages) { result.stages = {} }
 
     result.isRunning = false
+    result.timestamp = new Date().getTime()
 
     if (req.body.isCancelled) {
       result.isCancelled = true

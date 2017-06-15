@@ -41,6 +41,7 @@ const actions = {
           }
         })
       }
+      homelink.timestamp = new Date().getTime()
 
       homelink.save(err => {
         if (err) {

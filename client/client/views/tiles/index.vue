@@ -1,6 +1,10 @@
 <template>
   <div>
   <div class="top-control"><vb-switch v-model="dragEnabled" v-if="auth.isAuth">Sort</vb-switch></div>
+  <template>
+    <vue-fuse :keys="searchKeys" :list="configs" :defaultAll="true" :shouldSort="false" eventName="fuseEvt"
+    :findAllMatches="true" :threshold="0.3" :inputPlaceholder="'Search...'" :inputClass="'input search-input'"></vue-fuse>
+  </template>
   <div v-for="(integration, index) in integrationsWithNone" :key="integration._id">
     <h2 class="title" v-if="Object.keys(configsFiltered(integration.name)).length > 0">
       {{ integration.displayName || integration.name || 'No Integration' }} 
@@ -25,19 +29,24 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import draggable from 'vuedraggable'
 import { mapGetters, mapActions } from 'vuex'
 import Tile from './tile'
 import VbSwitch from 'vue-checkbox-switch'
+import VueFuse from 'vue-fuse'
+Vue.use(VueFuse)
 
 export default {
-  components: { Tile, draggable, VbSwitch },
+  components: { Tile, draggable, VbSwitch, VueFuse },
 
   beforeMount () { },
 
   data () {
     return {
-      dragEnabled: false
+      dragEnabled: false,
+      configsAfterSearch: null,
+      searchKeys: ['name', 'hostname', 'dbName', 'type', 'osNameExt']
     }
   },
 
@@ -75,7 +84,8 @@ export default {
       this.configsUpdateSorting(newConfig)
     },
     configsFiltered (integrationName) {
-      return this.configs.filter(config => {
+      let filterArr = this.configsAfterSearch || this.configs
+      return filterArr.filter(config => {
         if (integrationName === undefined) {
           return config.integration === integrationName
         }
@@ -98,7 +108,11 @@ export default {
     }
   },
 
-  mounted () { }
+  mounted () {
+    this.$on('fuseEvt', results => {
+      this.configsAfterSearch = results
+    })
+  }
 }
 </script>
 

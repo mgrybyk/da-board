@@ -2,6 +2,7 @@ const Integrations = require('../src/models/Integrations')
 const Configs = require('../src/models/Configs')
 const HomeLinks = require('../src/models/HomeLinks')
 const User = require('../src/models/User')
+const Settings = require('../src/models/Settings')
 
 module.exports = async function () {
   let integrationsCount = await Integrations.count()
@@ -11,6 +12,10 @@ module.exports = async function () {
 
   if (integrationsCount === 0 && configsCount === 0 && usersCount === 0 && homeLinksCount === 0) {
     log.info('Polulating sample data...')
+
+    let timestamp = new Date().getTime()
+
+    await new Settings({ name: 'signup_allowed', flag: true, timestamp: timestamp }).save()
 
     await User.saveUser({ username: 'admin', password: 'admin', displayName: 'Administrator' })
 
@@ -45,7 +50,8 @@ module.exports = async function () {
           'urlTemplate': '{{rootUrl}}/job/{{JOB_NAME}}/{{processId}}/stop',
           'method': 'POST'
         }
-      }
+      },
+      timestamp: timestamp
     }).save()
 
     await new Configs({
@@ -67,7 +73,8 @@ module.exports = async function () {
           'TOMCAT_PORT': '8080'
         },
         name: 'jenkins-example'
-      }
+      },
+      timestamp: timestamp
     }).save()
     await new Configs({
       name: 'Example Config #2',
@@ -88,14 +95,16 @@ module.exports = async function () {
           'IIS_PORT': '80'
         },
         name: 'jenkins-example'
-      }
+      },
+      timestamp: timestamp
     }).save()
 
     await new HomeLinks({
       name: 'Youtube',
       link: 'https://youtube.com',
       details: 'Watch funny videos and relax :)',
-      group: 'non work related'
+      group: 'non work related',
+      timestamp: timestamp
     }).save()
 
     log.info('Done!')

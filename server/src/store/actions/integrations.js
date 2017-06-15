@@ -89,6 +89,7 @@ const actions = {
           }
         })
       }
+      integration.timestamp = new Date().getTime()
 
       integration.save(err => {
         if (err) {

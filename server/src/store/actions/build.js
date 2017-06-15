@@ -41,6 +41,7 @@ const actions = {
           }
         })
       }
+      build.timestamp = new Date().getTime()
 
       build.save(err => {
         if (err) {

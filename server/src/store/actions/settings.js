@@ -37,6 +37,7 @@ const actions = {
           }
         })
       }
+      option.timestamp = new Date().getTime()
 
       option.save(err => {
         if (err) {

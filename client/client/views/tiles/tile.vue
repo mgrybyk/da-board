@@ -21,6 +21,10 @@
               <li v-if="Object.keys(config.links || {}).length > 0 && (config.hostname || config.dbHostname)" class="divider"></li>
               <li><a v-if="config.hostname" @click="copyToClipboard" class="action">Copy hostname<textarea class="hidden">{{config.hostname}}</textarea></a></li>
               <li><a v-if="config.dbHostname" @click="copyToClipboard" class="action">Copy db host<textarea class="hidden">{{config.dbHostname}}</textarea></a></li>
+              <li v-if="tile && tile.timestamp" class="divider"></li>
+              <li v-if="tile && tile.timestamp" class="tile-timestamp">
+                {{ tile.timestamp && new Date(tile.timestamp).toLocaleString() }}
+              </li>
             </ul>
           </div>
         </div>
@@ -498,6 +502,11 @@ article.with-stripe {
 .show {
   opacity: 1;
   visibility: visible;
+}
+
+.tile-timestamp {
+  color: #b5b5b5;
+  cursor: default;
 }
 
 </style>

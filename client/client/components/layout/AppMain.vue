@@ -67,13 +67,21 @@ export default {
 }
 
 td.is-icon.has-link {
+  $edit-color: #00d1b2;
   width: 2%;
   text-align: center;
   padding: 0;
   height: 100%;
   transition: background-color .3s;
-  i.fa {
-    transition: color .3s;
+  &:hover {
+    background-color: $edit-color;
+    i { color: #fff; }
+  }
+  i {
+    color: $edit-color;
+    .fa {
+      transition: color .3s;
+    }
   }
   a {
     min-height: 32px;
@@ -86,14 +94,6 @@ td.is-icon.has-link {
     }
   }
 }
-td.is-icon.has-link {
-  $edit-color: #00d1b2;
-  i { color: $edit-color; }
-  &:hover {
-    background-color: $edit-color;
-    i { color: #fff; }
-  }
-}
 td.is-icon.remove {
   $remove-color: #ff3860;
   i { color: $remove-color; }
@@ -101,6 +101,11 @@ td.is-icon.remove {
     background-color: $remove-color;
     i { color: #fff; }
   }
+}
+
+.fa.fa-clock-o.timestamp {
+  color: #29d;
+  cursor: pointer;
 }
 
 // Dialog
@@ -157,5 +162,8 @@ button.is-smaller {
 table tbody tr {
   // fucking firefox fix
   height: 100%;
+}
+input.search-input {
+  max-width: 400px;
 }
 </style>

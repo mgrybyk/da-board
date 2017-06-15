@@ -8,7 +8,7 @@ const limitHalf = 900
 const sorting = { 'timestamp': -1 }
 
 var schema = mongoose.Schema({
-  timestamp: Number,
+  timestamp: { type: Number, unique: true, required: true, dropDups: true },
   name: String,
   integration: String,
   test: Object,

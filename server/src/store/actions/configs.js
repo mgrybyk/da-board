@@ -42,6 +42,7 @@ const actions = {
           }
         })
       }
+      config.timestamp = new Date().getTime()
 
       config.save(err => {
         if (err) {

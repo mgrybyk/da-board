@@ -13,8 +13,12 @@ exports.updateBuild = (req, res, next) => {
 
     if (!build) build = new Builds()
     if (req.body.buildNumber) build.number = req.body.buildNumber
-    if (req.body.package) build.package = req.body.package
+    if (req.body.package) {
+      if (req.body.package === build.package) return res.send()
+      build.package = req.body.package
+    }
     build.integration = integration
+    build.timestamp = new Date().getTime()
 
     build.save(err => {
       if (err) return next(err, req, res, next)

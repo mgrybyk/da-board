@@ -5,7 +5,8 @@ var mongoose = require('mongoose')
 var schema = mongoose.Schema({
   number: String,
   package: String,
-  integration: { type: String, unique: true, required: true, dropDups: true }
+  integration: { type: String, unique: true, required: true, dropDups: true },
+  timestamp: Number
 })
 
 schema.statics.getAll = cb => Model.find().exec(cb)

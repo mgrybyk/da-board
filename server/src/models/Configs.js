@@ -17,7 +17,8 @@ var schema = mongoose.Schema({
   duration: Number,
   sortBy: Number,
   links: Object,
-  disabled: Boolean
+  disabled: Boolean,
+  timestamp: Number
 })
 
 schema.statics.getAll = cb => Model.find().sort(sorting).exec(cb)

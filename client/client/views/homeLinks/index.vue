@@ -13,6 +13,7 @@
                   <th>Details</th>
                   <th>Group</th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -76,5 +77,10 @@ export default {
     .top-control {
       right: 0;
     }
+  }
+</style>
+<style lang="scss">
+  td.is-icon {
+    text-align: center;
   }
 </style>

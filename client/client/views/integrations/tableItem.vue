@@ -11,6 +11,9 @@
     <td>{{ item.auth && item.auth.user || 'None' }}</td>
     <td>{{ joinKeys(item.actions) }}</td>
     <td>{{ joinKeys(item.remote) }}</td>
+    <td class="is-icon" :title="item.timestamp && new Date(item.timestamp).toLocaleString()">
+      <i class="fa fa-clock-o timestamp"></i>
+    </td>
     <td class="is-icon has-link">
       <a @click="showCopyModal=!showCopyModal" title="Copy">
         <i class="fa fa-copy"></i>

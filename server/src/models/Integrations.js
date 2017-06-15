@@ -9,7 +9,8 @@ var schema = mongoose.Schema({
   processUrlTemplate: String,
   auth: Object,
   actions: Object,
-  remote: Object
+  remote: Object,
+  timestamp: Number
 })
 
 schema.statics.getAll = cb => Model.find().exec(cb)

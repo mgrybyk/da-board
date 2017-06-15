@@ -7,6 +7,9 @@
     </td>
     <td>{{ item.integration }}</td>
     <td>{{ item.package }}</td>
+    <td class="is-icon" :title="item.timestamp && new Date(item.timestamp).toLocaleString()">
+      <i class="fa fa-clock-o timestamp"></i>
+    </td>
     <td class="is-icon has-link remove">
       <a @click="showConfirmation=!showConfirmation">
         <i class="fa fa-trash"></i>

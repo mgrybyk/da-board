@@ -3,6 +3,11 @@
     <div class="tile is-ancestor">
       <div class="tile is-parent">
         <article class="tile is-child box">
+          <template>
+            <vue-fuse :keys="searchKeys" :list="results" :defaultAll="true" :shouldSort="false" eventName="fuseEvt"
+              :findAllMatches="true" :threshold="0.3" :inputPlaceholder="'Search...'" :inputClass="'input search-input'">
+            </vue-fuse>
+          </template>
           <div class="table-responsive centered">
             <table class="table is-bordered is-striped is-narrow">
               <thead>
@@ -21,7 +26,7 @@
               </thead>
               <tbody>
                 <TableItem
-                  v-for="(item, key) in results"
+                  v-for="(item, key) in resultsAfterSearch || results"
                   :configs="configs"
                   :item="item"
                   :key="item._id">
@@ -40,6 +45,8 @@ import Vue from 'vue'
 import Resource from 'vue-resource'
 import { mapGetters, mapActions } from 'vuex'
 import TableItem from './tableItem'
+import VueFuse from 'vue-fuse'
+Vue.use(VueFuse)
 
 Vue.use(Resource)
 
@@ -49,16 +56,21 @@ export default {
   beforeMount () { this.clearResults() },
 
   data () {
-    return { }
+    return {
+      resultsAfterSearch: null,
+      searchKeys: ['name', 'integration', 'test.type', 'build.package', 'build.number']
+    }
   },
 
   destroyed () { },
 
-  computed: mapGetters({
-    results: 'results',
-    resultsChanged: 'resultsChanged',
-    configs: 'configsObject'
-  }),
+  computed: {
+    ...mapGetters({
+      results: 'results',
+      resultsChanged: 'resultsChanged',
+      configs: 'configsObject'
+    })
+  },
 
   methods: {
     ...mapActions([
@@ -81,9 +93,14 @@ export default {
     }
   },
 
-  components: { TableItem },
+  components: { TableItem, VueFuse },
 
-  mounted () { this.getResults() },
+  mounted () {
+    this.getResults()
+    this.$on('fuseEvt', results => {
+      this.resultsAfterSearch = results
+    })
+  },
 
   watch: {
     resultsChanged: function (val) {
@@ -112,6 +129,11 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+
+  input.search-input {
+    margin: -8px 0 10px 0;
+  }  
+
   @media (max-width:480px)
   {
     .table.is-narrow td, .table.is-narrow th {
