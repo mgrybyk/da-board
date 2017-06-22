@@ -21,11 +21,11 @@ schema.statics.getPeriodResults = function (period) {
   } else if (period === '2') {
     return getPartialResults(this, limitMonth, limitWeek)
   } else if (period === '3') {
-    return getPartialResults(this, limitQuarter, limitMonth)
+    return getPartialResults(this, limitQuarter, limitMonth + limitWeek)
   } else if (period === '4') {
-    return getPartialResults(this, limitHalf, limitQuarter)
+    return getPartialResults(this, limitHalf, limitQuarter + limitMonth + limitWeek)
   } else if (period === '5') {
-    return getAllResults(this).skip(limitHalf)
+    return getAllResults(this).skip(limitHalf + limitQuarter + limitMonth + limitWeek)
   } else if (period === '0') {
     return getAllResults(this)
   } else {

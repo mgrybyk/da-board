@@ -4,8 +4,13 @@
       <div class="tile is-parent">
         <article class="tile is-child box">
           <template>
-            <vue-fuse :keys="searchKeys" :list="results" :defaultAll="true" :shouldSort="false" eventName="fuseEvt"
-              :findAllMatches="true" :threshold="0.3" :inputPlaceholder="'Search...'" :inputClass="'input search-input'">
+            <vue-fuse :keys="searchKeysResult" :list="results" :defaultAll="true" :shouldSort="false" eventName="fuseEvtResult"
+              :findAllMatches="true" :threshold="0.3" :minMatchCharLength="2" :inputPlaceholder="'Search result...'" :inputClass="'input search-input'">
+            </vue-fuse>
+          </template>
+          <template>
+            <vue-fuse :keys="searchKeysConfig" :list="configs" :defaultAll="true" :shouldSort="false" eventName="fuseEvtConfig"
+              :findAllMatches="true" :threshold="0.3" :minMatchCharLength="2" :inputPlaceholder="'Search config...'" :inputClass="'input search-input'">
             </vue-fuse>
           </template>
           <div class="table-responsive centered">
@@ -27,9 +32,10 @@
               <tbody>
                 <TableItem
                   v-for="(item, key) in resultsAfterSearch || results"
-                  :configs="configs"
+                  :configs="configsObject"
                   :item="item"
-                  :key="item._id">
+                  :key="item._id"
+                  :configSearchStarted="configSearchStarted">
                 </TableItem>
               </tbody>
             </table>
@@ -57,8 +63,11 @@ export default {
 
   data () {
     return {
-      resultsAfterSearch: null,
-      searchKeys: ['name', 'integration', 'test.type', 'build.package', 'build.number']
+      resultsAfterSearch: [],
+      configsAfterSearch: [],
+      searchKeysResult: ['name', 'integration', 'test.type', 'build.package', 'build.number'],
+      searchKeysConfig: ['name', 'osNameExt', 'dbName', 'dbVersion', 'hostname'],
+      configSearchStarted: false
     }
   },
 
@@ -68,8 +77,16 @@ export default {
     ...mapGetters({
       results: 'results',
       resultsChanged: 'resultsChanged',
-      configs: 'configsObject'
-    })
+      configs: 'configs'
+    }),
+    configsObject () {
+      let configs = {}
+      let configsArray = (this.configsAfterSearch.length !== 0 && this.configsAfterSearch) || this.configs
+      configsArray.forEach(element => {
+        configs[element.name] = element
+      })
+      return configs
+    }
   },
 
   methods: {
@@ -97,8 +114,14 @@ export default {
 
   mounted () {
     this.getResults()
-    this.$on('fuseEvt', results => {
+    this.$on('fuseEvtResult', results => {
       this.resultsAfterSearch = results
+    })
+    this.$on('fuseEvtConfig', results => {
+      if (!this.configSearchStarted && results.length !== 0 && results.length !== this.configs.length) {
+        this.configSearchStarted = true
+      }
+      this.configsAfterSearch = results
     })
   },
 
