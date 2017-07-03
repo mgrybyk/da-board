@@ -9,10 +9,9 @@ const dbName = process.env.MONGODB_NAME || 'daBoard'
 const isAuth = process.env.MONGODB_AUTH === 'true'
 
 const mongooseOpts = {
-  server: {
-    reconnectInterval: 12000,
-    reconnectTries: 300
-  }
+  useMongoClient: true,
+  reconnectInterval: 12000,
+  reconnectTries: 300
 }
 if (isAuth) {
   mongooseOpts.user = process.env.MONGODB_USER || 'dba'
