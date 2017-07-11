@@ -20,11 +20,11 @@ exports.updateBuild = (req, res, next) => {
     build.integration = integration
     build.timestamp = new Date().getTime()
 
-    build.save(err => {
+    build.save((err, savedDoc) => {
       if (err) return next(err, req, res, next)
 
       // update build number in store and notify clients
-      $store.dispatch('updateBuild', build.toObject())
+      $store.dispatch('updateBuild', savedDoc.toObject())
 
       return res.send()
     })

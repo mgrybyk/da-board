@@ -33,10 +33,10 @@ const actions = {
         }
       }
 
-      tile.save(err => {
+      tile.save((err, savedDoc, hz) => {
         if (err) return log.error(err)
 
-        dispatch('updateTile', tile.toObject())
+        dispatch('updateTile', savedDoc.toObject())
       })
     })
   }

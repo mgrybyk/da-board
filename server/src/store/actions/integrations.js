@@ -91,14 +91,14 @@ const actions = {
       }
       integration.timestamp = new Date().getTime()
 
-      integration.save(err => {
+      integration.save((err, savedDoc) => {
         if (err) {
           log.error(err)
           return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
         }
 
         dispatch('notifyDialogOk', data)
-        $store.dispatch('updateIntegration', Object.assign({}, integration.toObject(), { prevName }))
+        $store.dispatch('updateIntegration', Object.assign({}, savedDoc.toObject(), { prevName }))
         if (prevName) {
           commit('deleteIntegration', prevName)
         }

@@ -43,14 +43,14 @@ const actions = {
       }
       build.timestamp = new Date().getTime()
 
-      build.save(err => {
+      build.save((err, savedDoc) => {
         if (err) {
           log.error(err)
           return dispatch('notifyDialogErr', Object.assign({}, data, { name: data.integration }, { err }))
         }
 
         dispatch('notifyDialogOk', Object.assign({}, data, { name: data.integration }))
-        $store.dispatch('updateBuild', Object.assign({}, build.toObject(), { prevIntegration }))
+        $store.dispatch('updateBuild', Object.assign({}, savedDoc.toObject(), { prevIntegration }))
         if (prevIntegration) {
           commit('deleteBuild', prevIntegration)
         }

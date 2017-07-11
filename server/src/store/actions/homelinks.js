@@ -43,14 +43,14 @@ const actions = {
       }
       homelink.timestamp = new Date().getTime()
 
-      homelink.save(err => {
+      homelink.save((err, savedDoc) => {
         if (err) {
           log.error(err)
           return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
         }
 
         dispatch('notifyDialogOk', data)
-        $store.dispatch('updateHomelink', Object.assign({}, homelink.toObject(), { prevName }))
+        $store.dispatch('updateHomelink', Object.assign({}, savedDoc.toObject(), { prevName }))
         if (prevName) {
           commit('deleteHomelink', prevName)
         }

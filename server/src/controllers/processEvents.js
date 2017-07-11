@@ -22,10 +22,10 @@ exports.updateStageStatus = (req, res, next) => {
     result.markModified(`stages.${req.body.stage}`)
     result.timestamp = new Date().getTime()
 
-    result.save(err => {
+    result.save((err, savedDoc) => {
       if (err) return next(err, req, res, next)
 
-      $store.dispatch('updateTile', result.toObject())
+      $store.dispatch('updateTile', savedDoc.toObject())
       return res.send()
     })
   })
@@ -62,10 +62,10 @@ exports.setProcessRunning = (req, res, next) => {
         Object.assign({}, { rootUrl: integration.rootUrl }, config.integration.props, { processId: req.body.processId }))
     } else { result.processUrl = undefined }
 
-    result.save(err => {
+    result.save((err, savedDoc) => {
       if (err) return next(err, req, res, next)
 
-      $store.dispatch('updateTile', result.toObject())
+      $store.dispatch('updateTile', savedDoc.toObject())
       return res.send()
     })
   })
@@ -89,10 +89,10 @@ exports.setEnvPackage = (req, res, next) => {
     result.package = req.body.package
     result.timestamp = new Date().getTime()
 
-    result.save(err => {
+    result.save((err, savedDoc) => {
       if (err) return next(err, req, res, next)
 
-      $store.dispatch('updateTile', result.toObject())
+      $store.dispatch('updateTile', savedDoc.toObject())
       return res.send()
     })
   })
@@ -133,7 +133,7 @@ exports.setProcessEnded = (req, res, next) => {
       }
     })
 
-    result.save(err => {
+    result.save((err, savedDoc) => {
       if (err) return next(err, req, res, next)
 
       $store.dispatch('updateTile', result.toObject())

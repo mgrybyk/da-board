@@ -39,14 +39,14 @@ const actions = {
       }
       option.timestamp = new Date().getTime()
 
-      option.save(err => {
+      option.save((err, savedDoc) => {
         if (err) {
           log.error(err)
           return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
         }
 
         dispatch('notifyDialogOk', data)
-        $store.dispatch('updateSettings', Object.assign({}, option.toObject()))
+        $store.dispatch('updateSettings', Object.assign({}, savedDoc.toObject()))
       })
     })
   }
