@@ -2,7 +2,7 @@
 
 // see http://vuejs-templates.github.io/webpack for documentation.
 const path = require('path')
-const backendUrl = 'http://stl-qa-oalmsl:80'
+const backendUrl = 'http://localhost:1080'
 
 module.exports = {
   build: {

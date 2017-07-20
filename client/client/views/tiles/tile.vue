@@ -61,28 +61,13 @@
     </div>
   </article>
 
-  <modal :visible="showModal" @close="closeModalBasic">
-    <div class="box">
-      <h1 class="title">Confirmation!</h1>
- 
-      <form v-on:submit.prevent="submit">
-        <div class="block">
-          <h4 class="title is-4">Are you sure you want to <strong>{{actionName}}</strong> <u>{{config.name}}</u></h4>
-
-          <p class="control">
-            <button class="button is-primary" type="submit">Yes</button>
-            <button class="button is-link" @click="closeModalBasic" type="button">No</button>
-          </p>
-        </div>
-      </form>
-
-    </div>
-  </modal>
+  <ItemConfirmation :actionName="actionName" :name="config.name" :socketEventName="'INTEGRATION_ACTION'" 
+  :openConfirmation="showConfirmation" :dynamicProps="dynamicProps"></ItemConfirmation>
 </div>
 </template>
 
 <script>
-import { Modal } from 'vue-bulma-modal'
+import ItemConfirmation from '../../components/layout/ItemConfirmation'
 
 const formatString = (str, params) => {
   if (str === null || str === undefined) {
@@ -99,11 +84,11 @@ export default {
   created () {
     window.addEventListener('keyup', this.closeByEscape)
   },
-  components: { Modal },
+  components: { ItemConfirmation },
 
   data () {
     return {
-      showModal: false,
+      showConfirmation: false,
       timer: true,
       visible: false,
       actionName: null
@@ -128,24 +113,9 @@ export default {
     },
     tileAction (actionName) {
       this.actionName = actionName
-      this.openModalBasic()
+      this.showConfirmation = !this.showConfirmation
     },
-    openModalBasic () {
-      this.showModal = true
-    },
-    closeModalBasic () {
-      this.showModal = false
-      this.actionName = null
-    },
-    closeByEscape (ev) {
-      if (this.showModal === true && ev.key === 'Escape') {
-        this.closeModalBasic()
-      }
-    },
-    submit () {
-      this.$socket.emit('INTEGRATION_ACTION', { configName: this.config.name, action: this.actionName })
-      this.closeModalBasic()
-    },
+
     copyToClipboard (ev) {
       ev.target.firstElementChild.select()
       document.execCommand('copy')
@@ -238,6 +208,22 @@ export default {
         return buildWarn
       }
       return this.builds[this.config.integration.name].package !== this.tile.package ? '(!)' : buildWarn
+    },
+    dynamicProps () {
+      if (!this.integrations || !this.actionName || !this.config.integration) return false
+      let integration = this.integrations[this.config.integration.name]
+      let action = integration && integration.actions && integration.actions[this.actionName]
+      if (!action || !action.dynamicProps) return false
+
+      let dynamicProps = {}
+      Object.keys(action.dynamicProps).forEach(key => {
+        dynamicProps[key] = { ...action.dynamicProps[key] }
+        if (this.config.integration.dynamicProps && this.config.integration.dynamicProps[key] !== undefined) {
+          dynamicProps[key].value = this.config.integration.dynamicProps[key]
+        }
+      })
+
+      return dynamicProps
     }
   },
 

@@ -18,15 +18,15 @@ const actions = {
 
   integrationAction ({ state }, data) {
     let processId = ''
-    if (state.tiles[data.configName] && state.tiles[data.configName].processId) {
-      processId = state.tiles[data.configName].processId
+    if (state.tiles[data.name] && state.tiles[data.name].processId) {
+      processId = state.tiles[data.name].processId
     }
-    let config = state.configs[data.configName]
+    let config = state.configs[data.name]
     let configIntegration = config.integration
     let integration = state.integrations[configIntegration.name]
-    let action = integration.actions[data.action]
+    let action = integration.actions[data.name]
     let props = Object.assign({}, { 'hostname': config.hostname }, { 'name': config.name }, { rootUrl: integration.rootUrl },
-      configIntegration.props, { processId })
+      configIntegration.props, { processId }, data.dynamicProps)
 
     let url = formatStr(action.urlTemplate, props)
     let body = formatStr(action.body, props)
@@ -44,8 +44,8 @@ const actions = {
 
     request(requestParams, (error, response, body) => {
       let socketData = {
-        actionName: data.action,
-        configName: data.configName
+        actionName: data.actionName,
+        configName: data.name
       }
       if (error) {
         log.error(error)
