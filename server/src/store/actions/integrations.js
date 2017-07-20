@@ -24,7 +24,7 @@ const actions = {
     let config = state.configs[data.name]
     let configIntegration = config.integration
     let integration = state.integrations[configIntegration.name]
-    let action = integration.actions[data.name]
+    let action = integration.actions[data.actionName]
     let props = Object.assign({}, { 'hostname': config.hostname }, { 'name': config.name }, { rootUrl: integration.rootUrl },
       configIntegration.props, { processId }, data.dynamicProps)
 

@@ -54,7 +54,7 @@ export default {
       }
     },
     submit () {
-      this.$socket.emit(this.socketEventName, { actionName: this.actionName, name: this.name, dynamicProps: this.socketDataWrap })
+      this.$socket.emit(this.socketEventName, { actionName: this.actionName, name: this.name, dynamicProps: this.dynamicPropsModal })
       this.closeModalBasic()
     }
   },
