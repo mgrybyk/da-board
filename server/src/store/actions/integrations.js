@@ -29,7 +29,7 @@ const actions = {
       configIntegration.props, { processId }, data.dynamicProps)
 
     let url = formatStr(action.urlTemplate, props)
-    let body = formatStr(action.body, props)
+    let body = formatStr(action.body, props).replace(/\n/g, '\\n')
 
     // log.trace(url, body, action.method)
 
