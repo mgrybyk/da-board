@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>
+    <td width="25%">
       <a :href="item.link" target="_blank">{{ item.name }}</a>
     </td>
     <td>{{ item.details }}</td>
