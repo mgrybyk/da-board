@@ -454,6 +454,13 @@ article.with-stripe {
   transition: opacity .33s;
   visibility: hidden;
 
+  &.show ul {
+    display: inherit;
+  }
+  ul {
+    display: none;
+  }
+
   li {
     font-size: 18px;
     text-decoration: none;    
