@@ -3,6 +3,7 @@
 const path = require('path')
 const Results = require('./../models/Results')
 const resultsFile = require('./resultsFile')
+const resultsLink = require('./resultsLink')
 
 exports.getResults = (req, res, next) => {
   // lean returns plain js objects instead of mongoose docs
@@ -30,5 +31,11 @@ exports.newFile = (req, res, next) => {
 
     resultsFile.newResult(zipFile.name)
   })
+  return res.send()
+}
+
+exports.newLink = (req, res, next) => {
+  log.verbose('incoming test results by link', req.body)
+  resultsLink.newResult(req.body)
   return res.send()
 }
