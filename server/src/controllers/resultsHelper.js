@@ -37,6 +37,7 @@ module.exports.buildDbRecord = function (timestamp, params) {
     timestamp: timestamp * 1,
     name: params.name,
     integration: params.integration,
+    link: params.link,
     build: Object.assign({}, params.build),
     test: Object.assign({}, params.test)
   }

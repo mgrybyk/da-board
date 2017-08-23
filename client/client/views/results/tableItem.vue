@@ -9,7 +9,7 @@
       <span :title="item.build.package">{{ item.build.number }}</span>
     </td>
     <td>
-      <span :title="item.name">{{ configs[item.name] ? configs[item.name].type : item.name }}</span>
+      <span :title="item.name">{{item.name}} <span class="hide-column-medium env-type-small">({{ configs[item.name] ? configs[item.name].type : '' }})</span></span>
     </td>
     <td class="is-icon">
       <i :class="'fa fa-' + (configs[item.name] && configs[item.name].isNix ? 'linux' : 'windows')" :title="configs[item.name] && configs[item.name].osNameExt"></i>
@@ -70,6 +70,9 @@ export default {
   text-align: center;
   i.fa {
     vertical-align: initial;
+  }
+  span.env-type-small {
+    font-size: small;
   }
 }
 
