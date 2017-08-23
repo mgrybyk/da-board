@@ -10,6 +10,7 @@ const sorting = { 'timestamp': -1 }
 var schema = mongoose.Schema({
   timestamp: { type: Number, unique: true, required: true, dropDups: true },
   name: String,
+  link: String,
   integration: String,
   test: Object,
   build: Object

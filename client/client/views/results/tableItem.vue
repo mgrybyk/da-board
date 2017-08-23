@@ -30,7 +30,7 @@
       {{ item.test.duration }}
     </td>
     <td>
-      <a :href="'/results/' + item.timestamp + '/#/'" target="_blank">
+      <a :href="item.link || ('/results/' + item.timestamp + '/#/')" target="_blank">
         {{ item.test.total }} / {{ item.test.passes }}/{{ item.test.failures }}
       </a>
     </td>
