@@ -8,6 +8,9 @@ const spawn = require('child_process')
 const properties = require('properties')
 const resultsHelper = require('./resultsHelper')
 
+let lastCleanupTimestamp = new Date().getTime()
+const cleaupQuietPeriod = 300000 // 300 seconds -> 5 minutes
+const resultsLimit = 300
 const inputDir = resultsHelper.inputDir
 const outputDir = resultsHelper.outputDir
 
@@ -25,6 +28,10 @@ module.exports.newResult = function (uploadedFile) {
     await resultsHelper.saveResultRecord(dbRecord)
     await resultsHelper.cleanUp(allureInput)
     await resultsHelper.cleanUp(allureOutput)
+    if (new Date().getTime() - lastCleanupTimestamp > cleaupQuietPeriod) {
+      lastCleanupTimestamp = new Date().getTime()
+      deleteOldResults()
+    }
   }
   flow()
 }
@@ -105,5 +112,18 @@ function moveToResultsAndParseStatistic (dbRecord, allureOutputData, timestamp) 
       resultsHelper.parseStatistic(dbRecord, pathToTotalJson)
         .then(dbRecord => resolve(dbRecord))
     })
+  })
+}
+
+function deleteOldResults () {
+  let resultsDir = path.join(CONFIG.rootDir, CONFIG.pathToResults)
+  fse.readdir(resultsDir, (err, dirs) => {
+    if (err) {
+      return err
+    }
+    dirs.sort()
+    while (dirs.length > resultsLimit) {
+      fse.remove(dirs.shift())
+    }
   })
 }
