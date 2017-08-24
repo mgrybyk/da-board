@@ -13,7 +13,8 @@ var schema = mongoose.Schema({
   link: String,
   integration: String,
   test: Object,
-  build: Object
+  build: Object,
+  config: Object
 })
 
 schema.statics.getPeriodResults = function (period) {

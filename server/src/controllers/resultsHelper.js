@@ -33,13 +33,24 @@ module.exports.parseStatistic = (dbRecord, pathToTotalJson) => new Promise((reso
 })
 
 module.exports.buildDbRecord = function (timestamp, params) {
+  let config = $store.getters.configs[params.name] || {}
   let dbRecord = {
     timestamp: timestamp * 1,
-    name: params.name,
+    name: params.name || 'Unknown config',
     integration: params.integration,
     link: params.link,
     build: Object.assign({}, params.build),
-    test: Object.assign({}, params.test)
+    test: Object.assign({}, params.test),
+    config: {
+      type: config.type,
+      hostname: config.hostname,
+      dbName: config.dbName,
+      dbVersion: config.dbVersion,
+      dbHostname: config.dbHostname,
+      osNameExt: config.osNameExt,
+      isNix: config.isNix,
+      browser: config.browser
+    }
   }
 
   // currently supported either rest or ui

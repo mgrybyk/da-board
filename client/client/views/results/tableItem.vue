@@ -1,5 +1,5 @@
 <template>
-  <tr :class="item.test.failures > 0 && 'failed'" v-if="!configSearchStarted || (configSearchStarted && configs[item.name])">
+  <tr :class="item.test.failures > 0 && 'failed'">
     <td class="is-icon has-link" :class="item.test.icon">
       <a :href="'/results/' + item.timestamp + '/#/'" target="_blank">
         <i :class="'fa fa-' + (item.test.icon || 'question-circle-o')"></i>
@@ -9,19 +9,20 @@
       <span :title="item.build.package">{{ item.build.number }}</span>
     </td>
     <td>
-      <span :title="item.name">{{item.name}} <span class="hide-column-medium env-type-small">({{ configs[item.name] ? configs[item.name].type : '' }})</span></span>
+      <span>{{item.name}} <span v-if="item.config.type" class="hide-column-medium env-type-small">({{ item.config.type }})</span></span>
     </td>
     <td class="is-icon">
-      <i :class="'fa fa-' + (configs[item.name] && configs[item.name].isNix ? 'linux' : 'windows')" :title="configs[item.name] && configs[item.name].osNameExt"></i>
+      <i :class="'fa fa-' + (item.config.isNix != undefined && (item.config.isNix ? 'linux' : 'windows') || 'question')" :title="item.config.osNameExt"></i>
     </td>
     <td class="hide-column-medium">
-      <span :title="configs[item.name] && configs[item.name].hostname">{{ configs[item.name] && configs[item.name].osNameExt }}</span>
+      <span :title="item.config.hostname">{{ item.config.osNameExt }}</span>
     </td>
     <td class="is-icon">
-      <i class="fa fa-database" :class="configs[item.name] && configs[item.name].dbName" :title="(configs[item.name] && configs[item.name].dbName) + ' ' + (configs[item.name] && configs[item.name].dbVersion)"></i>
+      <i class="fa fa-database" :class="item.config.dbName" 
+         :title="(item.config.dbName || item.config.dbVersion) && (item.config.dbName + ' ' + item.config.dbVersion)"></i>
     </td>
-    <td class="hide-column-medium">
-      {{ configs[item.name] && configs[item.name].dbName }} {{ configs[item.name] && configs[item.name].dbVersion }}
+    <td class="hide-column-medium" :title="item.config.dbHostname">
+      {{ item.config.dbName }} {{ item.config.dbVersion }}
     </td>
     <td>
       {{ formatDate(item.timestamp) }}
@@ -43,7 +44,7 @@ export default {
     return { }
   },
 
-  props: ['item', 'configs', 'configSearchStarted'],
+  props: ['item'],
 
   methods: {
     formatDate: (timestamp) => {
@@ -51,7 +52,8 @@ export default {
       function addZero (num) {
         return `${num < 10 ? '0' : ''}${num}`
       }
-      return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}`
+      return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())} 
+      ${addZero(date.getHours())}:${addZero(date.getMinutes())}`
     }
   }
 }

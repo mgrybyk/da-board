@@ -8,11 +8,6 @@
               :findAllMatches="true" :threshold="0.3" :minMatchCharLength="2" :inputPlaceholder="'Search result...'" :inputClass="'input search-input'">
             </vue-fuse>
           </template>
-          <template>
-            <vue-fuse :keys="searchKeysConfig" :list="configs" :defaultAll="true" :shouldSort="false" eventName="fuseEvtConfig"
-              :findAllMatches="true" :threshold="0.3" :minMatchCharLength="2" :inputPlaceholder="'Search config...'" :inputClass="'input search-input'">
-            </vue-fuse>
-          </template>
           <div class="table-responsive centered">
             <table class="table is-bordered is-striped is-narrow">
               <thead>
@@ -32,10 +27,8 @@
               <tbody>
                 <TableItem
                   v-for="(item, key) in resultsAfterSearch || results"
-                  :configs="configsObject"
                   :item="item"
-                  :key="item._id"
-                  :configSearchStarted="configSearchStarted">
+                  :key="item._id">
                 </TableItem>
               </tbody>
             </table>
@@ -64,10 +57,8 @@ export default {
   data () {
     return {
       resultsAfterSearch: [],
-      configsAfterSearch: [],
-      searchKeysResult: ['name', 'integration', 'test.type', 'build.package', 'build.number'],
-      searchKeysConfig: ['name', 'osNameExt', 'dbName', 'dbVersion', 'hostname'],
-      configSearchStarted: false
+      searchKeysResult: ['name', 'integration', 'test.type', 'config.osNameExt',
+        'config.dbName', 'config.dbVersion', 'config.hostname', 'build.package', 'build.number']
     }
   },
 
@@ -76,17 +67,8 @@ export default {
   computed: {
     ...mapGetters({
       results: 'results',
-      resultsChanged: 'resultsChanged',
-      configs: 'configs'
-    }),
-    configsObject () {
-      let configs = {}
-      let configsArray = (this.configsAfterSearch.length !== 0 && this.configsAfterSearch) || this.configs
-      configsArray.forEach(element => {
-        configs[element.name] = element
-      })
-      return configs
-    }
+      resultsChanged: 'resultsChanged'
+    })
   },
 
   methods: {
@@ -116,12 +98,6 @@ export default {
     this.getResults()
     this.$on('fuseEvtResult', results => {
       this.resultsAfterSearch = results
-    })
-    this.$on('fuseEvtConfig', results => {
-      if (!this.configSearchStarted && results.length !== 0 && results.length !== this.configs.length) {
-        this.configSearchStarted = true
-      }
-      this.configsAfterSearch = results
     })
   },
 

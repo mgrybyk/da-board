@@ -46,7 +46,7 @@ export default {
     return {
       dragEnabled: false,
       configsAfterSearch: null,
-      searchKeys: ['name', 'hostname', 'dbName', 'type', 'osNameExt']
+      searchKeys: ['name', 'dbName', 'dbVersion', 'type', 'osNameExt']
     }
   },
 
