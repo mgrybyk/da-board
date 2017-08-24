@@ -71,7 +71,7 @@ td.is-icon.has-link {
   width: 2%;
   text-align: center;
   padding: 0;
-  height: 100%;
+  height: 1px;
   transition: background-color .3s;
   &:hover {
     background-color: $edit-color;
@@ -85,13 +85,10 @@ td.is-icon.has-link {
   }
   a {
     min-height: 32px;
-    display: block;
-    padding: .25em .5em;
+    display: flex;
+    padding: 0 .5em;
     height: 100%;
-    i {
-      position: relative;
-      top: calc(50% - 12px);
-    }
+    align-items: center;
   }
 }
 td.is-icon.remove {
