@@ -8,17 +8,18 @@
       <i v-else class="flag lock fa fa-lock" title="Mark as locked" @click="setFlag('lock')"></i>
 
       <i class="fa fa-chevron-down" v-on:click="toggleDropdown">
-        <div class="dropdown">
-          <div v-bind:class="{ 'show': visible }" class="dropdown-content">
+        <div class="m_dropdown">
+          <div v-bind:class="{ 'show': visible }" class="m_dropdown-content">
             <ul>
-              <li v-if="auth.isAuth" v-for="(item, index) in actions">
-                <a v-on:click="tileAction(index)" class="action">{{ index }}</a>
+              <li v-if="auth.isAuth && actionNamesSorted.length > 0" class="group-header">ACTIONS</li>
+              <li v-if="auth.isAuth" v-for="item in actionNamesSorted">
+                <a v-on:click="tileAction(item)" class="action">{{ item }}</a>
               </li>
-              <li v-if="auth.isAuth && Object.keys(actions).length > 0" class="divider"></li>
-              <li v-for="(item, index) in config.links">
-                <a :href="formatUrl(item)" target="_blank">{{ index }}</a>
+              <li v-if="auth.isAuth && linkNamesSorted.length > 0" class="group-header">LINKS</li>
+              <li v-for="item in linkNamesSorted">
+                <a :href="formatUrl(item)" target="_blank">{{ item }}</a>
               </li>
-              <li v-if="Object.keys(config.links || {}).length > 0 && (config.hostname || config.dbHostname)" class="divider"></li>
+              <li v-if="linkNamesSorted.length > 0 && (config.hostname || config.dbHostname)" class="divider"></li>
               <li><a v-if="config.hostname" @click="copyToClipboard" class="action">Copy hostname<textarea class="hidden">{{config.hostname}}</textarea></a></li>
               <li><a v-if="config.dbHostname" @click="copyToClipboard" class="action">Copy db host<textarea class="hidden">{{config.dbHostname}}</textarea></a></li>
               <li v-if="tile && tile.timestamp" class="divider"></li>
@@ -41,7 +42,7 @@
         <p class="env-detail os-name">{{ config.osNameExt }}</p>
       </div>
     </div>
-    <div class="stripe bottom-stripe">
+    <div class="stripe bottom-stripe" :title="stagesTooltip">
       <a v-if="!tile || (tile.isCancelled === undefined && tile.isFailure === undefined && tile.userFlag === undefined && tile.isRunning === undefined)"><span>No activity</span></a>
       <a v-else-if="!tile.isRunning" :href="tile.processUrl && tile.processUrl" target="_blank">
         <span v-if="tile.userFlag" :title="new Date(tile.userFlag.timestamp).toLocaleString()">
@@ -120,7 +121,8 @@ export default {
       ev.target.firstElementChild.select()
       document.execCommand('copy')
     },
-    formatUrl (url) {
+    formatUrl (key) {
+      let url = this.config.links[key]
       let cfgIntegration = this.config.integration
       let integrationProps = (cfgIntegration && cfgIntegration.props) || {}
       let rootUrl = (cfgIntegration && this.integrations[cfgIntegration.name] && this.integrations[cfgIntegration.name].rootUrl)
@@ -128,7 +130,7 @@ export default {
       return formatString(url, params)
     },
     setFlag (flagType) {
-      if (!this.auth.isAuth) return
+      if (!this.auth.isAuth || (this.tile && this.tile.isRunning)) return
       this.$socket.emit('FLAG_SET', { flag: flagType, name: this.config.name })
     }
   },
@@ -195,8 +197,8 @@ export default {
       }
       this.tile && Object.keys(actions).forEach(key => {
         let actionName = key.toLocaleLowerCase()
-        if ((this.tile.isRunning && actionName === 'run') ||
-           (!this.tile.isRunning && (key.startsWith('cancel') || key === 'abort' || key === 'stop'))) {
+        if ((this.tile.isRunning && actionName.startsWith('run')) ||
+           (!this.tile.isRunning && (actionName.startsWith('cancel') || actionName === 'abort' || actionName === 'stop'))) {
           delete actions[key]
         }
       })
@@ -224,6 +226,32 @@ export default {
       })
 
       return dynamicProps
+    },
+    actionNamesSorted () {
+      let namesArr = []
+      Object.keys(this.actions).forEach(key => {
+        namesArr.push(key)
+      })
+      namesArr.reverse()
+      return namesArr
+    },
+    linkNamesSorted () {
+      let namesArr = []
+      if (!this.config.links) return namesArr
+      Object.keys(this.config.links).forEach(key => {
+        namesArr.push(key)
+      })
+      namesArr.sort()
+      return namesArr
+    },
+    stagesTooltip () {
+      if (!this.tile || !this.tile.stages) return
+      let stagesTooltip = ''
+      Object.keys(this.tile.stages).forEach(key => {
+        let stageRow = `\n${key}: ${(this.tile.stages[key] || 'N/A').toUpperCase()}`
+        stagesTooltip = stageRow + stagesTooltip
+      })
+      return stagesTooltip
     }
   },
 
@@ -427,7 +455,7 @@ article.with-stripe {
 }
 
 /* Dropdown */
-.dropdown {
+.m_dropdown {
     z-index: 33;
     position: relative;
     display: inline-block;
@@ -442,7 +470,7 @@ article.with-stripe {
     }
 }
 
-.dropdown-content {
+.m_dropdown-content {
   display:block;
   position: absolute;
   right: 0;
@@ -462,20 +490,20 @@ article.with-stripe {
   }
 
   li {
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;    
 
     a {
       text-transform: capitalize;
       display: block;
-      padding: 12px 16px;
+      padding: 10px 16px;
 
       &.action {
         color: #4a4a4a;
       }
     }
 
-    &:hover {
+    &:not(.divider):not(.group-header):hover {
       background-color: #00d1b2;
       color: #fff;
 
@@ -489,6 +517,14 @@ article.with-stripe {
     height: 1px;
     background-color: #e5e5e5;
     padding: 0;
+  }
+  
+  li.group-header {
+    color: #444444;
+    background-color: #e8e8e8;
+    padding: 2px;
+    font-size: 14px;
+    cursor: default;
   }
 }
 
