@@ -54,12 +54,17 @@ module.exports.buildDbRecord = function (timestamp, params) {
   }
 
   // currently supported either rest or ui
+  dbRecord.test.typeFull = dbRecord.test.type
   if (dbRecord.test.type.startsWith('rest')) dbRecord.test.type = 'rest'
   else if (dbRecord.test.type.startsWith('ui')) dbRecord.test.type = 'ui'
+  else if (dbRecord.test.test.startsWith('perf')) dbRecord.test.test = 'perf'
 
   // set icon. Maybe move to ui
   if (dbRecord.test.type === 'rest') {
     dbRecord.test.icon = 'terminal'
+    delete dbRecord.test.browser
+  } else if (dbRecord.test.type === 'perf') {
+    dbRecord.test.icon = 'tachometer'
     delete dbRecord.test.browser
   } else if (dbRecord.test.type !== 'ui') dbRecord.test.icon = 'question'
   else if (!dbRecord.test.browser) dbRecord.test.icon = 'globe'
