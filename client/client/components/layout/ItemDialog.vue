@@ -89,7 +89,9 @@ export default {
       let newItem = {...this.item}
       let error = null
       Object.keys(this.model).forEach(key => {
-        if (this.itemFiltered[key] === null || this.itemFiltered[key] === undefined || this.model[key].type === Boolean) {
+        if (this.model[key].type === Boolean) {
+          newItem[key] = !!this.itemFiltered[key]
+        } else if (this.itemFiltered[key] === null || this.itemFiltered[key] === undefined) {
           newItem[key] = this.itemFiltered[key]
         } else if (this.itemFiltered[key].trim().length === 0) {
           newItem[key] = null
