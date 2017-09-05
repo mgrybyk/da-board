@@ -25,6 +25,7 @@ module.exports.newResult = function (uploadedFile) {
     await runAllureCli(allureInput, allureOutput, allureOutputData)
     let dbRecord = await parseCopyComplete(allureInput, timestamp)
     await moveToResultsAndParseStatistic(dbRecord, allureOutputData, timestamp)
+    dbRecord.test.duration = resultsHelper.msToTime(dbRecord.test.duration)
     await resultsHelper.saveResultRecord(dbRecord)
     await resultsHelper.cleanUp(allureInput)
     await resultsHelper.cleanUp(allureOutput)

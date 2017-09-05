@@ -27,7 +27,7 @@ module.exports.parseStatistic = (dbRecord, pathToTotalJson) => new Promise((reso
     dbRecord.test.failures = totalJson.statistic.failed + totalJson.statistic.broken
     dbRecord.test.passes = totalJson.statistic.passed
     dbRecord.test.total = totalJson.statistic.total
-    dbRecord.test.duration = msToTime(totalJson.time.duration)
+    dbRecord.test.duration = totalJson.time.duration
     resolve(dbRecord)
   })
 })
@@ -84,7 +84,10 @@ module.exports.cleanUp = dir => new Promise((resolve, reject) => {
   })
 })
 
-function msToTime (duration) {
+module.exports.msToTime = (duration) => {
+  if (duration === undefined || duration === null) {
+    return duration
+  }
   let seconds = parseInt((duration / 1000) % 60)
   let minutes = parseInt((duration / (1000 * 60)) % 60)
   let hours = parseInt((duration / (1000 * 60 * 60)) % 24)
@@ -95,8 +98,7 @@ function msToTime (duration) {
 
   return hours + ':' + minutes + ':' + seconds
 }
-module.exports.msToTime = msToTime
 
-module.exports.timeSpent = function (startTIme) {
-  return ((Date.now() - startTIme) * 0.001).toFixed(2)
+module.exports.timeSpent = function (startTime) {
+  return ((Date.now() - startTime) * 0.001).toFixed(2)
 }

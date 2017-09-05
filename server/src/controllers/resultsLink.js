@@ -1,7 +1,6 @@
 'use strict'
 
 const path = require('path')
-const fs = require('fs')
 const fse = require('fs-extra')
 const request = require('request')
 const resultsHelper = require('./resultsHelper')
@@ -22,7 +21,10 @@ module.exports.newResult = function (params) {
         await downloadTotalJson(params.link + params.download_file, pathToTotalJson, integration)
       }
       let dbRecord = resultsHelper.buildDbRecord(timestamp, params)
-      await parseStatistic(dbRecord, pathToTotalJson)
+      if (params.download_file) {
+        await parseStatistic(dbRecord, pathToTotalJson)
+      }
+      dbRecord.test.duration = resultsHelper.msToTime(dbRecord.test.duration)
       await resultsHelper.saveResultRecord(dbRecord)
     } catch (err) {
       log.error(err)
@@ -42,9 +44,7 @@ function downloadTotalJson (link, filePath, integration) {
     }
     request(requestParams)
       .pipe(fse.createWriteStream(filePath))
-      .on('close', function () {
-        resolve()
-      })
+      .on('close', () => resolve())
   })
 }
 
