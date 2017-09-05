@@ -57,7 +57,7 @@ module.exports.buildDbRecord = function (timestamp, params) {
   dbRecord.test.typeFull = dbRecord.test.type
   if (dbRecord.test.type.startsWith('rest')) dbRecord.test.type = 'rest'
   else if (dbRecord.test.type.startsWith('ui')) dbRecord.test.type = 'ui'
-  else if (dbRecord.test.test.startsWith('perf')) dbRecord.test.test = 'perf'
+  else if (dbRecord.test.type.startsWith('perf')) dbRecord.test.type = 'perf'
 
   // set icon. Maybe move to ui
   if (dbRecord.test.type === 'rest') {
