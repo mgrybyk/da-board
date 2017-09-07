@@ -2,8 +2,8 @@
   <div>
   <div class="top-control"><vb-switch v-model="dragEnabled" v-if="auth.isAuth">Sort</vb-switch></div>
   <template>
-    <vue-fuse :keys="searchKeys" :list="configs" :defaultAll="true" :shouldSort="false" eventName="fuseEvt"
-    :findAllMatches="true" :threshold="0.3" :inputPlaceholder="'Search...'" :inputClass="'input search-input'"></vue-fuse>
+    <vue-fuse :keys="searchKeys" :list="configs" :defaultAll="true" :shouldSort="false" eventName="fuseEvt" :minSearchStart="2"
+      :findAllMatches="true" :threshold="0.24" :inputPlaceholder="'Search...'" :inputClass="'input search-input'"></vue-fuse>
   </template>
   <div v-for="(integration, index) in integrationsWithNone" :key="integration._id">
     <h2 class="title" v-if="Object.keys(configsFiltered(integration.name)).length > 0">

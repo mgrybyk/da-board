@@ -4,8 +4,8 @@
       <div class="tile is-parent">
         <article class="tile is-child box">
           <template>
-            <vue-fuse :keys="searchKeysResult" :list="results" :defaultAll="true" :shouldSort="false" eventName="fuseEvtResult"
-              :findAllMatches="true" :threshold="0.3" :minMatchCharLength="2" :inputPlaceholder="'Search result...'" :inputClass="'input search-input'">
+            <vue-fuse :keys="searchKeysResult" :list="results" :defaultAll="true" :shouldSort="false" eventName="fuseEvtResult" :minSearchStart="2"
+              :findAllMatches="true" :threshold="0.24" :minMatchCharLength="2" :inputPlaceholder="'Search...'" :inputClass="'input search-input'">
             </vue-fuse>
           </template>
           <div class="table-responsive centered">
@@ -58,7 +58,7 @@ export default {
     return {
       resultsAfterSearch: [],
       searchKeysResult: ['name', 'integration', 'test.type', 'config.osNameExt',
-        'config.dbName', 'config.dbVersion', 'config.hostname', 'build.package', 'build.number']
+        'config.dbName', 'config.dbVersion', 'config.type', 'build.package', 'build.number']
     }
   },
 
