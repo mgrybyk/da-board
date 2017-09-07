@@ -85,8 +85,8 @@ module.exports.cleanUp = dir => new Promise((resolve, reject) => {
 })
 
 module.exports.msToTime = (duration) => {
-  if (duration === undefined || duration === null) {
-    return duration
+  if (duration === undefined || duration === null || isNaN(duration)) {
+    return undefined
   }
   let seconds = parseInt((duration / 1000) % 60)
   let minutes = parseInt((duration / (1000 * 60)) % 60)
