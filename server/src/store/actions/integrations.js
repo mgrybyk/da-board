@@ -29,7 +29,7 @@ const actions = {
       configIntegration.props, { processId }, data.dynamicProps)
 
     let url = formatStr(action.urlTemplate, props)
-    let body = formatStr(action.body, props).replace(/\n/g, '\\n')
+    let body = formatStr(action.body, props)
 
     // log.trace(url, body, action.method)
 
@@ -39,7 +39,7 @@ const actions = {
       requestParams.auth = integration.auth
     }
     if (body) {
-      requestParams.body = body
+      requestParams.body = body.replace(/\n/g, '\\n')
     }
 
     request(requestParams, (error, response, body) => {
