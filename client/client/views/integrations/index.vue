@@ -65,8 +65,14 @@ export default {
           name: 'Actions',
           type: Object,
           placeholder: `{ "run": { "urlTemplate": "{{rootUrl}}/job/{{JOB_NAME}}/buildWithParameters",
- "method": "post" } }`,
+ "method": "post", "headers": {} } }`,
           title: 'Each action accepts urlTemplate, body and method; urlTemplate and body support variables'
+        },
+        headers: {
+          name: 'Headers',
+          type: Object,
+          placeholder: `{ "content-type": "application/json" }`,
+          title: 'Request headers applicable for every action.'
         },
         remote: {
           name: 'Remote Calls',

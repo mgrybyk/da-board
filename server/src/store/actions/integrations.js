@@ -30,11 +30,11 @@ const actions = {
 
     let url = formatStr(action.urlTemplate, props)
     let body = formatStr(action.body, props)
+    let headers = Object.assign({}, integration.headers, action.headers)
 
     // log.trace(url, body, action.method)
 
-    // todo: specify headers in db, do not hardcode here
-    let requestParams = { url: url, method: action.method, headers: { 'content-type': 'application/json' } }
+    let requestParams = { url: url, method: action.method, headers: headers }
     if (integration.auth) {
       requestParams.auth = integration.auth
     }

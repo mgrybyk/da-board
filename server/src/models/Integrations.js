@@ -8,6 +8,7 @@ var schema = mongoose.Schema({
   rootUrl: String,
   processUrlTemplate: String,
   auth: Object,
+  headers: Object,
   actions: Object,
   remote: Object,
   timestamp: Number
