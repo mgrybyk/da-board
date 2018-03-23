@@ -43,22 +43,19 @@ function unzipAllureResults (inputDir, timestamp, allureInput) {
     let pathToZip = path.join(inputDir, timestamp + '.zip')
     let rs = fse.createReadStream(pathToZip)
     rs.on('error', errUnzip => reject(errUnzip))
-    rs.pipe(unzip.Extract({
-      path: allureInput
-    }))
-      .on('finish', () => {
-        log.verbose(`Unzipped archive, spent ${resultsHelper.timeSpent(timeStart)}`)
+    rs.pipe(unzip.Extract({ path: allureInput })).on('finish', () => {
+      log.verbose(`Unzipped archive, spent ${resultsHelper.timeSpent(timeStart)}`)
 
-        timeStart = Date.now()
-        fse.remove(pathToZip, errRemove => {
-          if (errRemove) {
-            log.error(errRemove)
-          } else {
-            log.verbose(`removed zip file, spent ${resultsHelper.timeSpent(timeStart)}`)
-          }
-          resolve()
-        })
+      timeStart = Date.now()
+      fse.remove(pathToZip, errRemove => {
+        if (errRemove) {
+          log.error(errRemove)
+        } else {
+          log.verbose(`removed zip file, spent ${resultsHelper.timeSpent(timeStart)}`)
+        }
+        resolve()
       })
+    })
   })
 }
 
@@ -118,13 +115,17 @@ function moveToResultsAndParseStatistic (dbRecord, allureOutputData, timestamp) 
 
 function deleteOldResults () {
   let resultsDir = path.join(CONFIG.rootDir, CONFIG.pathToResults)
+  log.verbose(`delete old results, path to results dir: ${resultsDir}`)
   fse.readdir(resultsDir, (err, dirs) => {
     if (err) {
       return err
     }
+    log.verbose(`delete old results, count: ${dirs.length}, limit ${resultsLimit}`)
     dirs.sort()
     while (dirs.length > resultsLimit) {
-      fse.remove(dirs.shift())
+      let dirToRemove = dirs.shift()
+      log.verbose(`delete old results, deleting: ${dirToRemove}`)
+      fse.remove()
     }
   })
 }
