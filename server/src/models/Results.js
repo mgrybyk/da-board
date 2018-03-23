@@ -17,7 +17,7 @@ var schema = mongoose.Schema({
   config: Object
 })
 
-schema.statics.getOne = (timestamp, cb) => this.findOne({ timestamp: timestamp }).exec(cb)
+schema.statics.getOne = (timestamp, cb) => Model.findOne({ timestamp: timestamp }).exec(cb)
 
 schema.statics.getPeriodResults = function (period) {
   if (period === '1') {
@@ -45,4 +45,5 @@ function getPartialResults (context, limit, skip) {
   return getAllResults(context).limit(limit).skip(skip)
 }
 
-module.exports = mongoose.model('Results', schema)
+const Model = mongoose.model('Results', schema)
+module.exports = Model
