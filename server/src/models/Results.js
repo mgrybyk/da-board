@@ -17,6 +17,8 @@ var schema = mongoose.Schema({
   config: Object
 })
 
+schema.statics.getOne = (timestamp, cb) => this.findOne({ timestamp: timestamp }).exec(cb)
+
 schema.statics.getPeriodResults = function (period) {
   if (period === '1') {
     return getAllResults(this).limit(limitWeek)

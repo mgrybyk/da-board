@@ -13,11 +13,18 @@ module.exports.outputDir = outputDir
 
 module.exports.saveResultRecord = dbRecord => new Promise((resolve, reject) => {
   let result = new Results(dbRecord)
-  result.save(function (err, saved) {
-    if (err) return reject(err)
-    log.info(`test results are now available: ${dbRecord.timestamp}`, dbRecord.test)
-    io.emit('SOCKET_RESULTS_CHANGED')
-    resolve()
+  Results.getOne(result.timestamp, (errIgnored, record) => {
+    if (record) {
+      log.error('duplicated test results! ignoring...', record)
+      return resolve()
+    }
+
+    result.save(function (err, saved) {
+      if (err) return reject(err)
+      log.info(`test results are now available: ${dbRecord.timestamp}`, dbRecord.test)
+      io.emit('SOCKET_RESULTS_CHANGED')
+      resolve()
+    })
   })
 })
 
