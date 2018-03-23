@@ -27,6 +27,7 @@ const actions = {
         log.error(err)
         return dispatch('notifyDialogErr', Object.assign({}, data, { err }))
       }
+      let doRecalc = false
 
       let prevName
       if (!config) {
@@ -35,6 +36,15 @@ const actions = {
         if (config.name !== data.name) {
           prevName = config.name
         }
+        let integrationNameCurrent = null
+        if (config.integration && config.integration.name) {
+          integrationNameCurrent = config.integration.name
+        }
+        let integrationNameNew = null
+        if (data.integration && data.integration.name) {
+          integrationNameNew = data.integration.name
+        }
+        if (integrationNameCurrent !== integrationNameNew) doRecalc = true
         Object.keys(data).forEach(key => {
           if (!key.startsWith('_') && (config[key] !== data[key])) {
             config[key] = data[key]
@@ -55,6 +65,8 @@ const actions = {
         if (prevName) {
           commit('deleteConfig', prevName)
         }
+
+        if (doRecalc) dispatch('recalcSorting', { sortBy: Number.MAX_VALUE })
       })
     })
   },
