@@ -8,8 +8,8 @@ const spawn = require('child_process')
 const properties = require('properties')
 const resultsHelper = require('./resultsHelper')
 
-let lastCleanupTimestamp = new Date().getTime()
-const cleaupQuietPeriod = 300000 // 300 seconds -> 5 minutes
+const cleaupQuietPeriod = 30000 // 30 seconds
+let lastCleanupTimestamp = new Date().getTime() - cleaupQuietPeriod
 const resultsLimit = 300
 const inputDir = resultsHelper.inputDir
 const outputDir = resultsHelper.outputDir
