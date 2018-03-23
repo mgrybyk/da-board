@@ -115,7 +115,6 @@ function moveToResultsAndParseStatistic (dbRecord, allureOutputData, timestamp) 
 
 function deleteOldResults () {
   let resultsDir = path.join(CONFIG.rootDir, CONFIG.pathToResults)
-  log.verbose(`delete old results, path to results dir: ${resultsDir}`)
   fse.readdir(resultsDir, (err, dirs) => {
     if (err) {
       return err
@@ -124,8 +123,7 @@ function deleteOldResults () {
     dirs.sort()
     while (dirs.length > resultsLimit) {
       let dirToRemove = dirs.shift()
-      log.verbose(`delete old results, deleting: ${dirToRemove}`)
-      fse.remove()
+      fse.remove(path.join(resultsDir, dirToRemove), errIgnored => {})
     }
   })
 }
