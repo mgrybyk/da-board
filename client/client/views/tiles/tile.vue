@@ -159,7 +159,7 @@ export default {
       let startTime = this.tile.startTime
       let duration = this.config.duration
       if (!this.tile.isRunning) return 0
-      if (!duration) duration = 1000000
+      if (!duration) duration = 3600000 // 1 hour: 60 * 60 * 1000
       let currentTime = new Date().getTime()
       if (currentTime - startTime > duration) return 100
       let diff = currentTime - startTime + this.timeDiff

@@ -79,7 +79,8 @@ export default {
   "props": { "JOB_NAME": "rest-env1" } }`,
           title: 'Map config to integration and define properties if you need.'
         },
-        disabled: { name: 'Is Disabled?', type: Boolean, title: 'config won\'t be shown in configurations any more' }
+        disabled: { name: 'Is Disabled?', type: Boolean, title: 'config won\'t be shown in configurations any more' },
+        duration: { name: 'Duration', title: 'Calculated automatically on each success!', placeholder: 'duration in milliseconds' }
       }
     }
   },
