@@ -24,7 +24,7 @@
 
         <div class="block">
           <p class="control">
-            <button class="button is-primary" type="submit">Save</button>
+            <button class="button is-primary" type="submit" :disabled="submitDisabled">Save</button>
             <button class="button is-link" @click="closeModalBasic" type="button">Cancel</button>
           </p>
         </div>
@@ -62,7 +62,10 @@ export default {
     window.addEventListener('keyup', this.closeByEscape)
   },
   data () {
-    return { showModal: false }
+    return {
+      showModal: false,
+      submitDisabled: false
+    }
   },
 
   components: { Modal, Notification },
@@ -77,6 +80,7 @@ export default {
     },
     closeModalBasic () {
       this.showModal = false
+      this.submitDisabled = false
       delete this.$socket.off(types.SOCKET_DIALOG_ERROR)
       delete this.$socket.off(types.SOCKET_DIALOG_OK)
     },
@@ -113,6 +117,7 @@ export default {
       })
       if (error) return this.showDialogError({ error })
       this.$socket.emit(this.socketEventName, newItem)
+      this.submitDisabled = true
     },
     showDialogOk (data) {
       this.closeModalBasic()
@@ -125,6 +130,7 @@ export default {
       })
     },
     showDialogError (data) {
+      this.submitDisabled = false
       openNotificationInModal({
         title: 'Error!',
         message: data.error,
