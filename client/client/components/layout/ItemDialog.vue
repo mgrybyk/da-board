@@ -97,6 +97,8 @@ export default {
           newItem[key] = !!this.itemFiltered[key]
         } else if (this.itemFiltered[key] === null || this.itemFiltered[key] === undefined) {
           newItem[key] = this.itemFiltered[key]
+        } else if (this.model[key].type === Number) {
+          newItem[key] = this.itemFiltered[key]
         } else if (this.itemFiltered[key].trim().length === 0) {
           newItem[key] = null
         } else if (this.model[key].type === Object) {
