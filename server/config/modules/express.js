@@ -26,6 +26,10 @@ module.exports = (app, routes, mongooseConnection) => {
   // app.use(logWho);
   app.use(express.static(pathToPublic))
   app.use(cookieParser())
+  app.use(function (req, res, next) {
+    delete req.headers['content-encoding'] // workaround for DA 6.2.0.1209, DEF315341
+    next()
+  })
   app.use(bodyParser.json())
   app.use(sessionMiddleware)
   app.use(passportInstance)
