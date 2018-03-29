@@ -61,6 +61,7 @@ module.exports.buildDbRecord = function (timestamp, params) {
   }
 
   // currently supported either rest or ui
+  if (!dbRecord.test.type) dbRecord.test.type = 'question'
   dbRecord.test.typeFull = dbRecord.test.type
   if (dbRecord.test.type.startsWith('rest')) dbRecord.test.type = 'rest'
   else if (dbRecord.test.type.startsWith('ui')) dbRecord.test.type = 'ui'
