@@ -51,7 +51,7 @@ exports.daProcessEnded = (req, res, next) => {
 function getProcessName (body, propName, req, res, next) {
   try {
     let properties = JSON.parse(body)
-    return properties.find(x => x.name === propName)
+    return properties.records.find(x => x.name === propName)
   } catch (err) {
     return next(err, req, res, next)
   }
