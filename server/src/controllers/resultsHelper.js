@@ -60,7 +60,7 @@ module.exports.buildDbRecord = function (timestamp, params) {
     }
   }
 
-  $store.dispatch('createEmptyConfig', { name: config.name })
+  $store.dispatch('createEmptyConfig', { name: dbRecord.name })
 
   // currently supported either rest or ui
   if (!dbRecord.test.type) dbRecord.test.type = 'question'
