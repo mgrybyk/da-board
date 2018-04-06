@@ -62,7 +62,7 @@ module.exports.buildDbRecord = function (timestamp, params) {
   }
 
   if (!config.name) {
-    log.warn('test result config name not found: ' + params.namel)
+    log.warn('test result config name not found: ' + dbRecord.name)
     $store.dispatch('createEmptyConfig', { name: dbRecord.name })
   }
 
