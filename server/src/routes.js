@@ -13,10 +13,13 @@ exports.routes = app => {
 
   // static (allure)
   app.get('/results/:timestamp', html.helper)
+  app.get('/results/:timestamp/', html.helper)
+  app.get('/results/:timestamp/:allureVersion', html.helper)
+  app.get('/results/:timestamp/:allureVersion/', html.helper)
   app.get('/results', html.helper)
   app.get('/results/', html.helper)
-  app.get('/results/:timestamp/*', html.site)
-
+  app.get('/results/:timestamp/:allureVersion/*', html.site)
+  
   // results
   app.get('/api/results/:period', results.getResults)
   app.post('/api/results/newFile', results.newFile)

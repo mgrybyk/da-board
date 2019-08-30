@@ -35,5 +35,8 @@
       "$store",
       "io"
     ]
+  },
+  "devDependencies": {
+    "allure-commandline": "^2.9.0"
   }
 }

@@ -14,7 +14,8 @@ var schema = mongoose.Schema({
   integration: String,
   test: Object,
   build: Object,
-  config: Object
+  config: Object,
+  allureVersion: String
 })
 
 schema.statics.getOne = (timestamp, cb) => Model.findOne({ timestamp: timestamp }).exec(cb)

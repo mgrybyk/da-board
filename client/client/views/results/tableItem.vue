@@ -1,7 +1,7 @@
 <template>
   <tr :class="item.test.failures > 0 && 'failed'">
     <td class="is-icon has-link" :class="item.test.icon">
-      <a :href="item.link || ('/results/' + item.timestamp + '/#/')" target="_blank" :title="item.test.typeFull">
+      <a :href="item.link || (`/results/${item.timestamp}/${item.allureVersion || 'v1'}/#/`)" target="_blank" :title="item.test.typeFull">
         <i :class="'fa fa-' + (item.test.icon || 'question-circle-o')"></i>
       </a>
     </td>
@@ -31,7 +31,7 @@
       {{ item.test.duration || 'N/A' }}
     </td>
     <td>
-      <a :href="item.link || ('/results/' + item.timestamp + '/#/')" target="_blank">
+      <a :href="item.link || (`/results/${item.timestamp}/${item.allureVersion || 'v1'}/#/`)" target="_blank">
         <span v-if="item.test.total || item.test.passes || item.test.failures">
           {{ item.test.total }} / {{ item.test.passes }}/{{ item.test.failures }}
         </span>
