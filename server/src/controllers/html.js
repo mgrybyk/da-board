@@ -1,7 +1,6 @@
 'use strict'
 
 const DEFAULT_ALLURE_VERSION = 'v1'
-const ALLURE_GENERATED_FOLDERS = ['data', 'export', 'history', 'widgets']
 
 // index.html
 exports.appHtml = (req, res, next) => {
@@ -44,7 +43,7 @@ function buildStaticUrl (req) {
   let uri = CONFIG.rootDir
 
   // specific result data
-  if (ALLURE_GENERATED_FOLDERS.some(folder => path.startsWith(`/${folder}/`))) {
+  if (CONFIG.ALLURE_DATA_FOLDERS.some(folder => path.startsWith(`/${folder}/`))) {
     uri += 'db/results/' + req.params.timestamp
   } else {
     // static site content

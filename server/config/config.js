@@ -12,7 +12,8 @@ module.exports = {
   appHtml: pathToApp + '/index.html',
 
   pathToResults: 'db/results',
-  pathToAllureBin: 'allure-cli/bin',
+  pathToAllureBin: 'node_modules/.bin',
+  ALLURE_DATA_FOLDERS: ['data', 'export', 'history', 'widgets'],
 
   pathToWdInput: pathToWorkDir + '/input',
   pathToWdOutput: pathToWorkDir + '/output',

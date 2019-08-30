@@ -15,7 +15,7 @@ module.exports.saveResultRecord = dbRecord => new Promise((resolve, reject) => {
   let result = new Results(dbRecord)
   Results.getOne(result.timestamp, (errIgnored, record) => {
     if (record) {
-      log.error('duplicated test results! ignoring...', record)
+      log.error('duplicated test results! ignoring...', record.toObject())
       return resolve()
     }
 
@@ -28,14 +28,15 @@ module.exports.saveResultRecord = dbRecord => new Promise((resolve, reject) => {
   })
 })
 
-module.exports.parseStatistic = (dbRecord, pathToTotalJson) => new Promise((resolve, reject) => {
+module.exports.parseStatistic = (pathToTotalJson) => new Promise((resolve, reject) => {
   fse.readJson(pathToTotalJson, (errJson, totalJson) => {
     if (errJson) return reject(errJson)
-    dbRecord.test.failures = totalJson.statistic.failed + totalJson.statistic.broken
-    dbRecord.test.passes = totalJson.statistic.passed
-    dbRecord.test.total = totalJson.statistic.total
-    dbRecord.test.duration = totalJson.time.duration
-    resolve(dbRecord)
+    resolve({
+      failures: totalJson.statistic.failed + totalJson.statistic.broken,
+      passes: totalJson.statistic.passed,
+      total: totalJson.statistic.total,
+      duration: totalJson.time.duration,
+    })
   })
 })
 
@@ -58,7 +59,8 @@ module.exports.buildDbRecord = function (timestamp, params) {
       osNameExt: config.osNameExt,
       isNix: config.isNix,
       browser: config.browser
-    }
+    },
+    allureVersion: 'v2'
   }
 
   if (!config.name) {
