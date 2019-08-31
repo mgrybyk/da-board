@@ -103,6 +103,7 @@ const actions = {
         log.error(err)
         return dispatch('notifyDeleteErr', Object.assign({}, data, { err }))
       }
+      dispatch('removeTileDb', { name: data.name })
       dispatch('notifyDeleteOk', data)
 
       commit('deleteConfig', data.name)

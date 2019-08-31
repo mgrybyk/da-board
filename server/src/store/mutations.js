@@ -9,6 +9,9 @@ const mutations = {
   updateTile (state, entry) {
     state.tiles[entry.name] = entry
   },
+  deleteTile (state, name) {
+    delete state.tiles[name]
+  },
 
   updateIntegration (state, entry) {
     state.integrations[entry.name] = entry
