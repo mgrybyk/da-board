@@ -1,10 +1,10 @@
 {
-  "name": "da-board",
-  "version": "0.1.0",
+  "name": "@da-board/server",
+  "version": "1.1.0",
   "main": "server.js",
   "author": "mgrybyk",
   "engines": {
-    "node": ">=7.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -25,6 +25,7 @@
     "winston": "^2.4.1"
   },
   "scripts": {
+    "clean": "rm -rf workDir/input/* workDir/output/* workDir/logs/*",
     "start": "node server.js"
   },
   "standard": {

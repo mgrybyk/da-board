@@ -1,12 +1,6 @@
-node_modules
-typings
-.vscode
-.tmp
-.idea
 workDir
 logs
 db
-www/assets
-www/favicon.png
-www/index.html
+www
+!www/static
 .env
