@@ -1,5 +1,7 @@
 'use strict'
 
+const DEFAULT_ALLURE_VERSION = 'v1'
+
 // index.html
 exports.appHtml = (req, res, next) => {
   return res.sendFile(CONFIG.rootDir + CONFIG.appHtml)
@@ -7,7 +9,9 @@ exports.appHtml = (req, res, next) => {
 
 // static site (allure) or specific test result
 var site = (req, res, next) => {
-  if (req.params.timestamp === undefined) { res.redirect('/') }
+  if (req.params.timestamp === undefined) { 
+    return res.redirect('/')
+  }
 
   return res.sendFile(buildStaticUrl(req))
 }
@@ -17,6 +21,9 @@ exports.site = site
 exports.helper = (req, res, next) => {
   if (req.params.timestamp === undefined) {
     return res.redirect('/')
+  } else if (req.params.allureVersion === undefined) {
+    let url = req.url + (req.url.endsWith('/') ? '' : '/') + DEFAULT_ALLURE_VERSION + '/'
+    return res.redirect(url)
   } else if (req.url.substr(-1) !== '/') {
     return res.redirect(req.url + '/')
   } else if (req.url.substr(-1) === '/') {
@@ -30,17 +37,17 @@ exports.helper = (req, res, next) => {
 /* === helpers === */
 
 function buildStaticUrl (req) {
-  var path = req.url.split(req.params.timestamp)[1]
+  var path = req.url.split(req.params.timestamp + '/' + req.params.allureVersion)[1]
   path = path.split('?')[0]
 
   let uri = CONFIG.rootDir
 
   // specific result data
-  if (path.indexOf('/data') === 0) {
+  if (CONFIG.ALLURE_DATA_FOLDERS.some(folder => path.startsWith(`/${folder}/`))) {
     uri += 'db/results/' + req.params.timestamp
   } else {
     // static site content
-    uri += CONFIG.pathToApp + '/static'
+    uri += CONFIG.pathToApp + '/static/' + req.params.allureVersion
   }
   uri += path
 

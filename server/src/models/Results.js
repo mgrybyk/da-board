@@ -14,10 +14,18 @@ var schema = mongoose.Schema({
   integration: String,
   test: Object,
   build: Object,
-  config: Object
+  config: Object,
+  allureVersion: String
 })
 
 schema.statics.getOne = (timestamp, cb) => Model.findOne({ timestamp: timestamp }).exec(cb)
+
+schema.statics.findLatestOne = (conditions, cb) => Model
+  .find(conditions)
+  .sort(sorting)
+  .limit(1)
+  .lean()
+  .exec(cb)
 
 schema.statics.getPeriodResults = function (period) {
   if (period === '1') {
