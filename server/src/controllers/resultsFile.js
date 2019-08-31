@@ -1,7 +1,7 @@
 'use strict'
 
 const fse = require('fs-extra')
-const unzip = require('unzip')
+const unzip = require('unzipper')
 const path = require('path')
 const os = require('os')
 const spawn = require('child_process')
@@ -43,7 +43,7 @@ function unzipAllureResults (inputDir, timestamp, allureInput) {
     let pathToZip = path.join(inputDir, timestamp + '.zip')
     let rs = fse.createReadStream(pathToZip)
     rs.on('error', errUnzip => reject(errUnzip))
-    rs.pipe(unzip.Extract({ path: allureInput })).on('finish', () => {
+    rs.pipe(unzip.Extract({ path: allureInput })).on('close', () => {
       log.verbose(`Unzipped archive, spent ${resultsHelper.timeSpent(timeStart)}`)
 
       timeStart = Date.now()
