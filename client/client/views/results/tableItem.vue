@@ -6,7 +6,7 @@
       </a>
     </td>
     <td class="hide-column-small">
-      <span :title="item.build.package">{{ item.build.number }}</span>
+      <span :title="item.build ? item.build.package : 'N/A'">{{ item.build ? item.build.number : 'N/A' }}</span>
     </td>
     <td>
       <span>{{item.name}} <span v-if="item.config.type" class="hide-column-medium env-type-small">({{ item.config.type }})</span></span>
@@ -18,7 +18,7 @@
       <span :title="item.config.hostname">{{ item.config.osNameExt }}</span>
     </td>
     <td class="is-icon">
-      <i class="fa fa-database" :class="item.config.dbName" 
+      <i class="fa fa-database" :class="item.config.dbName"
          :title="(item.config.dbName || item.config.dbVersion) && (item.config.dbName + ' ' + item.config.dbVersion)"></i>
     </td>
     <td class="hide-column-medium" :title="item.config.dbHostname">
@@ -55,7 +55,7 @@ export default {
       function addZero (num) {
         return `${num < 10 ? '0' : ''}${num}`
       }
-      return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())} 
+      return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())}
       ${addZero(date.getHours())}:${addZero(date.getMinutes())}`
     }
   }
@@ -97,7 +97,7 @@ td.firefox {
     i { color: #fff; }
   }
 }
-td.chrome { 
+td.chrome {
   $ch-color: #71d375;
   i { color: $ch-color; }
   &:hover {
