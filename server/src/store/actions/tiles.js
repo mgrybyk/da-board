@@ -39,7 +39,18 @@ const actions = {
         dispatch('updateTile', savedDoc.toObject())
       })
     })
-  }
+  },
+
+  removeTileDb ({ state, commit, dispatch }, data) {
+    Tiles.removeOne(data.name, (err, doc) => {
+      if (err) {
+        return log.error(err)
+      }
+      if (doc) {
+        commit('deleteTile', data.name)
+      }
+    })
+  },
 }
 
 module.exports = actions
