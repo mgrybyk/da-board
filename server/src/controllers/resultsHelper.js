@@ -28,6 +28,30 @@ module.exports.saveResultRecord = dbRecord => new Promise((resolve, reject) => {
   })
 })
 
+module.exports.getLastTimestamp = (name, test, config) => new Promise((resolve) => {
+  const filter = {
+    name: name,
+    'test.type': test.type,
+    'test.browser': test.browser || null,
+  }
+  Object.keys(config).forEach(key => {
+    const value = config[key]
+    if (value !== undefined) {
+      filter[`config.${key}`] = value
+    }
+  })
+
+  Results.findLatestOne(filter, (errIgnored, record) => {
+    if (record && record[0]) {
+      const timestamp = record[0].timestamp
+      log.verbose('allure history: found previous timestamp in db', timestamp)
+      return resolve(timestamp)
+    }
+    log.verbose('allure history: no previous timestamp')
+    return resolve(null)
+  })
+})
+
 module.exports.parseStatistic = (pathToTotalJson) => new Promise((resolve, reject) => {
   fse.readJson(pathToTotalJson, (errJson, totalJson) => {
     if (errJson) return reject(errJson)

@@ -20,6 +20,13 @@ var schema = mongoose.Schema({
 
 schema.statics.getOne = (timestamp, cb) => Model.findOne({ timestamp: timestamp }).exec(cb)
 
+schema.statics.findLatestOne = (conditions, cb) => Model
+  .find(conditions)
+  .sort(sorting)
+  .limit(1)
+  .lean()
+  .exec(cb)
+
 schema.statics.getPeriodResults = function (period) {
   if (period === '1') {
     return getAllResults(this).limit(limitWeek)

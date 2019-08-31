@@ -9,6 +9,7 @@ const properties = require('properties')
 const resultsHelper = require('./resultsHelper')
 
 const ALLURE_PROPERTIES_FILE = 'allure.properties'
+const ALLURE_HISTORY_FOLDER = 'history'
 const cleaupQuietPeriod = 30000 // 30 seconds
 let lastCleanupTimestamp = new Date().getTime() - cleaupQuietPeriod
 const resultsLimit = 300
@@ -24,8 +25,9 @@ module.exports.newResult = function (uploadedFile) {
   async function flow () {
     await unzipAllureResults(inputDir, timestamp, allureInput)
     await copyAllureProperties(allureInput)
-    await runAllureCli(allureInput, allureOutput, pathToSummaryJson)
     let dbRecord = await parseCopyComplete(allureInput, timestamp)
+    await copyHistory(allureInput, dbRecord)
+    await runAllureCli(allureInput, allureOutput, pathToSummaryJson)
     await parseStatistic(pathToSummaryJson, dbRecord)
     await Promise.all(CONFIG.ALLURE_DATA_FOLDERS.map(dataFolder => moveDataFolder(allureOutput, timestamp, dataFolder)))
     dbRecord.test.duration = resultsHelper.msToTime(dbRecord.test.duration)
@@ -75,6 +77,27 @@ function copyAllureProperties (allureInput) {
   })
 }
 
+async function copyHistory (allureInput, { name, test, config }) {
+  const timestamp = await resultsHelper.getLastTimestamp(name, test, config)
+  if (!timestamp) {
+    // no historic data
+    return
+  }
+  const pathToHistory = path.join(CONFIG.rootDir, CONFIG.pathToResults, '' + timestamp, ALLURE_HISTORY_FOLDER)
+  const historyExists = await new Promise(resolve => fse.pathExists(pathToHistory, (err, exists) => resolve(!!exists)))
+  if (!historyExists) {
+    return log.verbose('allure history: timestamp was not found in file system')
+  }
+  await new Promise((resolve, reject) =>
+    fse.copy(pathToHistory, path.join(allureInput, ALLURE_HISTORY_FOLDER), err => {
+      if (err) {
+        return reject(err)
+      }
+      log.verbose('allure history copied')
+      resolve()
+    }))
+}
+
 function runAllureCli (allureInput, allureOutput, pathToSummaryJson) {
   return new Promise((resolve, reject) => {
     let timeStart = Date.now()
@@ -88,6 +111,7 @@ function runAllureCli (allureInput, allureOutput, pathToSummaryJson) {
       if (error || stderr) {
         log.error(stderr.toString())
         log.error(error)
+        return reject('allure cli failed')
       }
 
       timeStart = Date.now()
