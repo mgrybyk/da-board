@@ -21,7 +21,7 @@
     "properties": "^1.2.1",
     "request": "^2.88.0",
     "socket.io": "^2.2.0",
-    "unzip": "^0.1.11",
+    "unzipper": "^0.10.4",
     "winston": "^2.4.1"
   },
   "scripts": {
