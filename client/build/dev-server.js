@@ -3,7 +3,7 @@
 const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
-const opn = require('opn')
+const opn = require('open')
 const config = require('../config')
 const proxyMiddleware = require('http-proxy-middleware')
 const webpackConfig = process.env.NODE_ENV === 'testing'

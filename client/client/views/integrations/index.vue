@@ -58,7 +58,7 @@ export default {
         auth: {
           name: 'Credential',
           type: Object,
-          placeholder: `{ "user": "service_user", "pass": "password" }`,
+          placeholder: '{ "user": "service_user", "pass": "password" }',
           title: 'Only HTTP Auth supported or no auth are supported'
         },
         actions: {
@@ -71,13 +71,13 @@ export default {
         headers: {
           name: 'Headers',
           type: Object,
-          placeholder: `{ "content-type": "application/json" }`,
+          placeholder: '{ "content-type": "application/json" }',
           title: 'Request headers applicable for every action.'
         },
         remote: {
           name: 'Remote Calls',
           type: Object,
-          placeholder: `{ "run": { "urlTemplate": "{{rootUrl}}/rest/deploy/applicationProcessRequest/{{requestId}}/properties" } }`,
+          placeholder: '{ "run": { "urlTemplate": "{{rootUrl}}/rest/deploy/applicationProcessRequest/{{requestId}}/properties" } }',
           title: 'Some integrations may require calls to be made to remote system. Please contact a particular developer or integration for details.'
         }
       }

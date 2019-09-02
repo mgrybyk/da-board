@@ -20,8 +20,6 @@ mkdir('-p', assetsPath)
 cp('-R', 'client/assets/*', assetsPath)
 
 const compiler = webpack(webpackConfig)
-const ProgressPlugin = require('webpack/lib/ProgressPlugin')
-!isSilent && compiler.apply(new ProgressPlugin())
 
 compiler.run((err, stats) => {
   !isSilent && spinner.stop()
