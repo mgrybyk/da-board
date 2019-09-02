@@ -1,6 +1,8 @@
 'use strict'
 
 const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const config = require('../config')
 const utils = require('./utils')
 const projectRoot = path.resolve(__dirname, '../')
@@ -19,6 +21,19 @@ module.exports = {
     publicPath: isProduction ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
     filename: '[name].js'
   },
+  optimization: {
+    moduleIds: 'hashed',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   resolve: {
     extensions: ['.js', '.vue', '.css', '.json'],
     alias: {
@@ -33,8 +48,18 @@ module.exports = {
       'vuex-store': path.resolve(__dirname, '../client/store')
     }
   },
+  plugins: [
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      // css/[name].[contenthash].css
+      filename: utils.assetsPath('css/[name].[chunkhash].css'),
+      chunkFilename: utils.assetsPath('css/[id].[chunkhash].css')
+    })
+  ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
@@ -47,8 +72,8 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: require('./vue-loader.conf')
+        loader: 'vue-loader'
+        // options: require('./vue-loader.conf')
       },
       {
         test: /\.js$/,
@@ -72,6 +97,26 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development'
+            }
+          },
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                fiber: false
+              }
+            }
+          }
+        ]
       }
     ]
   },
