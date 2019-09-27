@@ -6,6 +6,7 @@ const Results = require('../models/Results')
 
 const inputDir = path.join(CONFIG.rootDir, CONFIG.pathToWdInput)
 const outputDir = path.join(CONFIG.rootDir, CONFIG.pathToWdOutput)
+fse.emptyDirSync(path.join(CONFIG.rootDir, CONFIG.PATH_TO_WORKDIR))
 fse.ensureDirSync(inputDir)
 fse.ensureDirSync(outputDir)
 module.exports.inputDir = inputDir

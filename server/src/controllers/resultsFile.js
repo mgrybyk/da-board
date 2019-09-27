@@ -12,7 +12,7 @@ const ALLURE_PROPERTIES_FILE = 'allure.properties'
 const ALLURE_HISTORY_FOLDER = 'history'
 const cleaupQuietPeriod = 30000 // 30 seconds
 let lastCleanupTimestamp = new Date().getTime() - cleaupQuietPeriod
-const resultsLimit = 300
+const resultsLimit = CONFIG.DB_RESULTS_FOLDER_LIMIT
 const inputDir = resultsHelper.inputDir
 const outputDir = resultsHelper.outputDir
 
