@@ -20,7 +20,7 @@
     "vue-bulma-modal": "1.0.1",
     "vue-bulma-notification": "1.1.1",
     "vue-checkbox-switch": "git+https://github.com/mgrybyk/vue-checkbox-switch.git",
-    "vue-fuse": "git+https://github.com/mgrybyk/vue-fuse.git",
+    "vue-fuse": "^1.5.2",
     "vue-nprogress": "0.1.5",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.3",

@@ -66,12 +66,8 @@ export default {
 
 <style lang="scss">
 ol.breadcrumb {
-  --separator: none;
-
-  li:not(:last-child):after {
-    content: " /";
-    margin-right: 5px;
-    color: #aaa;
+  a {
+    padding: 0.5em 0.1em;
   }
 }
 </style>

@@ -5,7 +5,7 @@
         <article class="tile is-child box">
           <template>
             <vue-fuse :keys="searchKeysResult" :list="results" :defaultAll="true" :shouldSort="false" eventName="fuseEvtResult" :minSearchStart="2"
-              :findAllMatches="true" :threshold="0.24" :minMatchCharLength="2" :inputPlaceholder="'Search...'" :inputClass="'input search-input'">
+              :findAllMatches="true" :threshold="0.24" :minMatchCharLength="2" :placeholder="'Search...'" :class="'input search-input'">
             </vue-fuse>
           </template>
           <div class="table-responsive centered">
@@ -131,7 +131,7 @@ export default {
 
   input.search-input {
     margin: -8px 0 10px 0;
-  }  
+  }
 
   @media (max-width:480px)
   {
