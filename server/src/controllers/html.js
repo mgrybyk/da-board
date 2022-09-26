@@ -1,6 +1,6 @@
 'use strict'
 
-const DEFAULT_ALLURE_VERSION = 'v1'
+const DEFAULT_ALLURE_VERSION = 'v2'
 
 // index.html
 exports.appHtml = (req, res, next) => {
