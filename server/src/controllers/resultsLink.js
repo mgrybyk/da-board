@@ -11,7 +11,7 @@ module.exports.newResult = function (params) {
   let timestamp = String(new Date().getTime())
   let allureInput = path.join(inputDir, timestamp)
   fse.ensureDirSync(allureInput)
-  let pathToSummaryJson = path.join(allureInput, 'widgets', 'summary.json')
+  let pathToSummaryJson = path.join(allureInput, 'summary.json')
 
   let integration = $store.getters.integrations[params.integration]
 
