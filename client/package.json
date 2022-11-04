@@ -1,0 +1,9 @@
+{
+  "name": "da-boar-client",
+  "version": "3.0.0",
+  "author": "mgrybyk",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
