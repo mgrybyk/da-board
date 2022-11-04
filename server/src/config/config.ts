@@ -6,7 +6,8 @@ import Joi from 'joi'
 const envVarsSchema = Joi.object()
   .keys({
     SERVER_HOST: Joi.string().default('127.0.0.1'),
-    PORT: Joi.number().default(8230),
+    PORT: Joi.number().default(1081),
+    MONGODB_URL: Joi.string().default('mongodb://127.0.0.1:27017/daBoard'),
   })
   .unknown()
 
@@ -17,6 +18,7 @@ if (error) {
 }
 
 export default {
-  port: envVars.PORT,
+  serverPort: envVars.PORT,
   serverHost: envVars.SERVER_HOST,
+  mongooseUrl: envVars.MONGODB_URL,
 }

@@ -1,8 +1,8 @@
 import { app } from './app.js'
 import config from './config/config.js'
 
-const server = app.listen(config.port, config.serverHost, () => {
-  console.info(`Listening to port ${config.serverHost}:${config.port}`)
+const server = app.listen(config.serverPort, config.serverHost, () => {
+  console.info(`Listening to port ${config.serverHost}:${config.serverPort}`)
 })
 
 const unexpectedErrorHandler = (error: Error) => {

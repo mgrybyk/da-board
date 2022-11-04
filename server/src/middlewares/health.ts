@@ -1,13 +1,6 @@
-import * as health from '@cloudnative/health-connect'
+import { addReadinessCheck } from './health-lib.js'
+import { dbIsConnected } from './../config/mongodb.js'
 
-const healthCheck = new health.HealthChecker()
+addReadinessCheck('db connection', dbIsConnected)
 
-const stub = new health.ReadinessCheck('app readiness', async () => {
-  // nothing here for our app
-})
-
-healthCheck.registerReadinessCheck(stub)
-
-export const LivenessEndpoint = health.LivenessEndpoint(healthCheck)
-export const ReadinessEndpoint = health.ReadinessEndpoint(healthCheck)
-export const HealthEndpoint = health.HealthEndpoint(healthCheck)
+export { HealthEndpoint, LivenessEndpoint, ReadinessEndpoint } from './health-lib.js'

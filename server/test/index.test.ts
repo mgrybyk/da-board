@@ -8,17 +8,17 @@ describe('main', () => {
   const expressSpy = jest.spyOn(express.application, 'listen')
 
   beforeAll(async () => {
-    config.port = await getPort()
+    config.serverPort = await getPort()
     require('../src/server')
   })
 
   it('should run server on proper port', () => {
     expect(expressSpy).toBeCalledTimes(1)
-    expect(expressSpy).toBeCalledWith(config.port, '127.0.0.1', expect.any(Function))
+    expect(expressSpy).toBeCalledWith(config.serverPort, '127.0.0.1', expect.any(Function))
   })
 
   it('should response to liveness health check', async () => {
-    const result = await axios.get(`http://localhost:${config.port}/health/liveness`, {
+    const result = await axios.get(`http://localhost:${config.serverPort}/health/liveness`, {
       responseType: 'json',
     })
     const body = result.data as { status: string }
