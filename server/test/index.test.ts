@@ -1,13 +1,16 @@
 import axios from 'axios'
 import express from 'express'
 import getPort from 'get-port'
+import mongoose from 'mongoose'
 
+import { setAllowDisconnect } from '../src/config/mongodb.js'
 import config from '../src/config/config.js'
 
 describe('main', () => {
   const expressSpy = jest.spyOn(express.application, 'listen')
 
   beforeAll(async () => {
+    setAllowDisconnect(true)
     config.serverPort = await getPort()
     require('../src/server')
   })
@@ -26,7 +29,8 @@ describe('main', () => {
     expect(result.status).toBe(200)
   })
 
-  afterAll(() => {
+  afterAll(async () => {
+    await mongoose.disconnect()
     expressSpy.mock.results[0].value?.close()
     expressSpy.mockClear()
   })

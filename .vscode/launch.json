@@ -12,7 +12,8 @@
       "runtimeArgs": [
         "--inspect-brk",
         "${workspaceRoot}/server/node_modules/.bin/jest",
-        "--runInBand"
+        "--runInBand",
+        "${relativeFile}"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
@@ -23,7 +24,7 @@
       "request": "launch",
       "cwd": "${workspaceFolder}/server",
       "preLaunchTask": "npm: compile",
-      "program": "${workspaceFolder}/server/lib/src/index.js",
+      "program": "${workspaceFolder}/server/lib/src/server.js",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
