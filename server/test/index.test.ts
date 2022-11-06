@@ -21,7 +21,7 @@ describe('main', () => {
   })
 
   it('should response to liveness health check', async () => {
-    const result = await axios.get(`http://localhost:${config.serverPort}/health/liveness`, {
+    const result = await axios.get(`http://127.0.0.1:${config.serverPort}/health/liveness`, {
       responseType: 'json',
     })
     const body = result.data as { status: string }
