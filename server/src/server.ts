@@ -1,12 +1,13 @@
-import { app } from './app.js'
+import { app } from './config/express.js'
 import config from './config/config.js'
 import { connectToDbWithRetry } from './config/mongodb.js'
 
 connectToDbWithRetry()
 
-const server = app
-  .listen(config.serverPort, config.serverHost, () => {
+export const server = app
+  .listen(config.serverPort, config.serverHost, async () => {
     console.info(`Listening to port ${config.serverHost}:${config.serverPort}`)
+    await import('./app.js')
   })
   .once('error', (e: Error & { code?: string }) => {
     if (e.code === 'EADDRINUSE') {

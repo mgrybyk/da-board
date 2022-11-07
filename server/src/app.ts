@@ -4,19 +4,18 @@ import passport from 'passport'
 import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
 import mongoSanitize from 'express-mongo-sanitize'
+import { Server } from 'socket.io'
 
-import { HealthEndpoint, LivenessEndpoint, ReadinessEndpoint } from './middlewares/health.js'
 import { routes } from './routes/routes.js'
 import { ApiError } from './error/error.js'
 import { errorConverter, errorHandler } from './middlewares/error.js'
 import { dbConnectionPromise } from './config/mongodb.js'
 import { UserModel } from './models/User.js'
+import { app } from './config/express.js'
+import { server } from './server.js'
 
-export const app = express()
-
-app.use('/health/liveness', LivenessEndpoint)
-app.use('/health/readiness', ReadinessEndpoint)
-app.use('/health', HealthEndpoint)
+// convert a connect middleware to a Socket.IO middleware
+const wrap = (middleware: any) => (socket: any, next: any) => middleware(socket.request, {}, next)
 
 // wait for db
 dbConnectionPromise.then(() => {
@@ -26,20 +25,21 @@ dbConnectionPromise.then(() => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
 
-  app.use(
-    session({
-      secret: 'somethingsecretgoeshere',
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 60480000000, // one hour is 3600000
-      },
-      store: MongoStore.create({ client: mongoose.connection.getClient() }),
-    })
-  )
+  const sessionMiddleware = session({
+    secret: 'somethingsecretgoeshere',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60480000000, // one hour is 3600000
+    },
+    store: MongoStore.create({ client: mongoose.connection.getClient() }),
+  })
+  app.use(sessionMiddleware)
 
-  app.use(passport.initialize())
-  app.use(passport.session())
+  const passportInstance = passport.initialize()
+  const passportSession = passport.session()
+  app.use(passportInstance)
+  app.use(passportSession)
   passport.use(UserModel.createStrategy())
   passport.serializeUser(UserModel.serializeUser())
   passport.deserializeUser(UserModel.deserializeUser())
@@ -57,4 +57,10 @@ dbConnectionPromise.then(() => {
 
   // handle error
   app.use(errorHandler)
+
+  // socket io
+  const io = new Server(server)
+  io.use(wrap(sessionMiddleware))
+  io.use(wrap(passportInstance))
+  io.use(wrap(passportSession))
 })
