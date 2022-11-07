@@ -1,6 +1,0 @@
-workDir
-logs
-db
-www
-!www/static
-.env
