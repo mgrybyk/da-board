@@ -4,9 +4,17 @@ import { connectToDbWithRetry } from './config/mongodb.js'
 
 connectToDbWithRetry()
 
-const server = app.listen(config.serverPort, config.serverHost, () => {
-  console.info(`Listening to port ${config.serverHost}:${config.serverPort}`)
-})
+const server = app
+  .listen(config.serverPort, config.serverHost, () => {
+    console.info(`Listening to port ${config.serverHost}:${config.serverPort}`)
+  })
+  .once('error', (e: Error & { code?: string }) => {
+    if (e.code === 'EADDRINUSE') {
+      console.error(e)
+      process.exit()
+    }
+    throw e
+  })
 
 const unexpectedErrorHandler = (error: Error) => {
   console.error(error)

@@ -1,6 +1,8 @@
 import express from 'express'
 import session from 'express-session'
 import passport from 'passport'
+import mongoose from 'mongoose'
+import MongoStore from 'connect-mongo'
 import mongoSanitize from 'express-mongo-sanitize'
 
 import { HealthEndpoint, LivenessEndpoint, ReadinessEndpoint } from './middlewares/health.js'
@@ -32,6 +34,7 @@ dbConnectionPromise.then(() => {
       cookie: {
         maxAge: 60480000000, // one hour is 3600000
       },
+      store: MongoStore.create({ client: mongoose.connection.getClient() }),
     })
   )
 
