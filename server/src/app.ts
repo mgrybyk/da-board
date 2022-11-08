@@ -4,7 +4,6 @@ import passport from 'passport'
 import mongoose from 'mongoose'
 import MongoStore from 'connect-mongo'
 import mongoSanitize from 'express-mongo-sanitize'
-import { Server } from 'socket.io'
 
 import { routes } from './routes/routes.js'
 import { ApiError } from './error/error.js'
@@ -12,7 +11,8 @@ import { errorConverter, errorHandler } from './middlewares/error.js'
 import { dbConnectionPromise } from './config/mongodb.js'
 import { UserModel } from './models/User.js'
 import { app } from './config/express.js'
-import { server } from './server.js'
+import { io } from './config/socket.io.js'
+import { setupSocketListeners } from './socketListeners.js'
 
 // convert a connect middleware to a Socket.IO middleware
 const wrap = (middleware: any) => (socket: any, next: any) => middleware(socket.request, {}, next)
@@ -59,8 +59,8 @@ dbConnectionPromise.then(() => {
   app.use(errorHandler)
 
   // socket io
-  const io = new Server(server)
   io.use(wrap(sessionMiddleware))
   io.use(wrap(passportInstance))
   io.use(wrap(passportSession))
+  setupSocketListeners(io)
 })

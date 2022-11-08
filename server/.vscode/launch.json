@@ -8,10 +8,10 @@
       "name": "server - jest",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceFolder}/server",
+      "cwd": "${workspaceFolder}",
       "runtimeArgs": [
         "--inspect-brk",
-        "${workspaceRoot}/server/node_modules/.bin/jest",
+        "${workspaceRoot}/node_modules/.bin/jest",
         "--runInBand",
         "${relativeFile}"
       ],
@@ -22,9 +22,9 @@
       "name": "server - run",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceFolder}/server",
+      "cwd": "${workspaceFolder}",
       "preLaunchTask": "npm: compile",
-      "program": "${workspaceFolder}/server/lib/src/server.js",
+      "program": "${workspaceFolder}/lib/src/server.js",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }

@@ -1,5 +1,5 @@
 {
-  "name": "da-boar-server",
+  "name": "da-board-server",
   "version": "3.0.0",
   "author": "mgrybyk",
   "engines": {
@@ -13,7 +13,7 @@
     "clean": "rimraf ./lib",
     "compile": "tsc --build tsconfig.json",
     "test": "jest",
-    "lint": "eslint --ext .ts --ignore-path .gitignore .",
+    "lint": "eslint --ext .ts --ignore-path ../.gitignore .",
     "lint-fix": "npm run lint -- --fix"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
 
-const schema = new Schema(
+const schema = new Schema<IHomeLink>(
   {
     name: { type: String, unique: true, required: true, dropDups: true },
     link: String,
